@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     #Local apps.
     'tests',
+    'users',
 ]
 
 MIDDLEWARE = [
