@@ -2,5 +2,15 @@ from django.urls import path
 from users import views
 
 urlpatterns = [
-    path('', views.login, name='hello_world'),
+    path(
+        route='', 
+        view=views.login_view, 
+        name='login'
+    ),
+    path(
+        route='/dsh', 
+        view=views.dashboard, 
+        name='dashboard'
+    ),
+
 ]
