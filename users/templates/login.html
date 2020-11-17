@@ -11,7 +11,8 @@
 	}
 
 	body {
-	  background: radial-gradient(circle, rgba(255,91,151,1) 0%, rgba(186,66,100,1) 35%, rgba(107,0,34,0.99) 100%);
+background: rgb(90,180,219);
+background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 100%);
 	  color: rgba(0, 0, 0, 0.6);
 	  font-family: "Roboto", sans-serif;
 	  font-size: 14px;
@@ -68,7 +69,7 @@
 	  left: 50%;
 	  width: 30px;
 	  height: 4px;
-	  background: #4285F4;
+	  background: #093E54;
 	  -webkit-transform: translate(-50%, -50%);
 			  transform: translate(-50%, -50%);
 	}
@@ -85,13 +86,25 @@
 			  transform: translate(0, -25%) scale(1);
 	  opacity: 1;
 	}
+	.space-m {
+	    width: 100%;
+	    padding-top: 15px;
+    }
+    .space-s {
+	    width: 100%;
+	    padding-top: 10px;
+    }
+    .space-l {
+	    width: 100%;
+	    padding-top: 25px;
+    }
 	.form-group {
 	  display: -webkit-box;
 	  display: flex;
 	  flex-wrap: wrap;
 	  -webkit-box-pack: justify;
 			  justify-content: space-between;
-	  margin: 0 0 20px;
+	  margin: 0 0 15px;
 	}
 	.form-group:last-child {
 	  margin: 0;
@@ -99,8 +112,8 @@
 	.form-group label {
 	  display: block;
 	  margin: 0 0 10px;
-	  color: #FFFFFF;
-	  font-size: 12px;
+	  color: black;
+	  font-size: 10px;
 	  font-weight: 500;
 	  line-height: 1;
 	  text-transform: uppercase;
@@ -117,7 +130,7 @@
 	  border: 0;
 	  border-radius: 4px;
 	  box-sizing: border-box;
-	  padding: 12px 20px;
+	  padding: 10px 20px;
 	  color: rgba(0, 0, 0, 0.6);
 	  font-family: inherit;
 	  font-size: inherit;
@@ -137,13 +150,12 @@
 	}
 	.form-group button {
 	  outline: none;
-	  background: rgb(65,201,192);
-	  background: radial-gradient(circle, rgba(65,201,192,1) 0%, rgba(0,212,172,1) 49%, rgba(0,157,120,1) 100%);
 	  width: 100%;
 	  border: 0;
 	  border-radius: 4px;
 	  padding: 12px 20px;
-	  color: #FFFFFF;
+	  background: #093E54;
+	  color: white;
 	  font-family: inherit;
 	  font-size: inherit;
 	  font-weight: 500;
@@ -153,7 +165,7 @@
 	}
 	.two .form-group button {
 	  background: #FFFFFF;
-	  color: #4285F4;
+	  color: #093E54 ;
 	}
 	.form-group .form-remember {
 	  font-size: 12px;
@@ -172,11 +184,9 @@
 	  text-decoration: none;
 	}
 	.form-panel {
-	  padding: 60px calc(5% + 60px) 60px 60px;
+	  padding: 50px calc(5% + 70px) 65px 70px;
 	  box-sizing: border-box;
-	  background: rgb(38,52,56);
-	  background: rgb(27,49,55);
-	  background: linear-gradient(0deg, rgba(27,49,55,1) 0%, rgba(34,66,74,1) 49%, rgba(35,77,88,1) 100%);
+	  background: white;
 	}
 	.form-panel.one:before {
 	  content: '';
@@ -197,11 +207,11 @@
 	  position: absolute;
 	  top: 0;
 	  left: 95%;
-	  background: rgb(65,201,192);
-	  background: radial-gradient(circle, rgba(65,201,192,1) 0%, rgba(0,212,172,1) 49%, rgba(0,157,120,1) 100%);
+background: rgb(9,62,84);
+background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
 	  width: 100%;
 	  min-height: 100%;
-	  padding: 60px calc(10% + 60px) 60px 60px;
+	  padding: 50px calc(10% + 70px) 70px 70px;
 	  -webkit-transition: 0.3s ease;
 	  transition: 0.3s ease;
 	  cursor: pointer;
@@ -241,7 +251,7 @@
 	}
 	.form-header h1 {
 	  padding: 4px 0;
-	  color: #FFFFFF;
+	  color: black;
 	  font-size: 24px;
 	  font-weight: 700;
 	  text-transform: uppercase;
@@ -284,9 +294,15 @@
 
 <!-- Form-->
 <body>
+  <div>
+    <img src="https://www.dpecorp.com.mx/images/DPECorp/logo-boutique-100.png" alt="DPE COPR" width="100" height="100"
+    style="position: absolute; -webkit-transform: translate(25%, -75%);">
+
+
+  </div>
     <div class="form">
       <div class="form-toggle"></div>
-      <div class="form-panel one">
+      <div class="form-panel two">
         <div class="form-header">
           <h1>Inicio de sesión</h1>
         </div>
@@ -300,50 +316,50 @@
               <label for="username">Nombre de Usuario</label>
               <input type="text" id="username" name="username" required="required"/>
             </div>
+            <div class="space-m"></div>
             <div class="form-group">
               <label for="password">Contraseña</label>
               <input type="password" id="password" name="password" required="required"/>
             </div>
+            <div class="space-m"></div>
             <div class="form-group">
               <label class="form-remember">
                 <input type="checkbox"/>Recordarme
               </label><a class="form-recovery" href="#">Olvidó su contraseña?</a>
             </div>
             <div class="form-group">
-              <button type="submit">Inciar sesión</button>
+              <button type="submit"><b>Iniciar sesión</b></button>
             </div>
           </form>
         </div>
       </div>
-      <div class="form-panel two">
+      <div class="form-panel one">
         <div class="form-header">
-          <h1>Registro de Usario</h1>
+          <h1>Ingresa tu código de acceso</h1>
         </div>
+        <div class="space-s"></div>
         <div class="form-content">
           <form>
             <div class="form-group">
-              <label for="username">Nombre de Usuario</label>
+              <label for="username">Nombre de Candidato</label>
               <input type="text" id="username" name="username" required="required"/>
             </div>
+            <div class="space-m"></div>
             <div class="form-group">
-              <label for="password">Contraseña</label>
+              <label for="password">Código</label>
               <input type="password" id="password" name="password" required="required"/>
             </div>
+            <div class="space-l"></div>
             <div class="form-group">
-              <label for="cpassword">Confirmar contraseña</label>
-              <input type="password" id="cpassword" name="cpassword" required="required"/>
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required="required"/>
-            </div>
-            <div class="form-group">
-              <button type="submit">Registrarse</button>
+              <button type="submit"><b>Ingresar</b></button>
+              <div class="space-m"></div>
             </div>
           </form>
         </div>
       </div>
     </div>
+    <div class="pen-footer">
+        <a href="https://www.dpecorp.com.mx/" target="_blank">&reg; DPE CORP 2020</a></div>
 </body>
 </html>
 
