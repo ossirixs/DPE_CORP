@@ -8,9 +8,9 @@ urlpatterns = [
         name='login'
     ),
     path(
-        route='/dsh', 
-        view=views.dashboard, 
-        name='dashboard'
+        route='admn', 
+        view=views.users_adm, 
+        name='users_admn'
     ),
 
 ]

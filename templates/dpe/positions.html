@@ -1,0 +1,88 @@
+{% extends "common/base.html" %}
+
+{% block content_title %}
+    <title>DPE - Puestos</title>
+{% endblock%}
+
+{% block content_subtitle %}
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fas fa-clipboard-list icon-gradient bg-night-fade">
+                    </i>
+                </div>
+                <div>
+                    Puestos
+                    <div class="page-title-subheading">
+                        Seleccione un puesto para comenzar.
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </div> 
+{% endblock%}
+
+{% block content_container %}
+<div class="row">
+
+
+    <div class="col-md-12 col-lg-12">
+    <div class="mb-3 card">
+        <div class="card-header-tab card-header">
+            <div class="btn-actions-pane-left">
+                <div class="nav">
+                    <a href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate">Crear</a>
+                    <a href="javascript:void(0);" class="ml-1 btn-pill btn-wide border-0 btn-transition  btn btn-outline-alternate second-tab-toggle-alt">Modificar</a>
+                    <a href="javascript:void(0);" class="ml-1 btn-pill btn-wide border-0 btn-transition  btn btn-outline-alternate second-tab-toggle-alt">Eliminar</a>
+                </div>
+            </div>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade active show" id="tab-eg-55">
+                <div class="widget-chart p-3">
+                    <div style="height: 350px">
+                        <form class="">
+                            
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group"><label for="exampleCity" class="">Nombre</label><input name="city" id="exampleCity" type="text" class="form-control"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group"><label for="exampleState" class="">Materno</label><input name="state" id="exampleState" type="text" class="form-control"></div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group"><label for="exampleZip" class="">Paterno</label><input name="zip" id="exampleZip" type="text" class="form-control"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group"><label for="exampleCity" class="">Tipo de Usuario</label>
+                                        <select name="select" id="exampleSelect" class="form-control">
+                                            <option>Cliente</option>
+                                            <option>Cliente Matriz</option>
+                                            <option>Administrador DPE</option>
+                                        </select>   
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group"><label for="exampleEmail11" class="">Email</label><input name="email" id="exampleEmail11" placeholder="with a placeholder" type="email" class="form-control"></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="position-relative form-group"><label for="examplePassword11" class="">Password</label><input name="password" id="examplePassword11" placeholder="password placeholder" type="password" class="form-control"></div>
+                                </div>
+                            </div>
+                            <button class="mt-2 btn btn-primary">Crear</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+{% endblock%}

@@ -17,8 +17,9 @@ class User(AbstractUser):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
     name = models.CharField(_('Name of user'),max_length=250, blank=True)
+    second_last_name = models.CharField(_('Name of user'),max_length=250, blank=True,null=True)
     #Clients.
-    company = models.CharField(_('Company'), max_length=255, blank=True)
+    company = models.IntegerField(_('Company'), blank=True,null=True)
     uci = models.CharField(_('Company identifier'), max_length=255, blank=True) # Unique Company Identifier LoL
 
     def get_absolute_url(self):

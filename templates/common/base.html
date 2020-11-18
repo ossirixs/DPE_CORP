@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block content_title %}{% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+
+
+</head>
+<body>
+    <body>
+        <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
+            <div class="app-header header-shadow" >
+                <div class="app-header__logo">
+                    <div>
+                        <img src='{% static "images/logo_color.jpeg" %}' alt="dpe_logo_color" srcset="" style="height: 60px;">
+                    </div>
+                    <div class="header__pane ml-auto">
+
+                    </div>
+                </div>
+                <div class="app-header__mobile-menu">
+                    <div>
+                        <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="app-header__menu">
+                    <span>
+                        <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                            <span class="btn-icon-wrapper">
+                                <i class="fa fa-ellipsis-v fa-w-6"></i>
+                            </span>
+                        </button>
+                    </span>
+                </div>    <div class="app-header__content">
+                    <div class="app-header-left">
+      
+                    </div>
+                    <div class="app-header-right">
+                        <div class="header-btn-lg pr-0">
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left">
+                                        <div class="btn-group">
+                                            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                                                
+                                                <i class="fas fa-user-circle rounded-circle" style="width: 45px; font-size: 35px;"></i>
+                                                <i class="fa fa-angle-down ml-2 opacity-8"></i>
+                                            </a>
+                                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-180px, 44px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <button type="button" tabindex="0" class="dropdown-item">User Account</button>
+                                                <button type="button" tabindex="0" class="dropdown-item">Settings</button>
+                                                <h6 tabindex="-1" class="dropdown-header">Header</h6>
+                                                <button type="button" tabindex="0" class="dropdown-item">Actions</button>
+                                                <div tabindex="-1" class="dropdown-divider"></div>
+                                                <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-left  ml-3 header-user-info">
+                                        <div class="widget-heading">
+                                            {{first_name}}
+                                        </div>
+                                        <div class="widget-subheading">
+                                            Administrador DPE
+                                        </div>
+                                    </div>
+                                    <div class="widget-content-right header-user-info ml-3">
+                                        <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
+                                            <i class="fa text-white fa-calendar pr-1 pl-1"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>        
+                    </div>
+                </div>
+            </div>        
+            <div class="app-main">
+                    <div class="app-sidebar sidebar-shadow sidebar-text-light bg-midnight-bloom">
+                        <div class="app-header__logo">
+                            <div class="logo-src"></div>
+                            <div class="header__pane ml-auto">
+                                <div>
+                                    <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                                        <span class="hamburger-box">
+                                            <span class="hamburger-inner"></span>
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="app-header__mobile-menu">
+                            <div>
+                                <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                                    <span class="hamburger-box">
+                                        <span class="hamburger-inner"></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="app-header__menu">
+                            <span>
+                                <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                                    <span class="btn-icon-wrapper">
+                                        <i class="fa fa-ellipsis-v fa-w-6"></i>
+                                    </span>
+                                </button>
+                            </span>
+                        </div>    
+                        <div class="scrollbar-sidebar">
+                            <div class="app-sidebar__inner">
+                                <ul class="vertical-nav-menu">
+                                    <li class="app-sidebar__heading">DPE</li>
+                                    <li>
+                                        <a href="{% url 'dashboard' %}">
+                                            <i class="fas fa-chart-line metismenu-icon"></i>
+                                            Dashboard
+                                        </a>
+                                    </li>
+                                    <li class="app-sidebar__heading">Administracion</li>
+                                    <li>
+                                        <a href="#" >
+                                            <i class="fas fa-chart-pie metismenu-icon"></i>
+                                            Psicometria
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="{% url 'companies' %}">
+                                                    <i class="metismenu-icon"></i>
+                                                    Empresas
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{% url 'positions' %}">
+                                                    <i class="metismenu-icon">
+                                                    </i>Puestos
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="app-sidebar__heading">Sistema</li>
+                                    <li>
+                                        <a href="{% url 'users:users_admn' %}" class="mm-active">
+                                            <i class="fas fa-user-cog metismenu-icon"></i>
+                                            Usuarios
+                                        </a>
+                                        <a href="#">
+                                            <i class="fas fa-database metismenu-icon"></i> 
+                                            Panel de control
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>    
+                    <div class="app-main__outer">
+                        <div class="app-main__inner">
+
+                            {% block content_subtitle %} {% endblock %}
+
+
+                                       
+                                
+                                {% block content_container %} {% endblock %}
+
+
+                            
+                            
+                            
+                        <div class="app-wrapper-footer">
+                            <div class="app-footer">
+                                <div class="app-footer__inner">
+                                    <div class="app-footer-left">
+                                        <ul class="nav">    
+                                            <li class="nav-item">
+                                                <a href="javascript:void(0);" class="nav-link">
+                                                    DPE Corp. 2020 ver. 0
+                                                </a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                    <div class="app-footer-right">
+                                        <ul class="nav">    
+                                            <li class="nav-item">
+                                                <a href="javascript:void(0);" class="nav-link">
+                                                    Comunicate con nosotros
+                                                </a>
+                                            </li>
+                                            
+                                        </ul>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>    
+                    </div>
+            </div>
+        </div>
+    </body>
+
+    <script></script>
+</html>
