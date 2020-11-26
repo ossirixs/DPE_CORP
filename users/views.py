@@ -54,7 +54,7 @@ def users_adm(request):
             user.last_name = request.POST.get('second_last_name')
             user.second_last_name = request.POST.get('second_last_name')
             user.type = request.POST.get('user_type')
-            user.company = request.POST.get('company')
+            user.company = 1
             user.save()
         elif request.POST.get('create_user'):
             print('create')
