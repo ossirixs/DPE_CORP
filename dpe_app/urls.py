@@ -1,9 +1,10 @@
 """dpe_app URL Configuration"""
-#Django
+#Django.
 from django.contrib import admin
 from django.urls import path, include
-#App
+#Apps.
 from dpe_app import views as dpe_views
+from company import views as company_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,12 +17,12 @@ urlpatterns = [
     ),
     path(
         route='cmp', 
-        view=dpe_views.company_list, 
+        view=company_views.company_list, 
         name='companies'
     ),
     path(
         route='cmp/dtl/<company_name>/', 
-        view=dpe_views.company_detail, 
+        view=company_views.company_detail, 
         name='company_detail'
     ),
     path(

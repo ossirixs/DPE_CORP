@@ -5,11 +5,12 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm
 
 #Models
-from companies.models import Company
 from users.models import User
+from company.models import Company
 
 def login_view(request):
     """Login view."""
+    print(request.method)
     if request.method == 'POST':
         print('+' * 10)
         username = request.POST['username']
@@ -24,6 +25,7 @@ def login_view(request):
             return render(request,'login.html', {'error':'Invalid username and password'})
         #import pdb; pdb.set_trace()
     else:
+        print('else')
         return render(request, 'login.html')
 
 
@@ -45,13 +47,14 @@ def users_adm(request):
         print('a posst')
         if request.POST.get('update_user'):
             print('update')
+            print(request.POST.get('company'))
             user.name = request.POST.get('first_name')
             user.first_name = request.POST.get('first_name')
             user.email = request.POST.get('email')
             user.last_name = request.POST.get('second_last_name')
             user.second_last_name = request.POST.get('second_last_name')
             user.type = request.POST.get('user_type')
-            user.company = int(request.POST.get('company'))
+            user.company = request.POST.get('company')
             user.save()
         elif request.POST.get('create_user'):
             print('create')

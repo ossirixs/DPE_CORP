@@ -1,0 +1,162 @@
+{% extends "common/base.html" %}
+
+{% block content_title %}
+    <title>DPE - Empresas</title>
+{% endblock%}
+
+{% block content_subtitle %}
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fas fa-building icon-gradient bg-night-fade">
+                    </i>
+                </div>
+                <div>
+                    Empresas
+                    <div class="page-title-subheading">
+                        Seleccione una empresa para comenzar.
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </div> 
+{% endblock%}
+
+{% block content_container %}
+<div class="row">
+
+
+    <div class="col-md-12 col-lg-12">
+        <div class="main-card mb-3 card">
+            <div class="card-header-tab card-header">
+                <div class="btn-actions-pane-left">
+                    <div class="nav">
+                        <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate" onclick="toogleForm(this)">Buscar</a>
+                        <a id="create" href="javascript:void(0);" class="ml-1 btn-pill btn-wide border-0 btn-transition  btn btn-outline-alternate second-tab-toggle-alt" onclick="toogleForm(this)">Crear</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Search a company form -->
+                <div id="search-form-id" class="form-container">
+                    <form method="POST"  class="">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <select name="company" class="form-control">
+                                    <option > -- </option>
+                                    <option >Empresa1</option>
+                                    <option >Empresa2</option>
+                                    <option >Empresa3</option>
+                                </select>   
+                            </div>
+                            <input type="hidden" name="action" value="select">
+                            <button type="submit" class="btn btn-primary">Seleccionar</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- Create a company form -->
+                <div id="create-company-id" class="form-container d-none">
+                    <form method="POST"  >
+                        {% csrf_token %}
+                        <h5 class="card-title">Tipo:</h5>
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <select name="company-type" id="company-type-id" class="form-control" onchange="typeSelected(this)">
+                                    <option value="MAIN">Matriz</option>
+                                    <option value="BRANCH">Sucursal</option>
+                                </select>   
+                            </div>
+                            <div class="col-md-4">
+                                <select name="company-main" id="main-company-id" class="form-control d-none">
+                                    <option value="">--</option>
+                                    {% for company in companies %}
+                                        <option value={{company.id}}>{{company.company_name}}</option>                                                                                
+                                    {% endfor %}
+                                </select>   
+                            </div>
+                        </div>
+                        <br>
+                        <h5 class="card-title">Datos generales:</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="company-name-id" class="">Empresa</label><input name="company-name" id="company-name-id" type="text" class="form-control" value="{{company_name}}">
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="company-contact-id" class="">Nombre contacto</label><input name="company-contact" id="company-contact-id" type="text" class="form-control" value="{{company_contact}}">
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label for="company-phone-id" class="">Telefono</label><input name="company-phone" id="company-phone-id" type="text" class="form-control" value="{{company_phone}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="company-email-id" class="">Email</label><input name="company-email" id="company-email-id" placeholder="" type="email" class="form-control" value="{{company_email}}">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="action" value="create">
+                        <button class="mt-2 btn btn-primary">Crear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let forms = '';
+    let buttons = '';
+    document.addEventListener("DOMContentLoaded", function(e) {
+        forms = document.querySelectorAll('.form-container');
+        buttons = document.querySelectorAll('.btn-pill');
+    });
+    
+    function toogleForm(btn){
+        forms.forEach((form) => {
+            let form_id = form.id;
+            if (form_id.includes(btn.id) && form.classList.contains('d-none')){
+                form.classList.remove('d-none');
+            }else if (!form_id.includes(btn.id) && !form.classList.contains('d-none')){
+                form.classList.add('d-none');
+            }
+
+            if(!btn.classList.contains('active')){
+                btn.classList.add('active');
+            }else{
+                btn.classList.remove('active');
+            }
+        });
+
+        buttons.forEach((btn) => {
+
+            if(!btn.classList.contains('active')){
+                btn.classList.add('active');
+            }else{
+                btn.classList.remove('active');
+            }
+        });
+    }
+
+    function typeSelected(select_element) {
+        console.log(select_element.value)
+        if (select_element.value == 'BRANCH') {
+            document.getElementById('main-company-id').classList.remove('d-none');
+        }else{
+            document.getElementById('main-company-id').classList.add('d-none');
+        }
+    }
+</script>
+{% endblock%}

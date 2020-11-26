@@ -307,7 +307,7 @@ background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
           <h1>Inicio de sesión</h1>
         </div>
         <div class="form-content">
-          <form method="POST" action="{% url 'login' %}">
+          <form method="post" action="{% url 'login' %}">
 						{% csrf_token %}
 						{% if error %}
 							<p class="alert alert-danger">{{ error }}</p>
@@ -339,7 +339,8 @@ background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
         </div>
         <div class="space-s"></div>
         <div class="form-content">
-          <form>
+          <form method="post" action="{% url 'login' %}">
+					{% csrf_token %}
             <div class="form-group">
               <label for="username">Nombre de Candidato</label>
               <input type="text" id="username" name="username" required="required"/>
