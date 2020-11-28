@@ -3,14 +3,13 @@ from users import views
 
 urlpatterns = [
     path(
-        route='', 
+        route='',
         view=views.login_view, 
         name='login'
     ),
     path(
-        route='admn', 
-        view=views.users_adm, 
+        route='admn',
+        view=views.users_adm,
         name='users_admn'
     ),
-
 ]
