@@ -5,12 +5,16 @@ from django.urls import path, include
 #Apps.
 from dpe_app import views as dpe_views
 from company import views as company_views
+from company import views as company_views
+from tests import views as tests_views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('users/',include(('users.urls','users'), namespace='users')),
     path('company/',include(('company.urls','company'), namespace='company')),
+    path('tests/', include('tests.urls')),
     path(
         route='dsh', 
         view=dpe_views.dashboard, 
@@ -27,8 +31,8 @@ urlpatterns = [
         name='company_detail'
     ),
     path(
-        route='pstn', 
-        view=dpe_views.position_list, 
+        route='pstn',
+        view=dpe_views.position_list,
         name='positions'
     ),
 ]
