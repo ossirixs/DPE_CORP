@@ -10,6 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('users/',include(('users.urls','users'), namespace='users')),
+    path('company/',include(('company.urls','company'), namespace='company')),
     path(
         route='dsh', 
         view=dpe_views.dashboard, 
@@ -21,7 +22,7 @@ urlpatterns = [
         name='companies'
     ),
     path(
-        route='cmp/dtl/<company_name>/', 
+        route='cmp/dtl/<company_id>/', 
         view=company_views.company_detail, 
         name='company_detail'
     ),

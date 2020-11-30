@@ -13,7 +13,7 @@
                     </i>
                 </div>
                 <div>
-                    {{ company_name }}
+                    {% if company_main %} {{ company_main.company_name }} - {% endif %}{{ company.company_name }}
                     <div class="page-title-subheading">
                         Administracion de Pruebas Psicometricas.
                     </div>
@@ -32,14 +32,17 @@
             <div class="card-header-tab card-header">
                 <div class="btn-actions-pane-left">
                     <div class="nav">
-                        <a id="test" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate" onclick="toogleForm(this)">Pruebas</a>
-                        <a id="link" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Links</a>
-                        <a id="modify" href="javascript:void(0);" class="ml-1 btn-pill btn-wide border-0 btn-transition  btn btn-outline-alternate second-tab-toggle-alt" onclick="toogleForm(this)">Modificar</a>
+                        <a id="tests" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate" onclick="toogleForm(this)">Pruebas</a>
+                        <a id="codes" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Codigos de Pruebas</a>
+                        <a id="company" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Empresa</a>
+                        <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Usarios</a>
+                        <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Crear Usuarios</a>
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                <div id="assigned-form-id">
+                {% comment %} TESTS {% endcomment %}
+                <div id="tests-form-id" class="card-section">
                     <h5 class="card-title">Pruebas Asignadas:</h5>
                     <form method="POST"  class="">
                         {% csrf_token %}
@@ -54,51 +57,8 @@
                         <button class="mt-2 btn btn-primary">Asignar</button>
                     </form>
                 </div>
-                <div id="general-data-id" class="d-none">
-                    <h5 class="card-title">Datos generales:</h5>
-                    <form method="POST"  >
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-md-3">
-                                    <div class="position-relative form-group">
-                                        <label for="username-id" class="">Nombre de usuario</label><input name="username" id="username-id" type="text" class="form-control" value="{{username}}">
-                                    </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                    <div class="position-relative form-group">
-                                        <label for="name-id" class="">Direccion</label><input name="name" id="name-id" type="text" class="form-control" value="{{name}}">
-                                    </div>
-                            </div>
-                        </div>
-                        <h5 class="card-title">Contacto:</h5>
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                    <div class="position-relative form-group">
-                                        <label for="name-id" class="">Telefono</label><input name="name" id="name-id" type="text" class="form-control" value="{{name}}">
-                                    </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                    <div class="position-relative form-group">
-                                        <label for="name-id" class="">Direccion</label><input name="name" id="name-id" type="text" class="form-control" value="{{name}}">
-                                    </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <div class="position-relative form-group">
-                                    <label for="email-id" class="">Email</label><input name="email" id="email-id" placeholder="" type="email" class="form-control" value="{{email}}">
-                                </div>
-                            </div>
-                        </div>
-                        <input type="hidden" name="update_user" value="True">
-                        <button class="mt-2 btn btn-primary">Actualizar</button>
-                    </form>
-                </div>
-                <div id="link-id" class="d-none">
+                {% comment %} CODES {% endcomment %}
+                <div id="codes-id" class="card-section d-none">
                     <h5 class="card-title">Links asignados:</h5>
                     <table class="mb-0 table">
                         <thead>
@@ -131,35 +91,148 @@
                         </tbody>
                     </table>
                 </div>
+                {% comment %} MODIFY {% endcomment %}
+                <div id="company-data-id" class="card-section d-none">
+                    <h5 class="card-title">Datos generales:</h5>
+                    <form method="POST"  >
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <div class="position-relative form-group">
+                                    <label for="name-id" class="">Empresa</label><input name="company_name" id="name-id" type="text" class="form-control" value="{{company.company_name}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="contact-id" class="">Nombre de contacto</label><input name="company_contact" id="contact-id" type="text" class="form-control" value="{{ company.company_contact }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div class="position-relative form-group">
+                                    <label for="email-id" class="">Email</label><input name="company_email" id="email-id" placeholder="" type="email" class="form-control" value="{{company.company_email}}">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="company_id" value={{company.company_id}}>
+                        <input type="hidden" name="update" value=1>
+                        <button class="mt-2 btn btn-primary">Actualizar</button>
+                    </form>
+                </div>
+
+                {% comment %} SEARCH USERS {% endcomment %}
+                <div id="search-users-form-id" class="card-section d-none">
+                    <form method="POST" action="{% url 'company:user_detail' company.company_name %}"   class="">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <select name="company_user_id" id="company-id" class="form-control" required>
+                                    <option value="">--</option>
+                                    {% for company_user in company_users %}
+                                        <option value={{company_user.id}}>{{company_user.first_name}}</option>                                                                                
+                                    {% endfor %}
+                                </select>   
+                            </div>
+                            <input type="hidden" name="company" value={{company.id}}>
+                            <button type="submit" class="btn btn-primary">Seleccionar</button>
+                        </div>
+                    </form>
+                </div>
+
+                {% comment %} CREATE USERS {% endcomment %}
+                <div id="create-form-id" class="card-section d-none">
+                    <form method="POST"  class="">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="username-id" class="">Nombre de usuario</label><input name="username" id="username-id" type="text" class="form-control" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="username-id" class="">Password</label><input name="password1" id="password-id" type="password" class="form-control" value="">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="username-id" class="">Confirmar Password</label><input name="password2" id="password-id" type="password" class="form-control" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="name-id" class="">Nombre</label><input name="first_name" id="name-id" type="text" class="form-control" value="">
+                                    </div>
+                            </div>
+                            <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="last-name-id" class="">Paterno</label><input name="last_name" id="last-name-id" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="second-last-name-id" class="">Materno</label><input name="second_last_name" id="second-last-name-id" type="text" class="form-control" value="">
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="email-id" class="">Email</label><input name="email" id="email-id" type="email" class="form-control" value="{{email}}">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="company" value={{company.id}}>
+                        <input type="hidden" name="type" value="{% if company.company_main == 0 %}CLIENT_MAIN{% else %}CLIENT{% endif %}">
+                        <input type="hidden" name="company_main" value={% if company.company_main == 0 %}0{% else %}{{company.company_main}}{% endif %}>
+                        <input type="hidden" name="create_user" value=1>
+                        <button class="mt-2 btn btn-primary">Crear Usuario</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 <script>
+
+    let forms = '';
+    let buttons = '';
+
+    document.addEventListener("DOMContentLoaded", function(e) {
+        forms = document.querySelectorAll('.card-section');
+        buttons = document.querySelectorAll('.btn-pill');
+
+    });
     function toogleForm(btn){
-        if(btn.id =='test'){
-            link_div = document.getElementById('link-id');
-            link_div.classList.add('d-none')
-            mod_div = document.getElementById('general-data-id');
-            mod_div.classList.add('d-none')
-            test_div = document.getElementById('assigned-form-id');
-            test_div.classList.remove('d-none')
-        }else if(btn.id == 'modify'){
-            link_div = document.getElementById('link-id');
-            link_div.classList.add('d-none')
-            mod_div = document.getElementById('general-data-id');
-            mod_div.classList.remove('d-none')
-            test_div = document.getElementById('assigned-form-id');
-            test_div.classList.add('d-none')
-        }else if(btn.id == 'link'){
-            link_div = document.getElementById('link-id');
-            link_div.classList.remove('d-none')
-            mod_div = document.getElementById('general-data-id');
-            mod_div.classList.add('d-none')
-            test_div = document.getElementById('assigned-form-id');
-            test_div.classList.add('d-none')
-        }
+        let selected_form = ''
+        forms.forEach((form) => {
+            let form_id = form.id;
+            if (form_id.includes(btn.id) && form.classList.contains('d-none')){
+                form.classList.remove('d-none');
+                selected_form = form
+            }else if (!form_id.includes(btn.id) && !form.classList.contains('d-none')){
+                form.classList.add('d-none');
+            }
+
+            if(!btn.classList.contains('active')){
+                btn.classList.add('active');
+            }else{
+                btn.classList.remove('active');
+            }
+        });
+
+        buttons.forEach((btn) => {
+
+            if(!selected_form.id.includes(btn.id)){
+                btn.classList.remove('active');
+            }
+        });
     }
-    console.log('company detail')
+
 </script>
 {% endblock%}

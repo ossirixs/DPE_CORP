@@ -26,7 +26,6 @@
 {% block content_container %}
 <div class="row">
 
-
     <div class="col-md-12 col-lg-12">
         <div class="main-card mb-3 card">
             <div class="card-header-tab card-header">
@@ -44,11 +43,11 @@
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="col-md-4">
-                                <select name="company" class="form-control">
-                                    <option > -- </option>
-                                    <option >Empresa1</option>
-                                    <option >Empresa2</option>
-                                    <option >Empresa3</option>
+                                <select name="company" id="company-id" class="form-control" required>
+                                    <option value="">--</option>
+                                    {% for company in companies %}
+                                        <option value={{company.id}}>{{company.company_name}}</option>                                                                                
+                                    {% endfor %}
                                 </select>   
                             </div>
                             <input type="hidden" name="action" value="select">
@@ -56,21 +55,23 @@
                         </div>
                     </form>
                 </div>
+
                 <!-- Create a company form -->
+
                 <div id="create-company-id" class="form-container d-none">
                     <form method="POST"  >
                         {% csrf_token %}
                         <h5 class="card-title">Tipo:</h5>
                         <div class="form-row">
                             <div class="col-md-4">
-                                <select name="company-type" id="company-type-id" class="form-control" onchange="typeSelected(this)">
-                                    <option value="MAIN">Matriz</option>
+                                <select name="company_type" id="company-type-id" class="form-control" onchange="typeSelected(this)">
+                                    <option value="MAIN" selected >Matriz</option>
                                     <option value="BRANCH">Sucursal</option>
                                 </select>   
                             </div>
                             <div class="col-md-4">
-                                <select name="company-main" id="main-company-id" class="form-control d-none">
-                                    <option value="">--</option>
+                                <select name="company_main" id="main-company-id" class="form-control d-none">
+                                    <option value=0>--</option>
                                     {% for company in companies %}
                                         <option value={{company.id}}>{{company.company_name}}</option>                                                                                
                                     {% endfor %}
@@ -82,28 +83,32 @@
                         <div class="form-row">
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="company-name-id" class="">Empresa</label><input name="company-name" id="company-name-id" type="text" class="form-control" value="{{company_name}}">
+                                        <label for="company-name-id" class="">Empresa</label>
+                                        <input name="company_name" id="company-name-id" type="text" class="form-control" value="" required>
                                     </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="company-contact-id" class="">Nombre contacto</label><input name="company-contact" id="company-contact-id" type="text" class="form-control" value="{{company_contact}}">
+                                        <label for="company-contact-id" class="">Nombre contacto</label>
+                                        <input name="company-contact" id="company-contact-id" type="text" class="form-control" value="" required>
                                     </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-4">
                                 <div class="position-relative form-group">
-                                    <label for="company-phone-id" class="">Telefono</label><input name="company-phone" id="company-phone-id" type="text" class="form-control" value="{{company_phone}}">
+                                    <label for="company-phone-id" class="">Telefono</label>
+                                    <input name="company_phone" id="company-phone-id" type="text" class="form-control" value="" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group">
-                                    <label for="company-email-id" class="">Email</label><input name="company-email" id="company-email-id" placeholder="" type="email" class="form-control" value="{{company_email}}">
+                                    <label for="company-email-id" class="">Email</label>
+                                    <input name="company_email" id="company-email-id" placeholder="" type="email" class="form-control" value="" required>
                                 </div>
                             </div>
                         </div>
@@ -116,12 +121,21 @@
     </div>
 </div>
 
+
+
 <script>
     let forms = '';
     let buttons = '';
     document.addEventListener("DOMContentLoaded", function(e) {
         forms = document.querySelectorAll('.form-container');
         buttons = document.querySelectorAll('.btn-pill');
+
+        // if a company was successfully added, show message:
+        let saved_company = '{{saved_company}}'
+        if ( saved_company == 'True' ){
+            let company_name = '{{ new_company.company_name }}'
+            show_swal('success', 'Empresa agregada', `${company_name}`, '');
+        }
     });
     
     function toogleForm(btn){
@@ -151,12 +165,21 @@
     }
 
     function typeSelected(select_element) {
-        console.log(select_element.value)
         if (select_element.value == 'BRANCH') {
             document.getElementById('main-company-id').classList.remove('d-none');
         }else{
             document.getElementById('main-company-id').classList.add('d-none');
         }
     }
+    function show_swal(icon,title,text,footer) {
+        Swal.fire({
+                icon: icon,
+                title: title,
+                text: text,
+                footer: footer
+            })
+    }
+
+    
 </script>
 {% endblock%}

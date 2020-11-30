@@ -12,5 +12,4 @@ urlpatterns = [
         view=views.users_adm, 
         name='users_admn'
     ),
-
 ]

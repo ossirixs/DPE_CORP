@@ -1,14 +1,19 @@
 #Django.
 from django import forms
-from django.contrib.auth import get_user_model
-
 #Models.
 from company.models import Company
 
-class NewCompanyForm():
-    first_name = forms.CharField(max_length=255)
-    password1 = forms.CharField(widget=forms.PasswordInput)
+class NewCompanyForm(forms.ModelForm):
 
     class Meta:
         model = Company
-        fields = ('email','username', 'first_name', 'last_name','second_last_name','company', 'type')
+        fields = ('company_type','company_main','company_name','company_contact','company_phone','company_email')
+
+    # def clean_company_main(self):
+    #     """Company main (for branch companies) must be int"""
+    #     company_main = self.cleaned_data['company_main']
+    #     print('company main', company_main)
+    #     if company_main.is_integer():
+    #         return company_main
+    #     else:
+    #         raise forms.ValidationError('Company main not an integer')
