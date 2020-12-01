@@ -9,7 +9,7 @@ class User(AbstractUser):
     Users model. """
 
     class Types (models.TextChoices):
-        ADMIN_DPE = "ADMIN_DPE", "Administrador DEP"
+        ADMIN_DPE = "ADMIN_DPE", "Administrador DPE"
         CLIENT_MAIN = "CLIENT_MAIN", "Cliente Matriz"
         CLIENT = "CLIENT", "Cliente Sucursal"
     #General.

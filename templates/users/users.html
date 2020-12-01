@@ -37,65 +37,43 @@
                 </div>
             </div>
             <div class="card-body">
+            {% comment %} EDITAR USUARIO DPE {% endcomment %}
                 <div id="edit-form-id" class="form-container">
                     <form method="POST"  class="">
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="username-id" class="">Nombre de usuario</label><input name="username" id="username-id" type="text" class="form-control" value="{{username}}">
+                                        <label for="username-id" class="">Nombre de usuario</label><input name="username" id="username-id" type="text" class="form-control" value="{{user.username}}">
                                     </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name-id" class="">Nombre</label><input name="first_name" id="name-id" type="text" class="form-control" value="{{first_name}}">
+                                        <label for="name-id" class="">Nombre</label><input name="first_name" id="name-id" type="text" class="form-control" value="{{user.first_name}}">
                                     </div>
                             </div>
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="last-name-id" class="">Paterno</label><input name="last_name" id="last-name-id" type="text" class="form-control" value="{{last_name}}">
+                                        <label for="last-name-id" class="">Paterno</label><input name="last_name" id="last-name-id" type="text" class="form-control" value="{{user.last_name}}">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="second-last-name-id" class="">Materno</label><input name="second_last_name" id="second-last-name-id" type="text" class="form-control" value="{{second_last_name}}">
+                                        <label for="second-last-name-id" class="">Materno</label><input name="second_last_name" id="second-last-name-id" type="text" class="form-control" value="{{user.second_last_name}}">
                                     </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                <div class="position-relative form-group">
-                                    <label for="exampleCity" class="">Tipo de Usuario</label>
-                                    <select name="user_type" id="" class="form-control">
-    
-                                        <option value="">--</option>
-                                        {% for type in user_types %}
-                                            <option value="{{type}}" {% if user_type == type %} selected {% endif %} >{{type}}</option>                                                                                
-                                        {% endfor %}
-                                    </select>   
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="position-relative form-group">
-                                    <label for="company-id" class="">Compania</label>
-                                    <select name="company" id="company-id" class="form-control">
-                                        <option value="">--</option>
-                                        {% for company in companies %}
-                                            <option value={{company.id}} {% if company.id == user_company %} selected {% endif %} >{{company.name}}</option>                                                                                
-                                        {% endfor %}
-                                    </select>   
-                                </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group">
-                                    <label for="email-id" class="">Email</label><input name="email" id="email-id" placeholder="with a placeholder" type="email" class="form-control" value="{{email}}">
+                                    <label for="email-id" class="">Email</label><input name="email" id="email-id" placeholder="with a placeholder" type="email" class="form-control" value="{{user.email}}">
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="user_type" value="ADMIN_DPE">
+                        <input type="hidden" name="company" value="0">
                         <input type="hidden" name="update_user" value="True">
                         <button class="mt-2 btn btn-primary">Actualizar</button>
                     </form>
@@ -140,37 +118,16 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="col-md-4">
-                                <div class="position-relative form-group"><label for="exampleCity" class="">Tipo de Usuario</label>
-                                    <select name="type" id="" class="form-control">
-                                        <option value="">--</option>
-                                        {% for type in user_types %}
-                                            <option value="{{type}}">{{type}}</option>                                                                                
-                                        {% endfor %}
-                                    </select>   
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="position-relative form-group">
-                                    <label for="company-id" class="">Compania</label>
-                                    <select name="company" id="company-id" class="form-control">
-                                        <option value="">--</option>
-                                        {% for company in companies %}
-                                            <option value={{company.id}}>{{company.name}}</option>                                                                                
-                                        {% endfor %}
-                                    </select>   
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group">
                                     <label for="email-id" class="">Email</label><input name="email" id="email-id" placeholder="with a placeholder" type="email" class="form-control" value="{{email}}">
                                 </div>
                             </div>
                         </div>
+                        <input type="hidden" name="type" value="ADMIN_DPE">
+                        <input type="hidden" name="company" value="0">
                         <input type="hidden" name="create_user" value="True">
-                        <button class="mt-2 btn btn-primary">Actualizar</button>
+                        <button class="mt-2 btn btn-primary">Crear</button>
                     </form>
                 </div>
             </div>

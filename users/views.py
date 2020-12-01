@@ -62,22 +62,16 @@ def users_adm(request):
             print('form.errors()',form.errors)
             if form.is_valid():
                 form.save()
-                # username = form.cleaned_data.get('username')
-                # password = form.cleaned_data.get('password1')
-                # user = authenticate(username=username, password=password)
-                # login(request, user)
             
 
 
     return render(request, 'users/users.html', {
-                                                'username':user.username,
-                                                'name':user.name,
-                                                'first_name':user.first_name,
-                                                'last_name':user.last_name,
-                                                'second_last_name':user.second_last_name,
-                                                'email':user.email,
-                                                'user_type':user.type,
-                                                'user_types':user.Types,
-                                                'user_company':user.company,
+                                                'user':user,
                                                 'companies':companies,
                                                 })
+
+@login_required
+def log_out(request):
+    """Logout a user view."""
+    logout(request)
+    return redirect('login')

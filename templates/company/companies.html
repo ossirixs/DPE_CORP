@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <!-- Search a company form -->
+                {% comment %} SELECT A COMPANY {% endcomment %}
                 <div id="search-form-id" class="form-container">
                     <form method="POST"  class="">
                         {% csrf_token %}
@@ -55,9 +55,7 @@
                         </div>
                     </form>
                 </div>
-
-                <!-- Create a company form -->
-
+                {% comment %} CREATE A COMPANY {% endcomment %}
                 <div id="create-company-id" class="form-container d-none">
                     <form method="POST"  >
                         {% csrf_token %}
@@ -92,7 +90,7 @@
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
                                         <label for="company-contact-id" class="">Nombre contacto</label>
-                                        <input name="company-contact" id="company-contact-id" type="text" class="form-control" value="" required>
+                                        <input name="company_contact" id="company-contact-id" type="text" class="form-control" value="" required>
                                     </div>
                             </div>
                         </div>
@@ -134,7 +132,7 @@
         let saved_company = '{{saved_company}}'
         if ( saved_company == 'True' ){
             let company_name = '{{ new_company.company_name }}'
-            show_swal('success', 'Empresa agregada', `${company_name}`, '');
+            showSwal('success', 'Empresa agregada', `${company_name}`, '');
         }
     });
     
@@ -171,14 +169,7 @@
             document.getElementById('main-company-id').classList.add('d-none');
         }
     }
-    function show_swal(icon,title,text,footer) {
-        Swal.fire({
-                icon: icon,
-                title: title,
-                text: text,
-                footer: footer
-            })
-    }
+    
 
     
 </script>

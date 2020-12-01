@@ -1,5 +1,6 @@
 #Django.
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.db.models import Q
 
@@ -11,6 +12,7 @@ from users.models import User
 from company.forms import NewCompanyForm
 from users.forms import SignUpForm
 
+@login_required
 @never_cache
 def company_list(request):
     """ List all available companies."""
@@ -42,6 +44,7 @@ def company_list(request):
                                                         'saved_company':'False',
                                                     })
 
+@login_required
 def company_detail(request,company_id):
     """ Company detail and actions."""
 
@@ -80,6 +83,7 @@ def company_detail(request,company_id):
                                                             "company_users":company_users,
                                                             })
 
+@login_required
 def modify_user(request, company_name):
     """Modify a company user."""
     if request.method == 'POST':
