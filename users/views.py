@@ -12,20 +12,20 @@ def login_view(request):
     """Login view."""
     print(request.method)
     if request.method == 'POST':
-        print('+' * 10)
         username = request.POST['username']
         password = request.POST['password']
-        print(username,':',password)
-        print('+' * 10)
+        # Authenticate usert.
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
             return redirect('dashboard')
         else:
             return render(request,'login.html', {'error':'Invalid username and password'})
-        #import pdb; pdb.set_trace()
     else:
-        print('else')
+        # If user is already logged, redirect to dashboard.
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        #if not take to the log in page.
         return render(request, 'login.html')
 
 
@@ -44,10 +44,9 @@ def users_adm(request):
     companies = Company.objects.all()
 
     if request.method == 'POST':
-        print('a posst')
+        # Update current DPE user.
         if request.POST.get('update_user'):
             print('update')
-            print(request.POST.get('company'))
             user.name = request.POST.get('first_name')
             user.first_name = request.POST.get('first_name')
             user.email = request.POST.get('email')
@@ -56,19 +55,22 @@ def users_adm(request):
             user.type = request.POST.get('user_type')
             user.company = 1
             user.save()
+        # Create DPE user.
         elif request.POST.get('create_user'):
-            print('create')
             form = SignUpForm(request.POST)
             print('form.errors()',form.errors)
             if form.is_valid():
-                form.save()
-            
-
-
+                saved_user = form.save()
+            else:
+                saved_user = ''
+            return render(request, 'users/users.html', {
+                                                        'user':user,
+                                                        'saved_user':saved_user,
+                                                        })
     return render(request, 'users/users.html', {
-                                                'user':user,
-                                                'companies':companies,
-                                                })
+                                                    'user':user,
+                                                    'saved_user':'',
+                                                    })
 
 @login_required
 def log_out(request):

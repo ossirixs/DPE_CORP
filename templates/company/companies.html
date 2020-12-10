@@ -70,7 +70,7 @@
                             <div class="col-md-4">
                                 <select name="company_main" id="main-company-id" class="form-control d-none">
                                     <option value=0>--</option>
-                                    {% for company in companies %}
+                                    {% for company in main_companies %}
                                         <option value={{company.id}}>{{company.company_name}}</option>                                                                                
                                     {% endfor %}
                                 </select>   

@@ -149,11 +149,12 @@
                                     </li>
                                     <li class="app-sidebar__heading">Sistema</li>
                                     <li>
-                                        <a href="{% url 'users:users_admn' %}" class="mm-active">
+                                        <a href="{% url 'users:users_admn' %}" >
+                                        {% comment %} class="mm-active" {% endcomment %}
                                             <i class="fas fa-user-cog metismenu-icon"></i>
                                             Usuarios
                                         </a>
-                                        <a href="#">
+                                        <a href="{% url 'admin:index' %}">
                                             <i class="fas fa-database metismenu-icon"></i> 
                                             Panel de control
                                         </a>
@@ -212,7 +213,7 @@
         document.addEventListener("DOMContentLoaded", e => {
             setListeners();
         })
-
+        // Listeners for the top menu actions
         function setListeners(){
             option_menu_div = document.getElementById('user-options-id');
             option_menu_div.addEventListener('click', e => {
@@ -234,7 +235,7 @@
                     '<a href="https://www.dpecorp.com.mx/">DPE Corp</a> <br>',
             })
         }
-
+        // To show a sweet alert anywhere, just call it
         function showSwal(icon,title,text,footer) {
             Swal.fire({
                     icon: icon,

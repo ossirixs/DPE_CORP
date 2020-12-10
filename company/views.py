@@ -17,7 +17,7 @@ from users.forms import SignUpForm
 def company_list(request):
     """ List all available companies."""
     print("listing")
-    companies = Company.objects.all()
+    
     if request.method == 'POST':
         action = request.POST.get('action','')
         #Company selected.
@@ -28,6 +28,9 @@ def company_list(request):
         #Create a company.
         elif action == "create":
             print('create')
+            # Get allcomapnies.
+            companies = Company.objects.all()
+            main_companies = Company.objects.filter(company_type='MAIN')
             company_form = NewCompanyForm(request.POST)
             if company_form.is_valid():
                 print('valid form')
@@ -38,11 +41,18 @@ def company_list(request):
                                                                 'companies':companies,
                                                                 'saved_company':'True',
                                                                 'new_company':new_company,
+                                                                'main_companies':main_companies,
                                                             })
-    return render(request,'company/companies.html', {
-                                                        'companies':companies,
-                                                        'saved_company':'False',
-                                                    })
+    elif request.method == 'GET':
+        # Get allcomapnies.
+        companies = Company.objects.all()
+        # Get only main companies.
+        main_companies = Company.objects.filter(company_type='MAIN')
+        return render(request,'company/companies.html', {
+                                                            'companies':companies,
+                                                            'saved_company':'False',
+                                                            'main_companies':main_companies,
+                                                        })
 
 @login_required
 def company_detail(request,company_id):

@@ -14,9 +14,9 @@
                     </i>
                 </div>
                 <div>
-                    Administracion de usuarios
+                    Administracion de usuarios DPE
                     <div class="page-title-subheading">
-                        Crear, modificar o eliminar usuarios.
+                        Crear, modificar o eliminar usuarios DPE.
                     </div>
                 </div>
             </div>   
@@ -86,41 +86,41 @@
                         <div class="form-row">
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="username-id" class="">Nombre de usuario</label><input name="username" id="username-id" type="text" class="form-control" value="">
+                                    <label for="username-id" class="">Nombre de usuario</label><input name="username" id="username-id" type="text" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="username-id" class="">Password</label><input name="password1" id="password-id" type="password" class="form-control" value="">
+                                    <label for="username-id" class="">Password</label><input name="password1" id="password-id" type="password" class="form-control" required>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="username-id" class="">Confirmar Password</label><input name="password2" id="password-id" type="password" class="form-control" value="">
+                                    <label for="username-id" class="">Confirmar Password</label><input name="password2" id="password-id" type="password" class="form-control" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name-id" class="">Nombre</label><input name="first_name" id="name-id" type="text" class="form-control" value="">
+                                        <label for="name-id" class="">Nombre</label><input name="first_name" id="name-id" type="text" class="form-control" required>
                                     </div>
                             </div>
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="last-name-id" class="">Paterno</label><input name="last_name" id="last-name-id" type="text" class="form-control" value="">
+                                        <label for="last-name-id" class="">Paterno</label><input name="last_name" id="last-name-id" type="text" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="second-last-name-id" class="">Materno</label><input name="second_last_name" id="second-last-name-id" type="text" class="form-control" value="">
+                                        <label for="second-last-name-id" class="">Materno</label><input name="second_last_name" id="second-last-name-id" type="text" class="form-control" required>
                                     </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
                                 <div class="position-relative form-group">
-                                    <label for="email-id" class="">Email</label><input name="email" id="email-id" placeholder="with a placeholder" type="email" class="form-control" value="{{email}}">
+                                    <label for="email-id" class="">Email</label><input name="email" id="email-id" type="email" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -141,6 +141,11 @@
     document.addEventListener("DOMContentLoaded", function(e) {
         forms = document.querySelectorAll('.form-container');
         buttons = document.querySelectorAll('.btn-pill');
+
+        let saved_user = '{{saved_user}}'
+        if ( saved_user  ){
+            showSwal('success', 'Usuario agregado', '{{ saved_user.username }}', '');
+        }
     });
     
     function toogleForm(btn){
