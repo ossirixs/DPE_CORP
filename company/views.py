@@ -16,7 +16,7 @@ from users.forms import SignUpForm
 @never_cache
 def company_list(request):
     """ List all available companies."""
-    print("listing")
+    print("company_list")
     
     if request.method == 'POST':
         action = request.POST.get('action','')
@@ -44,6 +44,9 @@ def company_list(request):
                                                                 'main_companies':main_companies,
                                                             })
     elif request.method == 'GET':
+        # Get user.
+        user = request.user
+        print(user.type)
         # Get allcomapnies.
         companies = Company.objects.all()
         # Get only main companies.

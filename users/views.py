@@ -10,7 +10,7 @@ from company.models import Company
 
 def login_view(request):
     """Login view."""
-    print(request.method)
+    print("login_view")
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -31,7 +31,7 @@ def login_view(request):
 
 @login_required
 def users_adm(request):
-
+    print("users_adm")
     all_users = User.objects.all()
     for user in all_users:
         print('user:', user.username)
@@ -41,8 +41,6 @@ def users_adm(request):
     current_user_id = request.user.id
     user = User.objects.get(id=current_user_id)
     # Get all availables companies.
-    companies = Company.objects.all()
-
     if request.method == 'POST':
         # Update current DPE user.
         if request.POST.get('update_user'):
@@ -75,5 +73,6 @@ def users_adm(request):
 @login_required
 def log_out(request):
     """Logout a user view."""
+    print("log_out")
     logout(request)
     return redirect('login')

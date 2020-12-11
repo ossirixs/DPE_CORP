@@ -13,8 +13,8 @@ urlpatterns = [
         name='users_admn'
     ),
     path(
-        route='',
-        view=views.login_view, 
-        name='log_out'
+        route='logout',
+        view=views.log_out, 
+        name='logout'
     ),
 ]

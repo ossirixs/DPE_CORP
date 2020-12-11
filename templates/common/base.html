@@ -54,12 +54,11 @@
                                     <div class="widget-content-left">
                                         <div id="user-options-id" class="btn-group show">
                                             <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="p-0 btn">
-                                                
                                                 <i class="fas fa-user-circle rounded-circle" style="width: 45px; font-size: 35px;"></i>
                                                 <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                             </a>
                                             <div id="user-options-menu-id" tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-180px, 44px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                <a href="{%url 'users:log_out'%}" tabindex="0" class="dropdown-item">Salir</a>
+                                                <a href="{% url 'users:logout' %}" tabindex="0" class="dropdown-item">Salir</a>
                                             </div>
                                         </div>
                                     </div>
