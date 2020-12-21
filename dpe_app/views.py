@@ -11,10 +11,16 @@ import json
 @login_required
 def dashboard(request):
     """ Show DPE Dashboard."""
-    return render(request,'dpe/dashboard.html', {})
+    args = {
+        'user': request.user
+    }
+    return render(request,'dpe/dashboard.html', args)
 
 @login_required
 def position_list(request):
     """ List all available positions."""
-    return render(request,'dpe/positions.html', {})
+    args = {
+        'user': request.user
+    }
+    return render(request,'dpe/positions.html', args)
 

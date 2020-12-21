@@ -146,18 +146,21 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="app-sidebar__heading">Sistema</li>
-                                    <li>
-                                        <a href="{% url 'users:users_admn' %}" >
-                                        {% comment %} class="mm-active" {% endcomment %}
-                                            <i class="fas fa-user-cog metismenu-icon"></i>
-                                            Usuarios
-                                        </a>
-                                        <a href="{% url 'admin:index' %}">
-                                            <i class="fas fa-database metismenu-icon"></i> 
-                                            Panel de control
-                                        </a>
-                                    </li>
+                                    {% comment %} Only dpe admin are allowed to the next section {% endcomment %}
+                                    {% if user.type == 'ADMIN_DPE'%}
+                                        <li class="app-sidebar__heading">Sistema</li>
+                                        <li>
+                                            <a href="{% url 'users:users_admn' %}" >
+                                            {% comment %} class="mm-active" {% endcomment %}
+                                                <i class="fas fa-user-cog metismenu-icon"></i>
+                                                Usuarios
+                                            </a>
+                                            <a href="{% url 'admin:index' %}">
+                                                <i class="fas fa-database metismenu-icon"></i> 
+                                                Panel de control
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>

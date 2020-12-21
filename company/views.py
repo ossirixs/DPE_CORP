@@ -5,12 +5,13 @@ from django.views.decorators.cache import never_cache
 from django.db.models import Q
 
 #Models.
-from company.models import Company
+from company.models import Company, TestCode
 from users.models import User
 
 #Forms
 from company.forms import NewCompanyForm
 from users.forms import SignUpForm
+from users.models import User
 
 @login_required
 @never_cache
@@ -42,19 +43,30 @@ def company_list(request):
                                                                 'saved_company':'True',
                                                                 'new_company':new_company,
                                                                 'main_companies':main_companies,
+                                                                'user': request.user
                                                             })
     elif request.method == 'GET':
         # Get user.
         user = request.user
-        print(user.type)
-        # Get allcomapnies.
-        companies = Company.objects.all()
-        # Get only main companies.
-        main_companies = Company.objects.filter(company_type='MAIN')
+
+        if user.type == User.Types.CLIENT_MAIN:
+            # Get main companie and also companies that belongs to the client 
+            print("Client Main",user.company_main)
+            print("Client Main",user.company)
+            companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
+        elif user.type == User.Types.CLIENT_MAIN:
+            # If a sub client, get only it's own company
+            companies = Company.objects.filter(id=user.company)
+        elif user.type == User.Types.ADMIN_DPE:
+            # Get main companies.
+            companies = Company.objects.all()
+
+
         return render(request,'company/companies.html', {
                                                             'companies':companies,
                                                             'saved_company':'False',
-                                                            'main_companies':main_companies,
+                                                            'companies':companies,
+                                                            'user': request.user
                                                         })
 
 @login_required
@@ -69,11 +81,24 @@ def company_detail(request,company_id):
     else:
         company_users = User.objects.filter(Q(company=company_id))
     print("             company_users",company_users)
-    # If is a sub company, retrieve main company data
+    # If is a sub company, get also the main company data
     if selected_company.company_main > 0:
         company_main = Company.objects.get(id=selected_company.company_main)
     else:
         company_main = False
+
+
+    user = request.user
+
+    if user.type == User.Types.CLIENT_MAIN:
+        # Get main companie and also companies that belongs to the client 
+        companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
+    elif user.type == User.Types.CLIENT_MAIN:
+        # If a sub client, get only it's own company
+        companies = Company.objects.filter(id=user.company)
+    elif user.type == User.Types.ADMIN_DPE:
+        # Get main companies.
+        companies = Company.objects.all()
 
     if request.method == 'POST':
         if request.POST.get('update'):
@@ -89,11 +114,24 @@ def company_detail(request,company_id):
             if form.is_valid():
                 print('company main', form.cleaned_data['company_main'])
                 form.save()
+        elif request.POST.get('create_code'):
+            print('create code')
+            company = Company.objects.get(id=request.POST.get('company_id'))
 
+            test = request.POST.get('test')
+            code = test+"CODE"+"-"+company.company_name
+            expiration = request.POST.get('expiration')
+            
+            new_code = TestCode(user=request.user,company=company,test=test,code=code,expiration=expiration)
+            new_code.save()
+            print("creating")
+            
     return render(request,'company/company_detail.html', {
                                                             "company":selected_company,
                                                             "company_main":company_main,
                                                             "company_users":company_users,
+                                                            "companies": companies,
+                                                            'user': user
                                                             })
 
 @login_required
@@ -124,9 +162,11 @@ def modify_user(request, company_name):
             company_user.second_last_name = request.POST.get('second_last_name')
             company_user.email = request.POST.get('email')
             company_user.save()
+
             args = {
-                "user":company_user,
+                # "user":company_user,
                 "company_name":company_name,
+                'user': request.user
             }
 
             return render(request, "company/user_detail.html", args)

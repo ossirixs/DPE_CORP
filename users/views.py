@@ -39,7 +39,7 @@ def users_adm(request):
 
     #Get current user to populate form.
     current_user_id = request.user.id
-    user = User.objects.get(id=current_user_id)
+    user = request.user
     # Get all availables companies.
     if request.method == 'POST':
         # Update current DPE user.

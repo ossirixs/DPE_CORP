@@ -59,6 +59,47 @@
                 </div>
                 {% comment %} CODES {% endcomment %}
                 <div id="codes-id" class="card-section d-none">
+                    <h5 class="card-title">Crear nuevo codigo:</h5>
+                    <form method="POST"  class="">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <label for="test-id" class="">Prueba</label>
+                                <select name="test" id="test-id" class="form-control" required>
+                                    <option value="">--</option>
+                                        <option value=1>test1</option>                                                                                
+                                        <option value=2>test2</option>                                                                                
+                                        <option value=3>test3</option>                                                                                
+                                </select>   
+                            </div>
+                            <div class="col-md-4">
+                                <label for="company-id" class="">Compania</label>
+                                <select name="company" id="company-id" class="form-control" required>
+                                    <option value="">--</option>
+                                    {% for company in companies %}
+                                        <option value={{company.id}}>{{company.company_name}}</option>                                                                                
+                                    {% endfor %}
+                                </select>   
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="expiration-id" class="">Fecha de Expiracion</label><input name="expiration" id="expiration-id" type="date" class="form-control" value="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <button class="mt-2 btn btn-primary">Crear Nuevo Codigo</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="company_id" value={{company.id}}>
+                        <input type="hidden" name="create_code" value=1>
+                        
+                    </form>
+                    <br/>
                     <h5 class="card-title">Links asignados:</h5>
                     <table class="mb-0 table">
                         <thead>
