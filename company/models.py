@@ -1,11 +1,13 @@
 #Django.
 from django.db import models
-
+from django.urls import reverse
 #Models.
 from users.models import User
 
 class Company(models.Model):
-    """Companies Model."""
+    """
+    Companies Model.
+    """
 
     COMPANY_TYPE = [
         ('MAIN', 'Main'),
@@ -21,9 +23,9 @@ class Company(models.Model):
 
     company_main = models.IntegerField(blank=True,null=True)
 
-
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
+
 
 class TestCode(models.Model):
     """Test codes model."""
@@ -33,4 +35,5 @@ class TestCode(models.Model):
     test = models.CharField(max_length=25)
     code = models.CharField(max_length=30)
     creation = models.DateTimeField(auto_now_add=True)
+    activate = models.BooleanField(default=True)
     expiration = models.DateField()

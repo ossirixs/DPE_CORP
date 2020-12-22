@@ -51,8 +51,6 @@ def company_list(request):
 
         if user.type == User.Types.CLIENT_MAIN:
             # Get main companie and also companies that belongs to the client 
-            print("Client Main",user.company_main)
-            print("Client Main",user.company)
             companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
         elif user.type == User.Types.CLIENT_MAIN:
             # If a sub client, get only it's own company
@@ -73,32 +71,54 @@ def company_list(request):
 def company_detail(request,company_id):
     """ Company detail and actions."""
 
-    selected_company = Company.objects.get(id=company_id)
-    #If company main = 0, then this is a MAIN company
-    if selected_company.company_main == 0:
-        company_users = User.objects.filter(Q(company=company_id) | Q(company_main=company_id))
-    #Else, this is a sub company
-    else:
-        company_users = User.objects.filter(Q(company=company_id))
-    print("             company_users",company_users)
-    # If is a sub company, get also the main company data
-    if selected_company.company_main > 0:
-        company_main = Company.objects.get(id=selected_company.company_main)
-    else:
-        company_main = False
-
-
     user = request.user
+    
 
     if user.type == User.Types.CLIENT_MAIN:
-        # Get main companie and also companies that belongs to the client 
+        # Get selected company and all sub companies data.
         companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
-    elif user.type == User.Types.CLIENT_MAIN:
-        # If a sub client, get only it's own company
+        # Get company and codes data.
+        selected_company = Company.objects.get(id=company_id)
+        #If company main = 0, then this is a MAIN company
+        if selected_company.company_main == 0:
+            # Get all users from Main and sub companies.
+            company_users = User.objects.filter(Q(company=company_id) | Q(company_main=company_id))
+            # Set the company main id to false since this is a Main company
+            company_main = False
+            # Get all codes from this Main company and its sub companies.
+            company_codes = TestCode.objects.filter(company__in=companies)
+        #Else, this is a sub company
+        else:
+            # Get just users from this sub company.
+            company_users = User.objects.filter(Q(company=company_id))
+            # Get the main company data for this sub company.
+            company_main = Company.objects.get(id=selected_company.company_main)
+            # Get codes for just this company.
+            company_codes = TestCode.objects.filter(company=selected_company)
+
+    elif user.type == User.Types.CLIENT:
+        # If a sub client, get only it's own company.
         companies = Company.objects.filter(id=user.company)
+        # Get company and codes data.
+        selected_company = Company.objects.get(id=company_id)
+        # Get just users from this sub company.
+        company_users = User.objects.filter(Q(company=company_id))
+        # Get the main company data for this sub company.
+        company_main = Company.objects.get(id=selected_company.company_main)
+        # Get codes for just this company.
+        company_codes = TestCode.objects.filter(company=selected_company)
+
     elif user.type == User.Types.ADMIN_DPE:
-        # Get main companies.
-        companies = Company.objects.all()
+        # Get company and codes data.
+        selected_company = Company.objects.get(id=company_id)
+        # If selected company is a main company, get its data
+        companies = Company.objects.filter(Q(id=selected_company.id) | Q(company_main=selected_company.id))
+        # Get just users from this sub company.
+        company_users = User.objects.filter(Q(company=selected_company.id) | Q(company_main=selected_company.id))
+        # Set the company main id to false since this is an admin dpe user.
+        company_main = False
+        # Get all codes from this Main company and its sub companies.
+        company_codes = TestCode.objects.filter(company__in=companies)
 
     if request.method == 'POST':
         if request.POST.get('update'):
@@ -131,6 +151,7 @@ def company_detail(request,company_id):
                                                             "company_main":company_main,
                                                             "company_users":company_users,
                                                             "companies": companies,
+                                                            "company_codes":company_codes,
                                                             'user': user
                                                             })
 

@@ -100,35 +100,29 @@
                         
                     </form>
                     <br/>
-                    <h5 class="card-title">Links asignados:</h5>
+                    <h5 class="card-title">Codigos para esta compania:</h5>
                     <table class="mb-0 table">
                         <thead>
                         <tr>
                             <th>#</th>
                             <th>Prueba</th>
+                            <th>Codigo de acceso</th>
+                            <th>Creador</th>
                             <th>Expiracion</th>
-                            <th>Status</th>
+                            <th>Estatus</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>CIE</td>
-                            <td>12/12/2020</td>
-                            <td>activo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>prueba1</td>
-                            <td>10/08/2020</td>
-                            <td>inactivo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>prueba2</td>
-                            <td>04/06/2021</td>
-                            <td>inactivo</td>
-                        </tr>
+                        {% for code in company_codes %}
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>{{ code.test }}</td>
+                                <td>{{ code.code }}</td>
+                                <td>{{ code.user.username }}</td>
+                                <td>{{ code.expiration }}</td>
+                                <td>{{ code.activate }}</td>
+                            </tr>    
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -163,7 +157,6 @@
                         <button class="mt-2 btn btn-primary">Actualizar</button>
                     </form>
                 </div>
-
                 {% comment %} SEARCH USERS {% endcomment %}
                 <div id="search-users-form-id" class="card-section d-none">
                     <form method="POST" action="{% url 'company:user_detail' company.company_name %}"   class="">
@@ -182,7 +175,6 @@
                         </div>
                     </form>
                 </div>
-
                 {% comment %} CREATE USERS {% endcomment %}
                 <div id="create-form-id" class="card-section d-none">
                     <form method="POST"  class="">
