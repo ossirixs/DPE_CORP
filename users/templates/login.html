@@ -207,8 +207,8 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
 	  position: absolute;
 	  top: 0;
 	  left: 95%;
-background: rgb(9,62,84);
-background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
+		background: rgb(9,62,84);
+		background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
 	  width: 100%;
 	  min-height: 100%;
 	  padding: 50px calc(10% + 70px) 70px 70px;
@@ -307,11 +307,8 @@ background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
           <h1>Inicio de sesión</h1>
         </div>
         <div class="form-content">
-          <form method="post" action="{% url 'login' %}">
-						{% csrf_token %}
-						{% if error %}
-							<p class="alert alert-danger">{{ error }}</p>
-						{% endif %}
+					<form method="post" action="{% url 'login' %}">
+					{% csrf_token %}
             <div class="form-group">
               <label for="username">Nombre de Usuario</label>
               <input type="text" id="username" name="username" required="required"/>
@@ -321,14 +318,10 @@ background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
               <label for="password">Contraseña</label>
               <input type="password" id="password" name="password" required="required"/>
             </div>
-            <div class="space-m"></div>
+            <div class="space-l"></div>
             <div class="form-group">
-              <label class="form-remember">
-                <input type="checkbox"/>Recordarme
-              </label><a class="form-recovery" href="#">Olvidó su contraseña?</a>
-            </div>
-            <div class="form-group">
-              <button type="submit"><b>Iniciar sesión</b></button>
+              <button type="submit"><b>Ingresar</b></button>
+              <div class="space-m"></div>
             </div>
           </form>
         </div>
@@ -340,20 +333,25 @@ background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
         <div class="space-s"></div>
         <div class="form-content">
           <form method="post" action="{% url 'login' %}">
-					{% csrf_token %}
+						{% csrf_token %}
+						{% if error %}
+							<p class="alert alert-danger">{{ error }}</p>
+						{% endif %}
             <div class="form-group">
-              <label for="username">Nombre de Candidato</label>
+              <label for="username">Codigo</label>
               <input type="text" id="username" name="username" required="required"/>
             </div>
             <div class="space-m"></div>
             <div class="form-group">
-              <label for="password">Código</label>
+              <label for="password">Nombre completo</label>
               <input type="password" id="password" name="password" required="required"/>
             </div>
-            <div class="space-l"></div>
+            <div class="space-m"></div>
             <div class="form-group">
-              <button type="submit"><b>Ingresar</b></button>
-              <div class="space-m"></div>
+              <label class="form-remember">
+            </div>
+            <div class="form-group">
+              <button type="submit" onclick="click()"><b>Iniciar sesión</b></button>
             </div>
           </form>
         </div>
@@ -370,24 +368,25 @@ background: linear-gradient(90deg, rgba(9,62,84,1) 0%, rgba(18,118,161,1) 100%);
     let panelOne = document.querySelector('.form-panel.two').height;
     let panelTwo = document.querySelector('.form-panel.two').scrollHeight;
 
+		console.log(panelOne,'panelOne');
+		console.log(panelTwo,"panelTwo");
+
     document.querySelector('.form-panel.two').addEventListener('click', function(e) {
-        e.preventDefault();
         document.querySelector('.form-toggle').classList.add('visible');
         document.querySelector('.form-panel.one').classList.add('hidden');
         document.querySelector('.form-panel.two').classList.add('active');
-        document.querySelector('.form').animate({
-            'height': panelTwo
-        }, 200);
+
     });
 
     document.querySelectorAll('.form-toggle')[0].addEventListener('click', function(e) {
-        e.preventDefault();
         document.querySelector('.form-toggle').classList.remove('visible');
         document.querySelector('.form-panel.one').classList.remove('hidden');
         document.querySelector('.form-panel.two').classList.remove('active');
-        document.querySelector('.form').animate({
-            'height': panelOne
-        }, 200);
+				console.log(panelOne,'panelOne');
+
     });
 });
+function click (){
+	console.log("fdfdfd")
+}
 </script>

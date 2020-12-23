@@ -12,7 +12,8 @@ from tests import views as tests_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
-    path('users/', include(('users.urls','users'), namespace='users')),
+    path('users/',include(('users.urls','users'), namespace='users')),
+    path('company/',include(('company.urls','company'), namespace='company')),
     path('tests/', include('tests.urls')),
     path(
         route='dsh', 
@@ -25,7 +26,7 @@ urlpatterns = [
         name='companies'
     ),
     path(
-        route='cmp/dtl/<company_name>/', 
+        route='cmp/dtl/<company_id>/', 
         view=company_views.company_detail, 
         name='company_detail'
     ),

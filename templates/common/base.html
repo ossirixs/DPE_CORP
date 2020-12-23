@@ -6,6 +6,11 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+    <script src="sweetalert2.all.min.js"></script>
+    <!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
 
 
 </head>
@@ -47,28 +52,24 @@
                             <div class="widget-content p-0">
                                 <div class="widget-content-wrapper">
                                     <div class="widget-content-left">
-                                        <div class="btn-group">
-                                            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                                
+                                        <div id="user-options-id" class="btn-group show">
+                                            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="p-0 btn">
                                                 <i class="fas fa-user-circle rounded-circle" style="width: 45px; font-size: 35px;"></i>
                                                 <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                             </a>
-                                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-180px, 44px, 0px); top: 0px; left: 0px; will-change: transform;">
-                                                <button type="button" tabindex="0" class="dropdown-item">User Account</button>
-                                                <button type="button" tabindex="0" class="dropdown-item">Settings</button>
-                                                <h6 tabindex="-1" class="dropdown-header">Header</h6>
-                                                <button type="button" tabindex="0" class="dropdown-item">Actions</button>
-                                                <div tabindex="-1" class="dropdown-divider"></div>
-                                                <button type="button" tabindex="0" class="dropdown-item">Dividers</button>
+                                            <div id="user-options-menu-id" tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; transform: translate3d(-180px, 44px, 0px); top: 0px; left: 0px; will-change: transform;">
+                                                <a href="{% url 'users:logout' %}" tabindex="0" class="dropdown-item">Salir</a>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="widget-content-left  ml-3 header-user-info">
                                         <div class="widget-heading">
-                                            {{first_name}}
+                                            {{user.first_name}}
                                         </div>
                                         <div class="widget-subheading">
-                                            Administrador DPE
+                                            {%if user.type == "ADMIN_DPE"%} Administrador DPE {% endif %}
+                                            {%if user.type == "CLIENT_MAIN"%} Cliente Matriz {% endif %}
+                                            {%if user.type == "CLIENT"%} Cliente Sub {% endif %}
                                         </div>
                                     </div>
                                     <div class="widget-content-right header-user-info ml-3">
@@ -145,17 +146,21 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="app-sidebar__heading">Sistema</li>
-                                    <li>
-                                        <a href="{% url 'users:users_admn' %}" class="mm-active">
-                                            <i class="fas fa-user-cog metismenu-icon"></i>
-                                            Usuarios
-                                        </a>
-                                        <a href="#">
-                                            <i class="fas fa-database metismenu-icon"></i> 
-                                            Panel de control
-                                        </a>
-                                    </li>
+                                    {% comment %} Only dpe admin are allowed to the next section {% endcomment %}
+                                    {% if user.type == 'ADMIN_DPE'%}
+                                        <li class="app-sidebar__heading">Sistema</li>
+                                        <li>
+                                            <a href="{% url 'users:users_admn' %}" >
+                                            {% comment %} class="mm-active" {% endcomment %}
+                                                <i class="fas fa-user-cog metismenu-icon"></i>
+                                                Usuarios
+                                            </a>
+                                            <a href="{% url 'admin:index' %}">
+                                                <i class="fas fa-database metismenu-icon"></i> 
+                                                Panel de control
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </div>
                         </div>
@@ -190,7 +195,7 @@
                                     <div class="app-footer-right">
                                         <ul class="nav">    
                                             <li class="nav-item">
-                                                <a href="javascript:void(0);" class="nav-link">
+                                                <a href="javascript:void(0);" class="nav-link" onclick="showContactInfo()">
                                                     Comunicate con nosotros
                                                 </a>
                                             </li>
@@ -206,5 +211,40 @@
         </div>
     </body>
 
-    <script></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", e => {
+            setListeners();
+        })
+        // Listeners for the top menu actions
+        function setListeners(){
+            option_menu_div = document.getElementById('user-options-id');
+            option_menu_div.addEventListener('click', e => {
+                console.log('clicked menu')
+                option_menu = document.getElementById('user-options-menu-id');
+                option_menu.classList.toggle('show');
+            })
+        }
+
+        function showContactInfo(){
+            Swal.fire({
+                title: '<H3>Comunicate con nosotros</H3>',
+                icon: 'info',
+                html:
+                    ' <b>Telefono:&nbsp;</b> 5556041301 <br><br>' +
+                    ' <b>Whatsapp:&nbsp;</b> 5569658667 <br><br>' +
+                    ' <b>Email:&nbsp;</b> mariantonietadpe@dpeassess.com <br><br>' +
+                    ' O visita nuestra pagina web <br><br>' +
+                    '<a href="https://www.dpecorp.com.mx/">DPE Corp</a> <br>',
+            })
+        }
+        // To show a sweet alert anywhere, just call it
+        function showSwal(icon,title,text,footer) {
+            Swal.fire({
+                    icon: icon,
+                    title: title,
+                    text: text,
+                    footer: footer
+                })
+        }
+    </script>
 </html>

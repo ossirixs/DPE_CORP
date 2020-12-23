@@ -12,4 +12,9 @@ urlpatterns = [
         view=views.users_adm,
         name='users_admn'
     ),
+    path(
+        route='logout',
+        view=views.log_out, 
+        name='logout'
+    ),
 ]

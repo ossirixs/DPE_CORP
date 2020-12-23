@@ -10,28 +10,28 @@ from company.models import Company
 
 def login_view(request):
     """Login view."""
-    print(request.method)
+    print("login_view")
     if request.method == 'POST':
-        print('+' * 10)
         username = request.POST['username']
         password = request.POST['password']
-        print(username,':',password)
-        print('+' * 10)
+        # Authenticate usert.
         user = authenticate(request, username=username, password=password)
         if user:
             login(request, user)
             return redirect('dashboard')
         else:
             return render(request,'login.html', {'error':'Invalid username and password'})
-        #import pdb; pdb.set_trace()
     else:
-        print('else')
+        # If user is already logged, redirect to dashboard.
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        #if not take to the log in page.
         return render(request, 'login.html')
 
 
 @login_required
 def users_adm(request):
-
+    print("users_adm")
     all_users = User.objects.all()
     for user in all_users:
         print('user:', user.username)
@@ -39,15 +39,12 @@ def users_adm(request):
 
     #Get current user to populate form.
     current_user_id = request.user.id
-    user = User.objects.get(id=current_user_id)
+    user = request.user
     # Get all availables companies.
-    companies = Company.objects.all()
-
     if request.method == 'POST':
-        print('a posst')
+        # Update current DPE user.
         if request.POST.get('update_user'):
             print('update')
-            print(request.POST.get('company'))
             user.name = request.POST.get('first_name')
             user.first_name = request.POST.get('first_name')
             user.email = request.POST.get('email')
@@ -56,28 +53,26 @@ def users_adm(request):
             user.type = request.POST.get('user_type')
             user.company = 1
             user.save()
+        # Create DPE user.
         elif request.POST.get('create_user'):
-            print('create')
             form = SignUpForm(request.POST)
             print('form.errors()',form.errors)
             if form.is_valid():
-                form.save()
-                # username = form.cleaned_data.get('username')
-                # password = form.cleaned_data.get('password1')
-                # user = authenticate(username=username, password=password)
-                # login(request, user)
-            
-
-
+                saved_user = form.save()
+            else:
+                saved_user = ''
+            return render(request, 'users/users.html', {
+                                                        'user':user,
+                                                        'saved_user':saved_user,
+                                                        })
     return render(request, 'users/users.html', {
-                                                'username':user.username,
-                                                'name':user.name,
-                                                'first_name':user.first_name,
-                                                'last_name':user.last_name,
-                                                'second_last_name':user.second_last_name,
-                                                'email':user.email,
-                                                'user_type':user.type,
-                                                'user_types':user.Types,
-                                                'user_company':user.company,
-                                                'companies':companies,
-                                                })
+                                                    'user':user,
+                                                    'saved_user':'',
+                                                    })
+
+@login_required
+def log_out(request):
+    """Logout a user view."""
+    print("log_out")
+    logout(request)
+    return redirect('login')
