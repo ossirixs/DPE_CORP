@@ -67,3 +67,29 @@ class CIE_form(forms.Form):
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
 
 
+
+class ObjectCIE(models.Model):
+
+    q_1 = models.BooleanField()
+    q_2 = models.BooleanField()
+    q_3 = models.BooleanField()
+    q_4 = models.BooleanField()
+    q_5 = models.BooleanField()
+    q_6 = models.BooleanField()
+    q_7 = models.BooleanField()
+    q_8 = models.BooleanField()
+    q_9 = models.BooleanField()
+    q_10 = models.BooleanField()
+    q_11 = models.BooleanField()
+    q_12 = models.BooleanField()
+    q_13 = models.BooleanField()
+    q_14 = models.BooleanField()
+    q_15 = models.BooleanField()
+    q_16 = models.BooleanField()
+    q_17 = models.BooleanField()
+    q_18 = models.BooleanField()
+    q_19 = models.BooleanField()
+    q_20 = models.BooleanField()
+
+
+

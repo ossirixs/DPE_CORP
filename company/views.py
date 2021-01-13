@@ -18,7 +18,7 @@ from users.models import User
 def company_list(request):
     """ List all available companies."""
     print("company_list")
-    
+    companies = ''
     if request.method == 'POST':
         action = request.POST.get('action','')
         #Company selected.
