@@ -3,13 +3,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.db.models import Q
+from datetime import datetime
 
 #Models.
-from company.models import Company, TestCode
+from company.models import Company, TestCode, CompanyTest
 from users.models import User
 
 #Forms
-from company.forms import NewCompanyForm
+from company.forms import NewCompanyForm, TestCodeForm
 from users.forms import SignUpForm
 from users.models import User
 
@@ -73,7 +74,7 @@ def company_detail(request,company_id):
 
     user = request.user
     
-
+    # Get each companies details according to the user type
     if user.type == User.Types.CLIENT_MAIN:
         # Get selected company and all sub companies data.
         companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
@@ -120,40 +121,69 @@ def company_detail(request,company_id):
         # Get all codes from this Main company and its sub companies.
         company_codes = TestCode.objects.filter(company__in=companies)
 
+    # GET ASSIGNED TESTS FOR THIS COMPANY
+
+    assigned_tests = CompanyTest.objects.filter(company=selected_company)
+
     if request.method == 'POST':
+        # UPDATE COMPANY REQUEST
         if request.POST.get('update'):
             print('update', selected_company)
             selected_company.company_name = request.POST.get('company_name')
             selected_company.company_contact = request.POST.get('company_contact')
             selected_company.company_email = request.POST.get('company_email')
             selected_company.save()
+        # CREATE COMPANY USER REQUEST
         elif request.POST.get('create_user'):
             print('create_user')
             form = SignUpForm(request.POST)
             print('form.errors()',form.errors)
             if form.is_valid():
-                print('company main', form.cleaned_data['company_main'])
                 form.save()
+        # CREATE NEW CODE REQUEST
         elif request.POST.get('create_code'):
             print('create code')
-            company = Company.objects.get(id=request.POST.get('company_id'))
+            # Concat strings to create the code
+            company_id = request.POST.get('company_id')
+            expiration = request.POST.get('expiration')
+            date = datetime.fromordinal(733828)
+            number_date = date.strftime('%Y%m%d')
+            company = Company.objects.get(id=company_id)
+
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
 
             test = request.POST.get('test')
-            code = test+"CODE"+"-"+company.company_name
-            expiration = request.POST.get('expiration')
-            
-            new_code = TestCode(user=request.user,company=company,test=test,code=code,expiration=expiration)
+            code = test+"-"+number_date+"-"+current_time+"-"+company.company_name[0:4]+"-"+expiration.replace("-","")
+            testcode_form = TestCodeForm({'user':user,'company':company,'test':test,'code':code,'activate':True,'expiration':expiration})
+            print("testcode_form",testcode_form.is_valid())
+            print("testcode_form errorrs",testcode_form.errors)
+            new_code = TestCode(user=user,company=company,test=test,code=code,expiration=expiration)
             new_code.save()
             print("creating")
+
             
-    return render(request,'company/company_detail.html', {
+
+            return render(request,'company/company_detail.html', {
                                                             "company":selected_company,
                                                             "company_main":company_main,
                                                             "company_users":company_users,
                                                             "companies": companies,
                                                             "company_codes":company_codes,
-                                                            'user': user
+                                                            'user': user,
+                                                            'assigned_tests':assigned_tests,
                                                             })
+    elif request.method == 'GET':
+
+        return render(request,'company/company_detail.html', {
+                                                                "company":selected_company,
+                                                                "company_main":company_main,
+                                                                "company_users":company_users,
+                                                                "companies": companies,
+                                                                "company_codes":company_codes,
+                                                                'user': user,
+                                                                'assigned_tests':assigned_tests,
+                                                                })
 
 @login_required
 def modify_user(request, company_name):

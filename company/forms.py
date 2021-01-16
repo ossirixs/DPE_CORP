@@ -2,6 +2,7 @@
 from django import forms
 #Models.
 from company.models import Company
+from company.models import TestCode
 
 class NewCompanyForm(forms.ModelForm):
 
@@ -17,3 +18,11 @@ class NewCompanyForm(forms.ModelForm):
     #         return company_main
     #     else:
     #         raise forms.ValidationError('Company main not an integer')
+
+
+class TestCodeForm(forms.ModelForm):
+
+    class Meta:
+        model = TestCode
+        fields = ['user' ,'company' ,'test' ,'code' ,'activate' ,'expiration' ]
+

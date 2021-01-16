@@ -93,3 +93,14 @@ class ObjectCIE(models.Model):
 
 
 
+class TestCatalog(models.Model):
+    """ Catalog for Tests. """
+
+    TEST_TYPE = [
+        ('CIE', 'CIE'),
+        ('DPECON' , 'DPECon'),
+    ]
+
+    test_name = models.CharField( max_length=128, choices=TEST_TYPE, null=False, blank=False)
+    active = models.BooleanField( null=False, blank=False, default=True)
+

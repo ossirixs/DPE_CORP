@@ -42,21 +42,51 @@
             </div>
             <div class="card-body">
                 {% comment %} TESTS {% endcomment %}
-                <div id="tests-form-id" class="card-section">
-                    <h5 class="card-title">Pruebas Asignadas:</h5>
-                    <form method="POST"  class="">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                <div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input" checked> CIE</label></div> 
-                                <div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> MAX</label></div> 
-                                <div class="position-relative form-check"><label class="form-check-label"><input type="checkbox" class="form-check-input"> Prueba test 1</label></div> 
-                            </div>
+                    {%if user.type == "ADMIN_DPE"%} 
+                        <div id="tests-form-id" class="card-section">
+                            <h5 class="card-title">Pruebas Asignadas:</h5>
+                            <table class="mb-0 table">
+                                <thead>
+                                <tr>
+                                    <th>Typo de prueba</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for assigned_test in assigned_tests %}
+                                    <tr>
+                                        <td>
+                                            {{assigned_test.test.test_name}}
+                                        </td>
+
+                                    </tr>    
+                                {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
-                        <br>
-                        <button class="mt-2 btn btn-primary">Asignar</button>
-                    </form>
-                </div>
+                        
+                    {% else %}
+                        <div id="tests-form-id" class="card-section">
+                            <h5 class="card-title">Pruebas Asignadas:</h5>
+                            <table class="mb-0 table">
+                                <thead>
+                                <tr>
+                                    <th>Typo de prueba</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for assigned_test in assigned_tests %}
+                                    <tr>
+                                        <td>
+                                            {{assigned_test.test.test_name}}
+                                        </td>
+
+                                    </tr>    
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            
+                        </div>
+                    {% endif %}
                 {% comment %} CODES {% endcomment %}
                 <div id="codes-id" class="card-section d-none">
                     <h5 class="card-title">Crear nuevo codigo:</h5>
@@ -83,7 +113,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="expiration-id" class="">Fecha de Expiracion</label><input name="expiration" id="expiration-id" type="date" class="form-control" value="">
+                                    <label for="expiration-id" class="">Fecha de Expiracion</label>
+                                    <input name="expiration" id="expiration-id" type="date" class="form-control" value="" required>
                                 </div>
                             </div>
                         </div>
@@ -265,6 +296,11 @@
                 btn.classList.remove('active');
             }
         });
+    }
+
+    let saved_code = '{{saved_code}}'
+    if ( saved_code ){
+        showSwal('success', 'Nuevo Código Generado', '{{ saved_code.code }}', '');
     }
 
 </script>

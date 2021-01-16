@@ -1,3 +1,7 @@
+# Django
 from django.contrib import admin
 
-# Register your models here.
+# Models
+from .models import TestCatalog
+
+admin.site.register(TestCatalog)
