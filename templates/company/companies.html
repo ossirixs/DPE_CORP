@@ -32,28 +32,57 @@
                 <div class="btn-actions-pane-left">
                     <div class="nav">
                         <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate" onclick="toogleForm(this)">Buscar</a>
-                        <a id="create" href="javascript:void(0);" class="ml-1 btn-pill btn-wide border-0 btn-transition  btn btn-outline-alternate second-tab-toggle-alt" onclick="toogleForm(this)">Crear</a>
+                        {% if user.type == "ADMIN_DPE" %}
+                            <a id="create" href="javascript:void(0);" class="ml-1 btn-pill btn-wide border-0 btn-transition  btn btn-outline-alternate second-tab-toggle-alt" onclick="toogleForm(this)">Crear</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             <div class="card-body">
                 {% comment %} SELECT A COMPANY {% endcomment %}
                 <div id="search-form-id" class="form-container">
-                    <form method="POST"  class="">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                <select name="company" id="company-id" class="form-control" required>
-                                    <option value="">--</option>
-                                    {% for company in companies %}
-                                        <option value={{company.id}}>{{company.company_name}}</option>                                                                                
-                                    {% endfor %}
-                                </select>   
-                            </div>
-                            <input type="hidden" name="action" value="select">
-                            <button type="submit" class="btn btn-primary">Seleccionar</button>
-                        </div>
-                    </form>
+                    <table class="mb-0 table">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Tipo</th>
+                            <th>Pertence a</th>
+                            <th>Ultima Modificacion</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for company in companies %}
+                            <tr>
+                                <td>{{ company.company_name }}</td>
+                                <td>
+                                    {% if company.company_type == 'MAIN' %}
+                                        Matriz
+                                    {% else %}
+                                        Sucursal
+                                    {% endif %}    
+                                </td>
+                                <td>
+                                    {% if company.company_main %}
+                                        {{ company.company_main.company_name }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td>{{ company.modified }}</td>
+                                <td>
+                                    <form method="POST"  class="">
+                                        {% csrf_token %} 
+                                            <button type="submit" class="btn btn-primary btn-sm">  Ir  </button>
+                                            <input type="hidden" name="action" value="select">
+                                            <input type="hidden" name="company" value={{company.id}}>
+                                        </div>
+                                    </form>
+                                </td>
+                            </tr>    
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
                 {% comment %} CREATE A COMPANY {% endcomment %}
                 <div id="create-company-id" class="form-container d-none">
@@ -70,7 +99,7 @@
                             <div class="col-md-4">
                                 <select name="company_main" id="main-company-id" class="form-control d-none">
                                     <option value=0>--</option>
-                                    {% for company in companies %}
+                                    {% for company in main_companies %}
                                         <option value={{company.id}}>{{company.company_name}}</option>                                                                                
                                     {% endfor %}
                                 </select>   

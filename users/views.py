@@ -38,7 +38,6 @@ def users_adm(request):
     print(request.user.id)
 
     #Get current user to populate form.
-    current_user_id = request.user.id
     user = request.user
     # Get all availables companies.
     if request.method == 'POST':
@@ -59,11 +58,14 @@ def users_adm(request):
             print('form.errors()',form.errors)
             if form.is_valid():
                 saved_user = form.save()
+                print('valid')
             else:
+                print('invalid')
                 saved_user = ''
             return render(request, 'users/users.html', {
                                                         'user':user,
                                                         'saved_user':saved_user,
+                                                        'form_errors': form.errors,
                                                         })
     return render(request, 'users/users.html', {
                                                     'user':user,

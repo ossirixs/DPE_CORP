@@ -34,21 +34,44 @@
                     <div class="nav">
                         <a id="tests" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate" onclick="toogleForm(this)">Pruebas</a>
                         <a id="codes" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Codigos de Pruebas</a>
-                        <a id="company" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Empresa</a>
-                        <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Usarios</a>
-                        <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Crear Usuarios</a>
+                        {% if user.type == "ADMIN_DPE" %}
+                            <a id="company" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Empresa</a>
+                            <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Usarios</a>
+                            <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Crear Usuarios</a>
+                        {% elif  user.type == "CLIENT_MAIN" %}
+                            <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Usarios</a>
+                            <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Crear Usuarios</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
             <div class="card-body">
-                {% comment %} TESTS {% endcomment %}
-                    {%if user.type == "ADMIN_DPE"%} 
+                {% comment %} ASSIGNED TESTS {% endcomment %}
+                    {% if user.type == "ADMIN_DPE" %} 
                         <div id="tests-form-id" class="card-section">
+                            <h5 class="card-title">Asignar Prueba:</h5>
+                            <form method="POST"  class="">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <select name="test" id="test-id" class="form-control" required>
+                                            <option value="">--</option>
+                                            {% for test in available_tests %}
+                                                <option value={{test.id}}>{{test.test_name}}</option>
+                                            {% endfor %}
+                                        </select>   
+                                    </div>
+                                    <input type="hidden" name="assign_test" value="1">
+                                    <button type="submit" class="btn btn-primary">  Asignar  </button>
+                                </div>
+                            </form>
+                            <br />
                             <h5 class="card-title">Pruebas Asignadas:</h5>
                             <table class="mb-0 table">
                                 <thead>
                                 <tr>
-                                    <th>Typo de prueba</th>
+                                    <th>Tipo de prueba</th>
+                                    <th>Acciones</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -57,20 +80,28 @@
                                         <td>
                                             {{assigned_test.test.test_name}}
                                         </td>
-
+                                        <td>
+                                            <form method="POST"  class="">
+                                                {% csrf_token %} 
+                                                    <input type="hidden" name="delete_test" value="1">
+                                                    <input type="hidden" name="companytest_id" value={{assigned_test.id}}>
+                                                    <input type="hidden" name="test_id" value={{assigned_test.test.id}}>
+                                                    <button type="submit" class="btn btn-danger">  Borrar  </button>
+                                                </div>
+                                            </form>
+                                        </td>
                                     </tr>    
                                 {% endfor %}
                                 </tbody>
                             </table>
                         </div>
-                        
-                    {% else %}
+                    {% elif user.type == "CLIENT_MAIN" %}
                         <div id="tests-form-id" class="card-section">
                             <h5 class="card-title">Pruebas Asignadas:</h5>
                             <table class="mb-0 table">
                                 <thead>
                                 <tr>
-                                    <th>Typo de prueba</th>
+                                    <th>Tipo de prueba</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -79,85 +110,266 @@
                                         <td>
                                             {{assigned_test.test.test_name}}
                                         </td>
-
                                     </tr>    
                                 {% endfor %}
                                 </tbody>
                             </table>
-                            
+                        </div>
+                    {% elif user.type == "CLIENT" %}
+                        <div id="tests-form-id" class="card-section">
+                            <h5 class="card-title">Pruebas Asignadas:</h5>
+                            <table class="mb-0 table">
+                                <thead>
+                                <tr>
+                                    <th>Tipo de prueba</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for assigned_test in assigned_tests %}
+                                    <tr>
+                                        <td>
+                                            {{assigned_test.test.test_name}}
+                                        </td>
+                                    </tr>    
+                                {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     {% endif %}
                 {% comment %} CODES {% endcomment %}
-                <div id="codes-id" class="card-section d-none">
-                    <h5 class="card-title">Crear nuevo codigo:</h5>
-                    <form method="POST"  class="">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                <label for="test-id" class="">Prueba</label>
-                                <select name="test" id="test-id" class="form-control" required>
-                                    <option value="">--</option>
-                                        <option value=1>test1</option>                                                                                
-                                        <option value=2>test2</option>                                                                                
-                                        <option value=3>test3</option>                                                                                
-                                </select>   
-                            </div>
-                            <div class="col-md-4">
-                                <label for="company-id" class="">Compania</label>
-                                <select name="company" id="company-id" class="form-control" required>
-                                    <option value="">--</option>
-                                    {% for company in companies %}
-                                        <option value={{company.id}}>{{company.company_name}}</option>                                                                                
-                                    {% endfor %}
-                                </select>   
-                            </div>
-                            <div class="col-md-3">
-                                <div class="position-relative form-group">
-                                    <label for="expiration-id" class="">Fecha de Expiracion</label>
-                                    <input name="expiration" id="expiration-id" type="date" class="form-control" value="" required>
+                    {% if user.type == "ADMIN_DPE" %} 
+                        <div id="codes-id" class="card-section d-none">
+                            <h5 class="card-title">Crear nuevo codigo:</h5>
+                            <form method="POST"  class="">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <label for="test-id" class="">Prueba</label>
+                                        <select name="test_id" id="test-id" class="form-control" required>
+                                            <option value="">--</option>
+                                                {% for test in assigned_tests %}
+                                                    <option value={{test.test.id}}>{{test.test.test_name}}</option>                                                                                
+                                                {% endfor %}                                                                             
+                                        </select>   
+                                    </div>
+                                    {% comment %} <div class="col-md-4">
+                                        <label for="company-id" class="">Compania</label>
+                                        <select name="company" id="company-id" class="form-control" required>
+                                            <option value="">--</option>
+                                            {% for company in companies %}
+                                                <option value={{company.id}}>{{company.company_name}}</option>                                                                                
+                                            {% endfor %}
+                                        </select>   
+                                    </div> {% endcomment %}
+                                    <div class="col-md-3">
+                                        <div class="position-relative form-group">
+                                            <label for="expiration-id" class="">Fecha de Expiracion</label>
+                                            <input name="expiration" id="expiration-id" type="date" class="form-control" value="" required>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-3">
-                                <div class="position-relative form-group">
-                                    <button class="mt-2 btn btn-primary">Crear Nuevo Codigo</button>
+                                <div class="form-row">
+                                    <div class="col-md-3">
+                                        <div class="position-relative form-group">
+                                            <button class="mt-2 btn btn-primary">Crear Nuevo Codigo</button>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
-                        <input type="hidden" name="company_id" value={{company.id}}>
-                        <input type="hidden" name="create_code" value=1>
-                        
-                    </form>
-                    <br/>
-                    <h5 class="card-title">Codigos para esta compania:</h5>
-                    <table class="mb-0 table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Prueba</th>
-                            <th>Codigo de acceso</th>
-                            <th>Creador</th>
-                            <th>Expiracion</th>
-                            <th>Estatus</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for code in company_codes %}
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>{{ code.test }}</td>
-                                <td>{{ code.code }}</td>
-                                <td>{{ code.user.username }}</td>
-                                <td>{{ code.expiration }}</td>
-                                <td>{{ code.activate }}</td>
-                            </tr>    
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% comment %} MODIFY {% endcomment %}
+                                <input type="hidden" name="company_id" value={{company.id}}>
+                                <input type="hidden" name="create_code" value=1>
+                                
+                            </form>
+                            <br/>
+                            <h5 class="card-title">Codigos para esta compania:</h5>
+                            <table class="mb-0 table">
+                                <thead>
+                                <tr>
+                                    <th>Prueba</th>
+                                    <th>Codigo de acceso</th>
+                                    <th>Creador</th>
+                                    <th>Expiracion</th>
+                                    <th>Estatus</th>
+                                    <th>Activacion</th>
+                                    <th>Borrar</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for code in company_codes %}
+                                    <tr>
+                                        <td>{{ code.test.test_name }}</td>
+                                        <td>{{ code.code }}</td>
+                                        <td>{{ code.user.username }}</td>
+                                        <td>{{ code.expiration }}</td>
+                                        <td>
+                                            {% if code.activate == True%}
+                                                <div class="badge badge-success">Activa</div>
+                                            {% else %}
+                                                <div class="badge badge-danger">Inactiva</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <form method="POST"  class="">
+                                                {% csrf_token %} 
+                                                    {% if code.activate == True %}
+                                                        <button type="submit" class="btn btn-danger">  Desactivar  </button>
+                                                        <input type="hidden" name="deactivate_code" value="1">
+                                                    {% else %}
+                                                        <button type="submit" class="btn btn-success">  Activar  </button>
+                                                        <input type="hidden" name="activate_code" value="1">
+                                                    {% endif %}
+                                                </div>
+                                                <input type="hidden" name="modify_code" value="1">
+                                                <input type="hidden" name="code_id" value={{code.id}}>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="POST"  class="">
+                                                {% csrf_token %} 
+                                                    <button type="submit" class="btn btn-danger">  Borrar  </button>
+                                                    <input type="hidden" name="delete_code" value="1">
+                                                    <input type="hidden" name="code_id" value={{code.id}}>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>    
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>    
+                    {% elif user.type == "CLIENT_MAIN" %}
+                        <div id="codes-id" class="card-section d-none">                    
+                            <h5 class="card-title">Crear nuevo codigo:</h5>
+                            <form method="POST"  class="">
+                                {% csrf_token %}
+                                <div class="form-row">
+                                    <div class="col-md-4">
+                                        <label for="test-id" class="">Prueba</label>
+                                        <select name="test_id" id="test-id" class="form-control" required>
+                                            <option value="">--</option>
+                                                {% for test in assigned_tests %}
+                                                    <option value={{test.test.id}}>{{test.test.test_name}}</option>                                                                                
+                                                {% endfor %}                                                                             
+                                        </select>   
+                                    </div>
+                                    {% comment %} <div class="col-md-4">
+                                        <label for="company-id" class="">Compania</label>
+                                        <select name="company" id="company-id" class="form-control" required>
+                                            <option value="">--</option>
+                                            {% for company in companies %}
+                                                <option value={{company.id}}>{{company.company_name}}</option>                                                                                
+                                            {% endfor %}
+                                        </select>   
+                                    </div> {% endcomment %}
+                                    <div class="col-md-3">
+                                        <div class="position-relative form-group">
+                                            <label for="expiration-id" class="">Fecha de Expiracion</label>
+                                            <input name="expiration" id="expiration-id" type="date" class="form-control" value="" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-3">
+                                        <div class="position-relative form-group">
+                                            <button class="mt-2 btn btn-primary">Crear Nuevo Codigo</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" name="company_id" value={{company.id}}>
+                                <input type="hidden" name="create_code" value=1>
+                                
+                            </form>
+                            <h5 class="card-title">Codigos para esta compania:</h5>
+                            <table class="mb-0 table">
+                                <thead>
+                                <tr>
+                                    <th>Prueba</th>
+                                    <th>Codigo de acceso</th>
+                                    <th>Creador</th>
+                                    <th>Expiracion</th>
+                                    <th>Estatus</th>
+                                    <th>Activacion</th>
+                                    <th>Borrar</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for code in company_codes %}
+                                    <tr>
+                                        <td>{{ code.test.test_name }}</td>
+                                        <td>{{ code.code }}</td>
+                                        <td>{{ code.user.username }}</td>
+                                        <td>{{ code.expiration }}</td>
+                                        <td>
+                                            {% if code.activate == True%}
+                                                <div class="badge badge-success">Activa</div>
+                                            {% else %}
+                                                <div class="badge badge-danger">Inactiva</div>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <form method="POST"  class="">
+                                                {% csrf_token %} 
+                                                    {% if code.activate == True %}
+                                                        <button type="submit" class="btn btn-danger">  Desactivar  </button>
+                                                        <input type="hidden" name="deactivate_code" value="1">
+                                                    {% else %}
+                                                        <button type="submit" class="btn btn-success">  Activar  </button>
+                                                        <input type="hidden" name="activate_code" value="1">
+                                                    {% endif %}
+                                                </div>
+                                                <input type="hidden" name="modify_code" value="1">
+                                                <input type="hidden" name="code_id" value={{code.id}}>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method="POST"  class="">
+                                                {% csrf_token %} 
+                                                    <button type="submit" class="btn btn-danger">  Borrar  </button>
+                                                    <input type="hidden" name="delete_code" value="1">
+                                                    <input type="hidden" name="code_id" value={{code.id}}>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>    
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% elif user.type == "CLIENT" %}
+                        <div id="codes-id" class="card-section d-none">
+                            <h5 class="card-title">Codigos para esta compania:</h5>
+                            <table class="mb-0 table">
+                                <thead>
+                                <tr>
+                                    <th>Prueba</th>
+                                    <th>Codigo de acceso</th>
+                                    <th>Creador</th>
+                                    <th>Expiracion</th>
+                                    <th>Estatus</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for code in company_codes %}
+                                    <tr>
+                                        <td>{{ code.test.test_name }}</td>
+                                        <td>{{ code.code }}</td>
+                                        <td>{{ code.user.username }}</td>
+                                        <td>{{ code.expiration }}</td>
+                                        <td>
+                                            {% if code.activate == True%}
+                                                <div class="badge badge-success">Activa</div>
+                                            {% else %}
+                                                <div class="badge badge-danger">Inactiva</div>
+                                            {% endif %}
+                                        </td>
+                                    </tr>    
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                {% comment %} MODIFY COMPANY {% endcomment %}
                 <div id="company-data-id" class="card-section d-none">
                     <h5 class="card-title">Datos generales:</h5>
                     <form method="POST"  >
@@ -252,8 +464,8 @@
                             </div>
                         </div>
                         <input type="hidden" name="company" value={{company.id}}>
-                        <input type="hidden" name="type" value="{% if company.company_main == 0 %}CLIENT_MAIN{% else %}CLIENT{% endif %}">
-                        <input type="hidden" name="company_main" value={% if company.company_main == 0 %}0{% else %}{{company.company_main}}{% endif %}>
+                        <input type="hidden" name="type" value="{% if company.company_main %}CLIENT_MAIN{% else %}CLIENT{% endif %}">
+                        <input type="hidden" name="company_main" value="{% if company.company_main %}0{% else %}{{company.company_main.id}}{% endif %}">
                         <input type="hidden" name="create_user" value=1>
                         <button class="mt-2 btn btn-primary">Crear Usuario</button>
                     </form>
@@ -297,11 +509,12 @@
             }
         });
     }
-
+    // Alerts for actions
     let saved_code = '{{saved_code}}'
     if ( saved_code ){
         showSwal('success', 'Nuevo Código Generado', '{{ saved_code.code }}', '');
     }
+    
 
 </script>
 {% endblock%}
