@@ -319,13 +319,13 @@
                 <div class="section">
                     <div class="div-70">
                         <form>
-                            <ol style="background: white">
+                            <ul style="background: white;">
                             {% for question in form %}
-                                <li>
+                                <li class="pregunta">
                                     <p>{{ question.label }}{{ question }}</p>
                                 </li>
                             {% endfor %}
-                            </ol>
+                            </ul>
                         <input type="submit" value="Submit">
                         </form>
                     </div>

@@ -1,7 +1,20 @@
 from django.shortcuts import render
-from tests.models import CIE_form, ObjectCIE
+from tests.models import ObjectCIE
+from tests.forms import CIE_form_1, CIE_form_2
+from formtools.wizard.views import SessionWizardView
 
 
+class FormWizardView(SessionWizardView):
+    form_list = [CIE_form_1, CIE_form_2]
+
+    def get_template_names(self):
+        return 'done.html'
+    def done(self, form_list, **kwargs):
+        print ('           asi es ')
+        print (form_list)
+        title = 'ACIES'
+        return render(self.request, 'finish.html', dict(form_data = [form.cleaned_data for form in form_list],
+                                                        title = title))
 def test_selector(request):
 
     title = 'Cuestionario CIE'
@@ -14,14 +27,13 @@ def test_selector(request):
 
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
-        form = CIE_form(request.POST)
+        form = CIE_form_1(request.POST)
         # check whether it's valid:
         if form.is_valid():
             # process the data in form.cleaned_data as required
             # ...
             # redirect to a new URL:
             cuestionario = ObjectCIE(
-
                 q_1=int(form.cleaned_data['q_1']),
                 q_2=int(form.cleaned_data['q_2']),
                 q_3=int(form.cleaned_data['q_3']),
@@ -62,7 +74,7 @@ def test_selector(request):
 
         # if a GET (or any other method) we'll create a blank form
     else:
-        form = CIE_form()
+        form = CIE_form_1()
 
     cuestionarios = ObjectCIE.objects.all()
     for cuestionario in cuestionarios:
