@@ -9,9 +9,17 @@ class FormWizardView(SessionWizardView):
 
     def get_template_names(self):
         return 'done.html'
+
     def done(self, form_list, **kwargs):
         print ('           asi es ')
-        print (form_list)
+        cuestionario = ObjectCIE()
+
+        for form in form_list:
+            form_data = form.cleaned_data
+            for key, value in form_data.items():
+                setattr(cuestionario, key, value)
+                # print(key, value)
+        cuestionario.save()
         title = 'ACIES'
         return render(self.request, 'finish.html', dict(form_data = [form.cleaned_data for form in form_list],
                                                         title = title))
