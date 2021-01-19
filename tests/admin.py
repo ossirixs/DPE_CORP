@@ -2,6 +2,6 @@
 from django.contrib import admin
 
 # Models
-from .models import TestCatalog
+from company.models import TestCatalog
 
 admin.site.register(TestCatalog)

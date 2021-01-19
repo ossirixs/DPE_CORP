@@ -45,16 +45,3 @@ class ObjectCIE(models.Model):
     q_40 = models.BooleanField(null=True)
     q_41 = models.BooleanField(null=True)
 
-class TestCatalog(models.Model):
-    """ Catalog for Tests. """
-
-    TEST_TYPE = [
-        ('CIE', 'CIE'),
-        ('DPECON' , 'DPECon'),
-    ]
-
-    test_name = models.CharField( max_length=128, choices=TEST_TYPE, null=False, blank=False)
-    active = models.BooleanField( null=False, blank=False, default=True)
-
-    def __str__(self):
-        return f"{self.test_name}: ACTIVATE - {self.active}"

@@ -6,9 +6,8 @@ from django.db.models import Q
 from datetime import datetime
 
 #Models.
-from company.models import Company, TestCode, CompanyTest
+from company.models import Company, TestCode, CompanyTest, TestCatalog
 from users.models import User
-from tests.models import TestCatalog
 
 #Forms
 from company.forms import NewCompanyForm, TestCodeForm, CompanyTestForm
