@@ -464,8 +464,8 @@
                             </div>
                         </div>
                         <input type="hidden" name="company" value={{company.id}}>
-                        <input type="hidden" name="type" value="{% if company.company_main %}CLIENT_MAIN{% else %}CLIENT{% endif %}">
-                        <input type="hidden" name="company_main" value="{% if company.company_main %}0{% else %}{{company.company_main.id}}{% endif %}">
+                        <input type="hidden" name="type" value="{% if company.company_main %}CLIENT{% else %}CLIENT_MAIN{% endif %}">
+                        <input type="hidden" name="company_main" value="{% if company.company_main %}{{company.company_main.id}}{% else %}{% endif %}">
                         <input type="hidden" name="create_user" value=1>
                         <button class="mt-2 btn btn-primary">Crear Usuario</button>
                     </form>

@@ -59,10 +59,10 @@ def company_list(request):
 
         # Get main company and also companies that belongs to the client 
         if user.type == User.Types.CLIENT_MAIN:
-            companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company)).order_by('modified')
+            companies = Company.objects.filter(Q(id=user.company.id) | Q(company_main=user.company.id)).order_by('modified')
         # If a sub client, get only it's own company
         elif user.type == User.Types.CLIENT:
-            companies = Company.objects.filter(id=user.company).order_by('modified')
+            companies = Company.objects.filter(id=user.company.id).order_by('modified')
         # Get main companies.
         elif user.type == User.Types.ADMIN_DPE:
             companies = Company.objects.all().order_by('modified')
@@ -85,7 +85,7 @@ def company_detail(request,company_id):
     # Get each companies details according to the user type
     if user.type == User.Types.CLIENT_MAIN:
         # Get selected company and all sub companies data.
-        companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
+        companies = Company.objects.filter(Q(id=user.company.id) | Q(company_main=user.company.id))
         # Get company and codes data.
         selected_company = Company.objects.get(id=company_id)
         #If company main, then this is a MAIN company
@@ -108,7 +108,7 @@ def company_detail(request,company_id):
 
     elif user.type == User.Types.CLIENT:
         # If a sub client, get only it's own company.
-        companies = Company.objects.filter(id=user.company)
+        companies = Company.objects.filter(id=user.company.id)
         # Get company and codes data.
         selected_company = Company.objects.get(id=company_id)
         # Get just users from this sub company.
@@ -336,6 +336,7 @@ def modify_user(request, company_name):
     if request.method == 'POST':
         #Select an user.
         if request.POST.get('company_user_id'):
+            print("company_user_id", request.POST.get('company_user_id'))
             user_id = request.POST.get('company_user_id')
             selected_user = User.objects.get(id=user_id)
             print("selectd user", selected_user.first_name)

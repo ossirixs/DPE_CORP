@@ -19,8 +19,8 @@ class User(AbstractUser):
     name = models.CharField(_('Name of user'),max_length=250, blank=True)
     second_last_name = models.CharField(_('Second Last Name'),max_length=250, blank=True,null=True)
     #Clients.
-    company = models.IntegerField(_('Company'), blank=True,null=True)
-    company_main = models.IntegerField(_('Main Company'), blank=True,default=0)
+    company = models.ForeignKey('company.Company',related_name='%(class)s_this_company', on_delete=models.CASCADE, blank=True,null=True)
+    company_main = models.ForeignKey('company.Company',related_name='%(class)s_main_company', on_delete=models.CASCADE, blank=True,null=True) 
     uci = models.CharField(_('Company identifier'), max_length=255, blank=True) # Unique Company Identifier LoL
 
     def get_absolute_url(self):
