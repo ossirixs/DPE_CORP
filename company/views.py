@@ -33,7 +33,14 @@ def company_list(request):
             # Get allcomapnies.
             companies = Company.objects.all().order_by('modified')
             main_companies = Company.objects.filter(company_type='MAIN')
-            company_form = NewCompanyForm(request.POST)
+            if request.POST.get('company_type') == 'MAIN':
+                company_form = NewCompanyForm({'company_type':request.POST.get('company_type'),
+                                                'company_name':request.POST.get('company_name'),
+                                                'company_contact':request.POST.get('company_contact'),
+                                                'company_phone':request.POST.get('company_phone'),
+                                                'company_email':request.POST.get('company_email')})
+            else:
+                company_form = NewCompanyForm(request.POST)
             if company_form.is_valid():
                 print('valid form')
                 new_company = company_form.save()
