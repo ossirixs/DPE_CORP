@@ -8,9 +8,10 @@ from datetime import datetime
 #Models.
 from company.models import Company, TestCode, CompanyTest
 from users.models import User
+from tests.models import TestCatalog
 
 #Forms
-from company.forms import NewCompanyForm, TestCodeForm
+from company.forms import NewCompanyForm, TestCodeForm, CompanyTestForm
 from users.forms import SignUpForm
 from users.models import User
 
@@ -31,7 +32,7 @@ def company_list(request):
         elif action == "create":
             print('create')
             # Get allcomapnies.
-            companies = Company.objects.all()
+            companies = Company.objects.all().order_by('modified')
             main_companies = Company.objects.filter(company_type='MAIN')
             company_form = NewCompanyForm(request.POST)
             if company_form.is_valid():
@@ -50,25 +51,26 @@ def company_list(request):
         # Get user.
         user = request.user
 
+        # Get main company and also companies that belongs to the client 
         if user.type == User.Types.CLIENT_MAIN:
-            # Get main companie and also companies that belongs to the client 
-            companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
-        elif user.type == User.Types.CLIENT_MAIN:
-            # If a sub client, get only it's own company
-            companies = Company.objects.filter(id=user.company)
+            companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company)).order_by('modified')
+        # If a sub client, get only it's own company
+        elif user.type == User.Types.CLIENT:
+            companies = Company.objects.filter(id=user.company).order_by('modified')
+        # Get main companies.
         elif user.type == User.Types.ADMIN_DPE:
-            # Get main companies.
-            companies = Company.objects.all()
+            companies = Company.objects.all().order_by('modified')
 
 
         return render(request,'company/companies.html', {
                                                             'companies':companies,
                                                             'saved_company':'False',
-                                                            'companies':companies,
+                                                            'main_companies':companies.filter(company_type='MAIN'),
                                                             'user': request.user
                                                         })
 
 @login_required
+@never_cache
 def company_detail(request,company_id):
     """ Company detail and actions."""
 
@@ -80,20 +82,21 @@ def company_detail(request,company_id):
         companies = Company.objects.filter(Q(id=user.company) | Q(company_main=user.company))
         # Get company and codes data.
         selected_company = Company.objects.get(id=company_id)
-        #If company main = 0, then this is a MAIN company
-        if selected_company.company_main == 0:
+        #If company main, then this is a MAIN company
+        if selected_company.company_main:
             # Get all users from Main and sub companies.
             company_users = User.objects.filter(Q(company=company_id) | Q(company_main=company_id))
             # Set the company main id to false since this is a Main company
             company_main = False
-            # Get all codes from this Main company and its sub companies.
-            company_codes = TestCode.objects.filter(company__in=companies)
+            # Get all codes from this company.
+            #company_codes = TestCode.objects.filter(company__in=companies)
+            company_codes = TestCode.objects.filter(company=selected_company)
         #Else, this is a sub company
         else:
             # Get just users from this sub company.
             company_users = User.objects.filter(Q(company=company_id))
             # Get the main company data for this sub company.
-            company_main = Company.objects.get(id=selected_company.company_main)
+            company_main = selected_company.company_main
             # Get codes for just this company.
             company_codes = TestCode.objects.filter(company=selected_company)
 
@@ -105,7 +108,7 @@ def company_detail(request,company_id):
         # Get just users from this sub company.
         company_users = User.objects.filter(Q(company=company_id))
         # Get the main company data for this sub company.
-        company_main = Company.objects.get(id=selected_company.company_main)
+        company_main = selected_company.company_main
         # Get codes for just this company.
         company_codes = TestCode.objects.filter(company=selected_company)
 
@@ -116,54 +119,110 @@ def company_detail(request,company_id):
         companies = Company.objects.filter(Q(id=selected_company.id) | Q(company_main=selected_company.id))
         # Get just users from this sub company.
         company_users = User.objects.filter(Q(company=selected_company.id) | Q(company_main=selected_company.id))
-        # Set the company main id to false since this is an admin dpe user.
-        company_main = False
-        # Get all codes from this Main company and its sub companies.
-        company_codes = TestCode.objects.filter(company__in=companies)
+        # Get the main company data.
+        company_main = selected_company.company_main
+        # Get all codes from this company companies.
+        company_codes = TestCode.objects.filter(company=selected_company)
 
     # GET ASSIGNED TESTS FOR THIS COMPANY
-
     assigned_tests = CompanyTest.objects.filter(company=selected_company)
+    # GET AVAILABLE TEST (EXCLUDING THE TEST THAT ARE ALREADY ASSIGNED TO THIS COMPANY)
+    available_tests = TestCatalog.objects.exclude(test_name__in=[test.test.test_name for test in assigned_tests])
 
     if request.method == 'POST':
-        # UPDATE COMPANY REQUEST
+        # UPDATE COMPANY 
         if request.POST.get('update'):
             print('update', selected_company)
             selected_company.company_name = request.POST.get('company_name')
             selected_company.company_contact = request.POST.get('company_contact')
             selected_company.company_email = request.POST.get('company_email')
             selected_company.save()
-        # CREATE COMPANY USER REQUEST
+
+            return render(request,'company/company_detail.html', {
+                                                                "company":selected_company,
+                                                                "company_main":company_main,
+                                                                "company_users":company_users,
+                                                                "companies": companies,
+                                                                "company_codes":company_codes,
+                                                                'user': user,
+                                                                'assigned_tests':assigned_tests,
+                                                                'available_tests':available_tests,
+                                                                })
+
+        # CREATE COMPANY USER 
         elif request.POST.get('create_user'):
             print('create_user')
             form = SignUpForm(request.POST)
-            print('form.errors()',form.errors)
+            print('form.errors > ',form.errors)
             if form.is_valid():
                 form.save()
-        # CREATE NEW CODE REQUEST
-        elif request.POST.get('create_code'):
-            print('create code')
-            # Concat strings to create the code
-            company_id = request.POST.get('company_id')
-            expiration = request.POST.get('expiration')
-            date = datetime.fromordinal(733828)
-            number_date = date.strftime('%Y%m%d')
-            company = Company.objects.get(id=company_id)
+                
+            return render(request,'company/company_detail.html', {
+                                                                "company":selected_company,
+                                                                "company_main":company_main,
+                                                                "company_users":company_users,
+                                                                "companies": companies,
+                                                                "company_codes":company_codes,
+                                                                'user': user,
+                                                                'assigned_tests':assigned_tests,
+                                                                'available_tests':available_tests,
+                                                                'form_errors':form.errors,
+                                                                })
 
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
+        # ASSIGN SELECTED TEST TO THIS COMPANY
+        elif request.POST.get('assign_test'):
+            print('ASSIGN TEST')
+            test_id = request.POST.get('test')
+            selected_test = TestCatalog.objects.get(id=test_id)
+            # CHECK IF THE TEST IS NO TALREADY ASSIGNED TO THIS COMPANY
+            if assigned_tests.filter(test=selected_test).exists():
+                print('test already assigned to this copmpany')
+                return render(request,'company/company_detail.html', {
+                                                            "company":selected_company,
+                                                            "company_main":company_main,
+                                                            "company_users":company_users,
+                                                            "companies": companies,
+                                                            "company_codes":company_codes,
+                                                            'user': user,
+                                                            'assigned_tests':assigned_tests,
+                                                            'available_tests':available_tests,
+                                                            })
+            # IF NOT EXISTS, EVALUATE AND SAVE NEW COMPANYTEST OBJECT
+            new_companytest = CompanyTestForm({'company':selected_company,'test':selected_test})
+            if new_companytest.is_valid():
+                print("is valid")
+                new_companytest = new_companytest.save()
+                # RE EVALUATE assigned_tests AND available_tests BECAUSE new_companytest CHANGED THOSE TABLES
+                assigned_tests = CompanyTest.objects.filter(company=selected_company)
+                available_tests = TestCatalog.objects.exclude(test_name__in=[test.test.test_name for test in assigned_tests])
 
-            test = request.POST.get('test')
-            code = test+"-"+number_date+"-"+current_time+"-"+company.company_name[0:4]+"-"+expiration.replace("-","")
-            testcode_form = TestCodeForm({'user':user,'company':company,'test':test,'code':code,'activate':True,'expiration':expiration})
-            print("testcode_form",testcode_form.is_valid())
-            print("testcode_form errorrs",testcode_form.errors)
-            new_code = TestCode(user=user,company=company,test=test,code=code,expiration=expiration)
-            new_code.save()
-            print("creating")
+                return render(request,'company/company_detail.html', {
+                                                            "company":selected_company,
+                                                            "company_main":company_main,
+                                                            "company_users":company_users,
+                                                            "companies": companies,
+                                                            "company_codes":company_codes,
+                                                            'user': user,
+                                                            'assigned_tests':assigned_tests,
+                                                            'available_tests':available_tests,
+                                                            'saved_companytest':new_companytest,
+                                                            })
 
-            
-
+        # DELETE TEST ASSIGNED (COMPANYTEST TABLE)
+        elif request.POST.get('delete_test'):
+            print('DELETE TEST')
+            # DELETE THE RELATION
+            companytest_id = request.POST.get('companytest_id')
+            companytest_object = CompanyTest.objects.filter(id=companytest_id)
+            companytest_object.delete()
+            # DELETE ALL CODES RELATED TO THIS TEST IN THIS COMPANY
+            test_id = request.POST.get('test_id')
+            test = TestCatalog.objects.get(id=test_id)
+            company_test_codes = TestCode.objects.filter(company=selected_company,test=test)
+            company_test_codes.delete()
+            # RE EVALUATE assigned_tests AND available_tests BECAUSE companytest_object.delete() CHANGED THOSE TABLES
+            assigned_tests = CompanyTest.objects.filter(company=selected_company)
+            available_tests = TestCatalog.objects.exclude(test_name__in=[test.test.test_name for test in assigned_tests])
             return render(request,'company/company_detail.html', {
                                                             "company":selected_company,
                                                             "company_main":company_main,
@@ -172,7 +231,86 @@ def company_detail(request,company_id):
                                                             "company_codes":company_codes,
                                                             'user': user,
                                                             'assigned_tests':assigned_tests,
+                                                            'available_tests':available_tests,
                                                             })
+
+        # CREATE NEW CODE
+        elif request.POST.get('create_code'):
+            print('create code')
+            # Concat strings to create the code
+            #company_id = request.POST.get('company_id')
+            expiration = request.POST.get('expiration')
+            date = datetime.fromordinal(733828)
+            number_date = date.strftime('%Y%m%d')
+            #company = Company.objects.get(id=company_id)
+            company = selected_company
+
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+
+            test_id = request.POST.get('test_id')
+            print('test_id',test_id)
+            test = TestCatalog.objects.get(id=test_id)
+            code = test.test_name[0:5]+"-"+number_date+"-"+company.company_name[0:4]+"-"+expiration.replace("-","")
+            new_code = TestCodeForm({'user':user,'company':company,'test':test,'code':code,'activate':True,'expiration':expiration})
+            if new_code.is_valid():
+                new_code.save()
+                print("created new code")
+            return render(request,'company/company_detail.html', {
+                                                            "company":selected_company,
+                                                            "company_main":company_main,
+                                                            "company_users":company_users,
+                                                            "companies": companies,
+                                                            "company_codes":company_codes,
+                                                            'user': user,
+                                                            'assigned_tests':assigned_tests,
+                                                            'available_tests':available_tests,
+                                                            })
+
+        # MODIFY CODE
+        elif request.POST.get('modify_code'):
+            print('Modify code')
+            # Concat strings to create the code
+            code_id = request.POST.get('code_id')
+            code = TestCode.objects.get(id=code_id)
+
+            if request.POST.get('deactivate_code', False):
+                code.activate = False
+            else:
+                code.activate = True
+            
+            code.save()
+
+            return render(request,'company/company_detail.html', {
+                                                                "company":selected_company,
+                                                                "company_main":company_main,
+                                                                "company_users":company_users,
+                                                                "companies": companies,
+                                                                "company_codes":company_codes,
+                                                                'user': user,
+                                                                'assigned_tests':assigned_tests,
+                                                                'available_tests':available_tests,
+                                                                })
+        
+        # DELETE CODE
+        elif request.POST.get('delete_code'):
+            print('Delete code')
+            # Concat strings to create the code
+            code_id = request.POST.get('code_id')
+            code = TestCode.objects.get(id=code_id)
+            code.delete()
+
+            return render(request,'company/company_detail.html', {
+                                                                "company":selected_company,
+                                                                "company_main":company_main,
+                                                                "company_users":company_users,
+                                                                "companies": companies,
+                                                                "company_codes":company_codes,
+                                                                'user': user,
+                                                                'assigned_tests':assigned_tests,
+                                                                'available_tests':available_tests,
+                                                                })
+            
     elif request.method == 'GET':
 
         return render(request,'company/company_detail.html', {
@@ -183,6 +321,7 @@ def company_detail(request,company_id):
                                                                 "company_codes":company_codes,
                                                                 'user': user,
                                                                 'assigned_tests':assigned_tests,
+                                                                'available_tests':available_tests,
                                                                 })
 
 @login_required
@@ -196,7 +335,8 @@ def modify_user(request, company_name):
             print("selectd user", selected_user.first_name)
 
             args = {
-                "user":selected_user,
+                "user":request.user,
+                "selected_user":selected_user,
                 "company_name":company_name,
             }
 
@@ -205,8 +345,6 @@ def modify_user(request, company_name):
         elif request.POST.get('update_user'):
             user_id = request.POST.get('user_id')
             company_user = User.objects.get(id=user_id)
-            print("selectd user to update >>>>> ", company_user.first_name)
-
             company_user.username = request.POST.get('username')
             company_user.first_name = request.POST.get('first_name')
             company_user.last_name = request.POST.get('last_name')
@@ -215,7 +353,7 @@ def modify_user(request, company_name):
             company_user.save()
 
             args = {
-                # "user":company_user,
+                "selected_user":company_user,
                 "company_name":company_name,
                 'user': request.user
             }

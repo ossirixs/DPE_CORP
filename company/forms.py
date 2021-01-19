@@ -1,8 +1,7 @@
 #Django.
 from django import forms
 #Models.
-from company.models import Company
-from company.models import TestCode
+from company.models import Company, TestCode,CompanyTest
 
 class NewCompanyForm(forms.ModelForm):
 
@@ -26,3 +25,10 @@ class TestCodeForm(forms.ModelForm):
         model = TestCode
         fields = ['user' ,'company' ,'test' ,'code' ,'activate' ,'expiration' ]
 
+
+
+class CompanyTestForm(forms.ModelForm):
+
+    class Meta:
+        model = CompanyTest
+        fields = ['company', 'test']
