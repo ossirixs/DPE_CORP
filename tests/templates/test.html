@@ -1,0 +1,23 @@
+{% load i18n %}
+{% block content %}
+
+
+<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+<h1>HOLA</h1>
+<form action="" method="post">
+  {% csrf_token %}
+    <div>
+    {{ wizard.management_form }}
+      {% for field in wizard.form %}
+        <div style="background:aqua; width: 50%">{{ field.label }}</div>
+        <div style="background:yellow; width: 50%">{{ field }}</div>
+      {% endfor %}
+    </div>
+
+  {% if wizard.steps.prev %}
+  <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
+  <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+  {% endif %}
+  <input type="submit" value="{% trans "submit" %}"/>
+</form>
+{% endblock %}
