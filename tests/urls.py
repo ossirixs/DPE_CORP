@@ -11,9 +11,14 @@ urlpatterns = [
         name='test_selector'
     ),
     path(
-        route='CIE',
+        route='cie/<test_code>',
         view=FormWizardView.as_view(),
         name='cie_test'
+    ),
+    path(
+        route='cpecon/<test_code>',
+        view=FormWizardView.as_view(),
+        name='dpecon_test'
     ),
 
 ]
