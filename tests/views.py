@@ -8,7 +8,7 @@ class FormWizardView(SessionWizardView):
     form_list = [CIE_form_1, CIE_form_2]
 
     def get_template_names(self):
-        return 'done.html'
+        return 'test.html'
 
     def done(self, form_list, **kwargs):
         print ('           asi es ')
