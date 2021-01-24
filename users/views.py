@@ -3,10 +3,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
+from django.views.decorators.http import require_http_methods
 
 #Models
 from users.models import User
-from company.models import Company
+from company.models import Company, TestCode
 
 def login_view(request):
     """Login view."""
@@ -78,3 +79,27 @@ def log_out(request):
     print("log_out")
     logout(request)
     return redirect('login')
+
+@require_http_methods(["POST"])
+def test_view(request, test_form_token):
+    """Start Test view."""
+    print("start_test_view")
+    if request.method == 'POST':
+        participant_name = request.POST['name']
+        print("participant",participant_name)
+        code = request.POST['test_code']
+        print("sended code",code)
+        # Look for the code entered in the database
+        
+        if TestCode.objects.filter(code=code).exists():
+            test_code = TestCode.objects.get(code=code)
+            print("test_code.test",test_code.test.test_name)
+            if test_code.test.test_name == 'CIE':
+                return redirect('cie_test',test_code=code)
+            if test_code.test.test_name == 'DPECON':
+                return redirect('dpecon_test',test_code=code)
+        else:
+            return render(request,'login.html', {'error':'El codigo no es valido'})
+
+    #if not take to the log in page.
+    return render(request, 'login.html')

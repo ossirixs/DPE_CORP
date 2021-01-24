@@ -307,7 +307,7 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
           <h1>Inicio de sesión</h1>
         </div>
         <div class="form-content">
-					<form method="post" action="{% url 'login' %}">
+					<form method="post" action="{% url 'login' %}" name="login_form">
 					{% csrf_token %}
             <div class="form-group">
               <label for="username">Nombre de Usuario</label>
@@ -332,26 +332,26 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
         </div>
         <div class="space-s"></div>
         <div class="form-content">
-          <form method="post" action="{% url 'login' %}">
+          <form method="post" action="{% url 'test' True %}" name="test_form" id="test_form-id">
 						{% csrf_token %}
 						{% if error %}
 							<p class="alert alert-danger">{{ error }}</p>
 						{% endif %}
             <div class="form-group">
-              <label for="username">Codigo</label>
-              <input type="text" id="username" name="username" required="required"/>
+              <label for="code-id">Codigo</label>
+              <input type="text" id="code-id" name="test_code" required="required"/>
             </div>
             <div class="space-m"></div>
             <div class="form-group">
-              <label for="password">Nombre completo</label>
-              <input type="password" id="password" name="password" required="required"/>
+              <label for="name-id">Nombre completo</label>
+              <input type="text" id="name-id" name="name" required="required"/>
             </div>
             <div class="space-m"></div>
             <div class="form-group">
               <label class="form-remember">
             </div>
             <div class="form-group">
-              <button type="submit" onclick="click()"><b>Iniciar sesión</b></button>
+              <button name="test-btn" type="submit" ><b>Ingresar a la prueba</b></button>
             </div>
           </form>
         </div>
@@ -368,9 +368,6 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
     let panelOne = document.querySelector('.form-panel.two').height;
     let panelTwo = document.querySelector('.form-panel.two').scrollHeight;
 
-		console.log(panelOne,'panelOne');
-		console.log(panelTwo,"panelTwo");
-
     document.querySelector('.form-panel.two').addEventListener('click', function(e) {
         document.querySelector('.form-toggle').classList.add('visible');
         document.querySelector('.form-panel.one').classList.add('hidden');
@@ -382,11 +379,12 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
         document.querySelector('.form-toggle').classList.remove('visible');
         document.querySelector('.form-panel.one').classList.remove('hidden');
         document.querySelector('.form-panel.two').classList.remove('active');
-				console.log(panelOne,'panelOne');
 
     });
 });
 function click (){
 	console.log("fdfdfd")
+	form = document.getElementById("test_form-id")
+	form.submit()
 }
 </script>
