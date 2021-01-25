@@ -1,23 +1,34 @@
+{% extends "base_test.html" %}
 {% load i18n %}
+{% block page_title %}<title>Prueba CIE</title>{% endblock %}
+{% block header_title %}CIE{% endblock %}
+
 {% block content %}
+  <div style="text-align: center;">
+    <p>Hoja {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</p>
+  </div>
+  <form action="" method="post">
+    {% csrf_token %}
+      <div >
+      {{ wizard.management_form }}
+        {% for field in wizard.form %}
+        <div class="question-row">
+          <div>
+            <p class="q-paragraph">{{ field.label }}</p>
+          </div>
+          <div>
+            {{ field }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
 
-
-<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-<h1>HOLA</h1>
-<form action="" method="post">
-  {% csrf_token %}
-    <div>
-    {{ wizard.management_form }}
-      {% for field in wizard.form %}
-        <div style="background:aqua; width: 50%">{{ field.label }}</div>
-        <div style="background:yellow; width: 50%">{{ field }}</div>
-      {% endfor %}
+    <div class="form-buttons">
+      {% if wizard.steps.prev %}
+        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
+        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+      {% endif %}
+      <input type="submit" class="btn btn-primary" value="{% trans 'submit' %}"/>
     </div>
-
-  {% if wizard.steps.prev %}
-  <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
-  <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
-  {% endif %}
-  <input type="submit" value="{% trans "submit" %}"/>
-</form>
+  </form>
 {% endblock %}
