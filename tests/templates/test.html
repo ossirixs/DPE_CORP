@@ -12,23 +12,34 @@
       <div >
       {{ wizard.management_form }}
         {% for field in wizard.form %}
-        <div class="question-row">
-          <div>
-            <p class="q-paragraph">{{ field.label }}</p>
+          {% if wizard.steps.step1 %}
+          <div class="question-row">
+            <div>
+              <p class="q-first">{{ field.label }}</p>
+            </div>
+            <div>
+              {{ field }}
+            </div>
           </div>
-          <div>
-            {{ field }}
+          {% else %}
+          <div class="question-row">
+            <div>
+              <p class="q-paragraph">{{ field.label }}</p>
+            </div>
+            <div>
+              {{ field }}
+            </div>
           </div>
-        </div>
+          {% endif %}
         {% endfor %}
       </div>
 
     <div class="form-buttons">
       {% if wizard.steps.prev %}
-        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
-        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">{% trans "Inicio" %}</button>
+        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "Regresar" %}</button>
       {% endif %}
-      <input type="submit" class="btn btn-primary" value="{% trans 'submit' %}"/>
+      <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
     </div>
   </form>
 {% endblock %}
