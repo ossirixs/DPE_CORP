@@ -1,11 +1,11 @@
 from django.shortcuts import render
 from tests.models import ObjectCIE
-from tests.forms import CIE_form_1, CIE_form_2
+from tests.forms import CIE_form_1, CIE_form_2, candidato
 from formtools.wizard.views import SessionWizardView
 
 
-class FormWizardView(SessionWizardView):
-    form_list = [CIE_form_1, CIE_form_2]
+class CIE(SessionWizardView):
+    form_list = [candidato, CIE_form_1, CIE_form_2]
 
     def get_template_names(self):
         return 'test.html'

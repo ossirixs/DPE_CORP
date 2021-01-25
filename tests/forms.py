@@ -1,18 +1,27 @@
 from django import forms
 
 
+class candidato(forms.Form):
+    OPCIONES = ((0, "Femenino"), (1, "Masculino"))
+
+    nombre = forms.CharField(label='Nombre completo', required=True)
+    edad = forms.IntegerField(label='Edad', required=True)
+    profesion = forms.CharField(label='Profesion', required=True)
+    sexo = forms.ChoiceField(label='Sexo', required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+
 class CIE_form_1(forms.Form):
     OPCIONES = ((0, "Falso"), (1, "Verdadero"))
 
     q_1 = forms.ChoiceField(
         label='1. Hay muchas cosas que me hacen enojar.',
-        required=True, widget=forms.RadioSelect(attrs={'id':'1'}), choices=OPCIONES)
+        required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_2 = forms.ChoiceField(
         label='2. Actualmente vivo momentos malos, tensos o de inquietud.',
-        required=True, widget=forms.RadioSelect(attrs={'id':'2'}), choices=OPCIONES)
+        required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_3 = forms.ChoiceField(
         label='3. Hago un gran esfuerzo por demostrar que tengo razón, aún cuando tenga que luchar para lograrlo.',
-        required=True, widget=forms.RadioSelect(attrs={'id':'3'}), choices=OPCIONES)
+        required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_4 = forms.ChoiceField(
         label='4. Tengo mala suerte y a eso se debe que me sucedan muchas de las cosas que me pasan.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)

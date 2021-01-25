@@ -3,6 +3,9 @@ from django.db import models
 
 class ObjectCIE(models.Model):
 
+    nombre = models.CharField(max_length=50, default='', help_text='Nombre completo del candidato')
+    profesion = models.CharField(max_length=50, default='', help_text='Profesion del candidato')
+
     q_1 = models.BooleanField(null=True)
     q_2 = models.BooleanField(null=True)
     q_3 = models.BooleanField(null=True)
