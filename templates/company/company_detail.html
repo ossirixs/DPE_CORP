@@ -42,6 +42,7 @@
                             <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Usarios</a>
                             <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Crear Usuarios</a>
                         {% endif %}
+                            <a id="results" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Resultados</a>
                     </div>
                 </div>
             </div>
@@ -87,7 +88,6 @@
                                                     <input type="hidden" name="companytest_id" value={{assigned_test.id}}>
                                                     <input type="hidden" name="test_id" value={{assigned_test.test.id}}>
                                                     <button type="submit" class="btn btn-danger">  Borrar  </button>
-                                                </div>
                                             </form>
                                         </td>
                                     </tr>    
@@ -218,7 +218,6 @@
                                                         <button type="submit" class="btn btn-success">  Activar  </button>
                                                         <input type="hidden" name="activate_code" value="1">
                                                     {% endif %}
-                                                </div>
                                                 <input type="hidden" name="modify_code" value="1">
                                                 <input type="hidden" name="code_id" value={{code.id}}>
                                             </form>
@@ -229,7 +228,6 @@
                                                     <button type="submit" class="btn btn-danger">  Borrar  </button>
                                                     <input type="hidden" name="delete_code" value="1">
                                                     <input type="hidden" name="code_id" value={{code.id}}>
-                                                </div>
                                             </form>
                                         </td>
                                     </tr>    
@@ -294,45 +292,43 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {% for code in company_codes %}
-                                    <tr>
-                                        <td>{{ code.test.test_name }}</td>
-                                        <td>{{ code.code }}</td>
-                                        <td>{{ code.user.username }}</td>
-                                        <td>{{ code.expiration }}</td>
-                                        <td>
-                                            {% if code.activate == True%}
-                                                <div class="badge badge-success">Activa</div>
-                                            {% else %}
-                                                <div class="badge badge-danger">Inactiva</div>
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <form method="POST"  class="">
-                                                {% csrf_token %} 
-                                                    {% if code.activate == True %}
-                                                        <button type="submit" class="btn btn-danger">  Desactivar  </button>
-                                                        <input type="hidden" name="deactivate_code" value="1">
-                                                    {% else %}
-                                                        <button type="submit" class="btn btn-success">  Activar  </button>
-                                                        <input type="hidden" name="activate_code" value="1">
-                                                    {% endif %}
-                                                </div>
-                                                <input type="hidden" name="modify_code" value="1">
-                                                <input type="hidden" name="code_id" value={{code.id}}>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form method="POST"  class="">
-                                                {% csrf_token %} 
-                                                    <button type="submit" class="btn btn-danger">  Borrar  </button>
-                                                    <input type="hidden" name="delete_code" value="1">
+                                    {% for code in company_codes %}
+                                        <tr>
+                                            <td>{{ code.test.test_name }}</td>
+                                            <td>{{ code.code }}</td>
+                                            <td>{{ code.user.username }}</td>
+                                            <td>{{ code.expiration }}</td>
+                                            <td>
+                                                {% if code.activate == True%}
+                                                    <div class="badge badge-success">Activa</div>
+                                                {% else %}
+                                                    <div class="badge badge-danger">Inactiva</div>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <form method="POST"  class="">
+                                                    {% csrf_token %} 
+                                                        {% if code.activate == True %}
+                                                            <button type="submit" class="btn btn-danger">  Desactivar  </button>
+                                                            <input type="hidden" name="deactivate_code" value="1">
+                                                        {% else %}
+                                                            <button type="submit" class="btn btn-success">  Activar  </button>
+                                                            <input type="hidden" name="activate_code" value="1">
+                                                        {% endif %}
+                                                    <input type="hidden" name="modify_code" value="1">
                                                     <input type="hidden" name="code_id" value={{code.id}}>
-                                                </div>
-                                            </form>
-                                        </td>
-                                    </tr>    
-                                {% endfor %}
+                                                </form>
+                                            </td>
+                                            <td>
+                                                <form method="POST"  class="">
+                                                    {% csrf_token %} 
+                                                        <button type="submit" class="btn btn-danger">  Borrar  </button>
+                                                        <input type="hidden" name="delete_code" value="1">
+                                                        <input type="hidden" name="code_id" value={{code.id}}>
+                                                </form>
+                                            </td>
+                                        </tr>    
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -470,6 +466,24 @@
                         <button class="mt-2 btn btn-primary">Crear Usuario</button>
                     </form>
                 </div>
+                {% comment %} SEARCH RESULTS {% endcomment %}
+                <div id="results-form-id" class="card-section d-none">
+                    <h5 class="card-title">Buscar por Tipo de Prueba:</h5>
+                    <form method="POST" action=""   class="">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-4">
+                                <select name="company_user_id" id="company-id" class="form-control" required>
+                                    <option value="">--</option>
+                                    {% for test in available_tests %}
+                                        <option value={{test.id}}>{{test.test_name}}</option>
+                                    {% endfor %}
+                                </select>   
+                            </div>
+                            <button type="submit" class="btn btn-primary">Seleccionar</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -494,20 +508,15 @@
             }else if (!form_id.includes(btn.id) && !form.classList.contains('d-none')){
                 form.classList.add('d-none');
             }
-
-            if(!btn.classList.contains('active')){
-                btn.classList.add('active');
-            }else{
-                btn.classList.remove('active');
-            }
         });
 
         buttons.forEach((btn) => {
-
-            if(!selected_form.id.includes(btn.id)){
-                btn.classList.remove('active');
-            }
+            btn.classList.remove('active');
         });
+
+        if(!btn.classList.contains('active')){
+                btn.classList.add('active');
+        }
     }
     // Alerts for actions
     let saved_code = '{{saved_code}}'

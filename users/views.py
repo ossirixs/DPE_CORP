@@ -80,7 +80,7 @@ def log_out(request):
     logout(request)
     return redirect('login')
 
-@require_http_methods(["POST"])
+
 def test_view(request, test_form_token):
     """Start Test view."""
     print("start_test_view")
