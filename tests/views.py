@@ -2,6 +2,8 @@ from django.shortcuts import render
 from tests.models import ObjectCIE
 from tests.forms import CIE_form_1, CIE_form_2, candidato
 from formtools.wizard.views import SessionWizardView
+from django.shortcuts import get_object_or_404
+from tests.utils import clean_data
 
 
 class CIE(SessionWizardView):
@@ -95,3 +97,37 @@ def test_selector(request):
                                                   est=est,
                                                   ans=ans,
                                                   form=form))
+
+def test_result(request, test_type, test_id):
+
+    cuestionario = get_object_or_404(ObjectCIE, pk=test_id)
+
+    try:
+        q_1 = cuestionario.q_1
+        q_2 = cuestionario.q_2
+        q_3 = cuestionario.q_3
+        q_4 = cuestionario.q_4
+        q_5 = cuestionario.q_5
+        q_6 = cuestionario.q_1
+        q_7 = cuestionario.q_2
+        q_8 = cuestionario.q_3
+        q_9 = cuestionario.q_4
+        q_10 = cuestionario.q_5
+        q_40 = cuestionario.q_40
+        q_41 = cuestionario.q_41
+    except:
+        pass
+
+    EST_true = [q_2, q_3, q_40]
+    EST_false = [q_1, q_8, q_41]
+
+    EST = 0
+    for pregunta in EST_true:
+        EST += clean_data(pregunta, invert=0)
+    for pregunta in EST_false:
+        EST += clean_data(pregunta, invert=1)
+    print('est perra', EST)
+
+    title = 'PLOX'
+
+    return render(request, 'test_result.html', dict(title=title))
