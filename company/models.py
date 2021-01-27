@@ -62,7 +62,7 @@ class CompanyTest(models.Model):
     """
     Model to make the relation between the companies and their asigned tests.
     """
-    company =  models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     test = models.ForeignKey(TestCatalog, on_delete=models.CASCADE)
 
 

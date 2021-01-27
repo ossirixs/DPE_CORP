@@ -1,11 +1,18 @@
 from django.db import models
+from company.models import TestCode
 
 
 class ObjectCIE(models.Model):
-
+    # El código de la prueba al que está relacionado este cuestionario
+    codigo = models.ForeignKey(TestCode, blank=True, null=True, on_delete=models.CASCADE)
+    # Datos del candidato
     nombre = models.CharField(max_length=50, default='', help_text='Nombre completo del candidato')
+    edad = models.IntegerField(default=1, help_text='Edad del candidato')
     profesion = models.CharField(max_length=50, default='', help_text='Profesion del candidato')
-
+    sexo = models.CharField(max_length=50, default='', help_text='Sexo del candidato')
+    estado = models.CharField(max_length=50, default='', help_text='Estado de nacimiento del candidato')
+    rfc = models.CharField(max_length=50, default='', help_text='RFC del candidato')
+    # Preguntas del cuestionario
     q_1 = models.BooleanField(null=True)
     q_2 = models.BooleanField(null=True)
     q_3 = models.BooleanField(null=True)
