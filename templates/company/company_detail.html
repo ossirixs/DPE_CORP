@@ -473,13 +473,14 @@
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="col-md-4">
-                                <select name="company_user_id" id="company-id" class="form-control" required>
+                                <select name="test" id="test-id" class="form-control" required>
                                     <option value="">--</option>
-                                    {% for test in available_tests %}
-                                        <option value={{test.id}}>{{test.test_name}}</option>
+                                    {% for test in assigned_tests %}
+                                        <option value={{test.test.test_name}}>{{test.test.test_name}}</option>
                                     {% endfor %}
                                 </select>   
                             </div>
+                            <input type="hidden" name="select_test_type" value=1>
                             <button type="submit" class="btn btn-primary">Seleccionar</button>
                         </div>
                     </form>

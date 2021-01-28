@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from tests.models import ObjectCIE
+from company.models import TestCode
 from tests.forms import CIE_form_1, CIE_form_2, candidato
 from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404
@@ -13,7 +14,8 @@ class CIE(SessionWizardView):
         return 'test.html'
 
     def done(self, form_list, **kwargs):
-        print ('           asi es ')
+        code = kwargs['test_code']
+        test_code = TestCode.objects.get(code=code)
         cuestionario = ObjectCIE()
 
         for form in form_list:
@@ -21,6 +23,7 @@ class CIE(SessionWizardView):
             for key, value in form_data.items():
                 setattr(cuestionario, key, value)
                 # print(key, value)
+        cuestionario.codigo = test_code
         cuestionario.save()
         title = 'ACIES'
         return render(self.request, 'finish.html', dict(form_data = [form.cleaned_data for form in form_list],
