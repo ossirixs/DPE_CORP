@@ -1,10 +1,14 @@
+# Django
 from django.db import models
+from datetime import datetime
+# Models
 from company.models import TestCode
 
 
 class ObjectCIE(models.Model):
     # El código de la prueba al que está relacionado este cuestionario
     codigo = models.ForeignKey(TestCode, blank=True, null=True, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True,)
     # Datos del candidato
     nombre = models.CharField(max_length=50, default='', help_text='Nombre completo del candidato')
     edad = models.IntegerField(default=1, help_text='Edad del candidato')

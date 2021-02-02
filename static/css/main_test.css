@@ -28,7 +28,7 @@ body{
 
 .test-main__inner{
   margin: 0 auto;
-  width: fit-content;
+  width: max-content;
   background-color: white;
   padding: 30px 40px;
   border-radius: 10px;

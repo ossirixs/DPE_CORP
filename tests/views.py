@@ -37,9 +37,9 @@ class CIE(SessionWizardView):
                 # print(key, value)
         cuestionario.codigo = test_code
         cuestionario.save()
-        title = 'ACIES'
-        return render(self.request, 'finish.html', dict(form_data=[form.cleaned_data for form in form_list],
-                                                        title=title))
+        return render(self.request, 'finish.html', dict(form_data = [form.cleaned_data for form in form_list],
+                                                        title = 'CIE',
+                                                        name = cuestionario.nombre))
 
 def test_result(request, test_type, test_id):
 

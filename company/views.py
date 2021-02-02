@@ -154,6 +154,7 @@ def company_detail(request,company_id):
                                                                 'user': user,
                                                                 'assigned_tests':assigned_tests,
                                                                 'available_tests':available_tests,
+                                                                'tab':'company',
                                                                 })
 
         # CREATE COMPANY USER 
@@ -239,6 +240,7 @@ def company_detail(request,company_id):
                                                             'user': user,
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
+                                                            'tab':'codes',
                                                             })
 
         # CREATE NEW CODE
@@ -272,12 +274,13 @@ def company_detail(request,company_id):
                                                             'user': user,
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
+                                                            'tab':'codes',
                                                             })
 
-        # MODIFY CODE
+        # ACTIVATE/DEACTIVATE CODE
         elif request.POST.get('modify_code'):
-            print('Modify code')
-            # Concat strings to create the code
+            print('activate / deactivate code')
+            # get the code from the db
             code_id = request.POST.get('code_id')
             code = TestCode.objects.get(id=code_id)
 
@@ -285,7 +288,7 @@ def company_detail(request,company_id):
                 code.activate = False
             else:
                 code.activate = True
-            
+            # Save the new state
             code.save()
 
             return render(request,'company/company_detail.html', {
@@ -297,6 +300,7 @@ def company_detail(request,company_id):
                                                                 'user': user,
                                                                 'assigned_tests':assigned_tests,
                                                                 'available_tests':available_tests,
+                                                                'tab':'codes',
                                                                 })
         
         # DELETE CODE
@@ -316,6 +320,7 @@ def company_detail(request,company_id):
                                                                 'user': user,
                                                                 'assigned_tests':assigned_tests,
                                                                 'available_tests':available_tests,
+                                                                'tab':'codes',
                                                                 })
 
         # RESULTS LIST

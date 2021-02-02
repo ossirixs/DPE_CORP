@@ -35,7 +35,8 @@
                         <thead>
                         <tr>
                             <th>Candidato</th>
-                            <th>Código usado</th>
+                            <th>Tipo prueba</th>
+                            <th>Fecha</th>
                             <th></th>
                         </tr>
                         </thead>
@@ -47,6 +48,9 @@
                                 </td>
                                 <td>
                                     {{cie_object.codigo.test.test_name}}
+                                </td>
+                                <td>
+                                    {{cie_object.created}}
                                 </td>
                                 <td>
                                     <form method="POST" class="" action="{% url 'test_result' cie_object.codigo.test.test_name cie_object.id %}" target="_blank">

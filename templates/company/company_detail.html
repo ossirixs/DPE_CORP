@@ -32,17 +32,17 @@
             <div class="card-header-tab card-header">
                 <div class="btn-actions-pane-left">
                     <div class="nav">
-                        <a id="tests" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate" onclick="toogleForm(this)">Pruebas</a>
-                        <a id="codes" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Codigos de Pruebas</a>
+                        <a id="tests" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition active btn btn-outline-alternate" onclick="toogleForm(this.id)">Pruebas</a>
+                        <a id="codes" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Codigos de Pruebas</a>
                         {% if user.type == "ADMIN_DPE" %}
-                            <a id="company" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Empresa</a>
-                            <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Usarios</a>
-                            <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Crear Usuarios</a>
+                            <a id="company" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Modificar Empresa</a>
+                            <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Modificar Usarios</a>
+                            <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Crear Usuarios</a>
                         {% elif  user.type == "CLIENT_MAIN" %}
-                            <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Modificar Usarios</a>
-                            <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Crear Usuarios</a>
+                            <a id="search" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Modificar Usarios</a>
+                            <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Crear Usuarios</a>
                         {% endif %}
-                            <a id="results" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this)">Resultados</a>
+                            <a id="results" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Resultados</a>
                     </div>
                 </div>
             </div>
@@ -396,23 +396,31 @@
                         <button class="mt-2 btn btn-primary">Actualizar</button>
                     </form>
                 </div>
-                {% comment %} SEARCH USERS {% endcomment %}
+                {% comment %} LIST USERS {% endcomment %}
                 <div id="search-users-form-id" class="card-section d-none">
-                    <form method="POST" action="{% url 'company:user_detail' company.company_name %}"   class="">
-                        {% csrf_token %}
-                        <div class="form-row">
-                            <div class="col-md-4">
-                                <select name="company_user_id" id="company-id" class="form-control" required>
-                                    <option value="">--</option>
-                                    {% for company_user in company_users %}
-                                        <option value={{company_user.id}}>{{company_user.first_name}}</option>                                                                                
-                                    {% endfor %}
-                                </select>   
-                            </div>
-                            <input type="hidden" name="company" value={{company.id}}>
-                            <button type="submit" class="btn btn-primary">Seleccionar</button>
-                        </div>
-                    </form>
+                    <table class="mb-0 table">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for company_user in company_users %}
+                            <tr>
+                                <td>{{ company_user.first_name }}</td>
+                                <td>
+                                    <form method="POST" action="{% url 'company:user_detail' company.company_name %}">
+                                        {% csrf_token %} 
+                                            <button type="submit" class="btn btn-primary btn-sm">  Ir  </button>
+                                            <input type="hidden" name="company" value={{company.id}}>
+                                            <input type="hidden" name="company_user_id" value={{company_user.id}}>
+                                    </form>
+                                </td>
+                            </tr>    
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
                 {% comment %} CREATE USERS {% endcomment %}
                 <div id="create-form-id" class="card-section d-none">
@@ -491,23 +499,27 @@
 </div>
 <script>
 
-    let forms = '';
+    let cards = '';
     let buttons = '';
 
     document.addEventListener("DOMContentLoaded", function(e) {
-        forms = document.querySelectorAll('.card-section');
+        cards = document.querySelectorAll('.card-section');
         buttons = document.querySelectorAll('.btn-pill');
+        // Open the tab you were in
+        let tab = '{{tab}}';
+        if ( tab ){
+            toogleForm(tab);
+        }
 
     });
-    function toogleForm(btn){
-        let selected_form = ''
-        forms.forEach((form) => {
-            let form_id = form.id;
-            if (form_id.includes(btn.id) && form.classList.contains('d-none')){
-                form.classList.remove('d-none');
-                selected_form = form
-            }else if (!form_id.includes(btn.id) && !form.classList.contains('d-none')){
-                form.classList.add('d-none');
+    function toogleForm(tab_id){
+        cards.forEach((card) => {
+            let card_id = card.id;
+            if (card_id.includes(tab_id) && card.classList.contains('d-none')){
+                card.classList.remove('d-none');
+                selected_card = card
+            }else if (!card_id.includes(tab_id) && !card.classList.contains('d-none')){
+                card.classList.add('d-none');
             }
         });
 
@@ -515,8 +527,10 @@
             btn.classList.remove('active');
         });
 
-        if(!btn.classList.contains('active')){
-                btn.classList.add('active');
+        let tab_button = document.getElementById(tab_id);
+
+        if(!tab_button.classList.contains('active')){
+            tab_button.classList.add('active');
         }
     }
     // Alerts for actions
