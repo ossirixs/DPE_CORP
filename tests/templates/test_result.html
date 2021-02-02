@@ -3,10 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <title>AGSGS</title>
+    {% block content_title %}{% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <meta charset="UTF-8">
 </head>
+<style>
+.body {
+    font-family: Helvetica, sans-serif;
+}
+
+.h1 {
+    font-family: Helvetica, sans-serif;
+}
+
+.div-70 {
+    width: 60%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.div-30 {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.section {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table, td, th {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 15px;
+}
+
+
+</style>
+
 <body>
+    <div class="app-main">
+        <div class="col-6">
+            <br><br>
+            <div class="section">
+                <h1>{{ title }}</h1>
+                <br>
+                <br>
+                <div style="width: 700px">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <br>
+                    <br>
+                    <p>{{ result }}</p>
+                </div>
+            </div>
+        </div>
 
-    <h1>{{ title }}</h1>
+        <div class="col-6">
+            <div class="section">
+                <br><br>
+                <h1>RESULTADOS</h1>
+                <br><br>
+                <table>
+                    <tr>
+                        <th>ESCALA</th>
+                        <th>VALOR</th>
+                    </tr>
+                    <tr>
+                        <td>EST</td>
+                        <td>{{ EST }}</td>
+                    </tr>
+                    <tr>
+                        <td>ANS</td>
+                        <td>{{ ANS }}</td>
+                    </tr>
+                    <tr>
+                        <td>AUC</td>
+                        <td>{{ AUC }}</td>
+                    </tr>
+                    <tr>
+                        <td>EFI</td>
+                        <td>{{ EFI }}</td>
+                    </tr>
+                    <tr>
+                        <td>SEG</td>
+                        <td>{{ SEG }}</td>
+                    </tr>
+                    <tr>
+                        <td>IND</td>
+                        <td>{{ IND }}</td>
+                    </tr>
+                    <tr>
+                        <td>DOM</td>
+                        <td>{{ DOM }}</td>
+                    </tr>
+                    <tr>
+                        <td>COG</td>
+                        <td>{{ COG }}</td>
+                    </tr>
+                    <tr>
+                        <td>SOC</td>
+                        <td>{{ SOC }}</td>
+                    </tr>
+                    <tr>
+                        <td>AJS</td>
+                        <td>{{ AJS }}</td>
+                    </tr>
+                    <tr>
+                        <td>AGR</td>
+                        <td>{{ AGR }}</td>
+                    </tr>
+                    <tr>
+                        <td>TOL</td>
+                        <td>{{ TOL }}</td>
+                    </tr>
+                    <tr>
+                        <td>HAB</td>
+                        <td>{{ HAB }}</td>
+                    </tr>
+                    <tr>
+                        <td>DISC</td>
+                        <td>{{ DISC }}</td>
+                    </tr>
+                    <tr>
+                        <td>LID</td>
+                        <td>{{ LID }}</td>
+                    </tr>
+                    <tr>
+                        <td>VER</td>
+                        <td>{{ VER }}</td>
+                    </tr><tr>
+                        <td>IMG</td>
+                        <td>{{ IMG }}</td>
+                    </tr>
+                    <tr>
+                        <td>CONG</td>
+                        <td>{{ CONG }}</td>
+                    </tr>
+                </table>
 
+            </div>
+        </div>
+
+
+    </div>
 </body>
 </html>
+
+<script type="text/javascript">
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+        labels: ['EST', 'ANS', 'AUC', 'EFI', 'SEG', 'IND', 'DOM', 'CCG', 'SOC', 'AJS', 'AGR', 'TOL', 'HAB', 'DISC',
+                    'LID', 'VER', 'IMG', 'CONG'],
+        datasets: [{
+            label: '# of Votes',
+            data: [{{ EST }}, {{ ANS }}, {{ AUC }}, {{ EFI }}, {{ SEG }}, {{ IND }}, {{ DOM }}, {{ CCG }}, {{ SOC }},
+                    {{ AJS }},{{ AGR }}, {{ TOL }}, {{ HAB }}, {{ DISC }}, {{ LID }}, {{ VER }}, {{ IMG }}, {{ CONG }}],
+            backgroundColor: [
+                'rgba(18, 118, 161, 0.7)',
+                'rgba(205, 92, 92, 0.7)',
+                'rgba(205, 92, 62, 0.7)',
+                'rgba(45, 145, 62, 0.7)',
+                'rgba(36, 23, 62, 0.7)',
+                'rgba(124, 36, 62, 0.7)',
+                'rgba(45, 86, 23, 0.7)',
+                'rgba(15, 144, 23, 0.7)',
+                'rgba(123, 145, 43, 0.7)',
+                'rgba(53, 234, 12, 0.7)',
+                'rgba(76, 16, 233, 0.7)',
+                'rgba(63, 136, 73, 0.7)',
+                'rgba(34, 87, 176, 0.7)',
+                'rgba(45, 163, 12, 0.7)',
+                'rgba(73, 13, 62, 0.7)',
+                'rgba(36, 142, 123, 0.7)',
+                'rgba(216, 145, 24, 0.7)',
+                'rgba(123, 145, 122, 0.7)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>

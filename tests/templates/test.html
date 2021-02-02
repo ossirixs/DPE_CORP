@@ -33,12 +33,7 @@
           {% endif %}
         {% endfor %}
       </div>
-
     <div class="form-buttons">
-      {% if wizard.steps.prev %}
-        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">{% trans "Inicio" %}</button>
-        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.prev }}">{% trans "Regresar" %}</button>
-      {% endif %}
       <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
     </div>
   </form>

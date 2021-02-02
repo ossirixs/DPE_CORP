@@ -235,6 +235,10 @@ class CIE_form_3(forms.Form):
     q_60 = forms.ChoiceField(
         label='Me considero una persona responsable y eficaz al encargarme de algo.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_4(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_61 = forms.ChoiceField(
         label='Me encanta mandar.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -295,6 +299,10 @@ class CIE_form_3(forms.Form):
     q_80 = forms.ChoiceField(
         label='Suelo tener pensamientos persistentes que perturban mi estado de ánimo.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_5(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_81 = forms.ChoiceField(
         label='Puedo demostrar mi capacidad y mi valía cuando me ofrecen la oportunidad de hacerlo.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -355,6 +363,10 @@ class CIE_form_3(forms.Form):
     q_100 = forms.ChoiceField(
         label='En ocasiones hago cosas que no debiera yendo en contra de las reglas establecidas.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_6(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_101 = forms.ChoiceField(
         label='Me gusta imponer mis opiniones a los demás.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -415,6 +427,10 @@ class CIE_form_3(forms.Form):
     q_120 = forms.ChoiceField(
         label='Muchas veces dudo si lo que hago lo hago bien.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_7(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_121 = forms.ChoiceField(
         label='Prefiero hacerme cargo de la organización y el desarrollo de las tareas sobre todo cuando trabajo en grupo.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -475,6 +491,10 @@ class CIE_form_3(forms.Form):
     q_140 = forms.ChoiceField(
         label='Tengo mi propia forma de hacer las cosas y suele ser diferente a la de los demás.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_8(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_141 = forms.ChoiceField(
         label='Por lo general, desconfío de la gente.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -535,6 +555,10 @@ class CIE_form_3(forms.Form):
     q_160 = forms.ChoiceField(
         label='Cuando alguien no me devuelve algo que le he prestado en el plazo acordado busco vengarme de el.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_9(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_161 = forms.ChoiceField(
         label='Me encanta estar con más personas alrededor.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -595,6 +619,10 @@ class CIE_form_3(forms.Form):
     q_180 = forms.ChoiceField(
         label='Me inquieta saber que voy a llegar tarde a una cita.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_10(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_181 = forms.ChoiceField(
         label='Soy una persona con grandes iniciativas y proyectos.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -655,6 +683,10 @@ class CIE_form_3(forms.Form):
     q_200 = forms.ChoiceField(
         label='Sé como tratar y guiar adecuadamente a las personas.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_11(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_201 = forms.ChoiceField(
         label='Elijo con mucho cuidado a las personas en las que debo confiar en asuntos delicados.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
@@ -715,6 +747,10 @@ class CIE_form_3(forms.Form):
     q_220 = forms.ChoiceField(
         label='Utilizo cualquier pretexto para dejar lo que estoy haciendo.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
+
+class CIE_form_12(forms.Form):
+    OPCIONES = ((0, "Falso"), (1, "Verdadero"))
+
     q_221 = forms.ChoiceField(
         label='Me dejo abatir fácilmente cuando siento que fracaso o cuando tengo una experiencia negativa.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)

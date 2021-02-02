@@ -7,7 +7,6 @@ def clean_data(data, invert):
     will invert the output if invert is set True, returns 0 for None values
     """
     # Clean the data for None values
-    print("data and invert", data, invert)
     if data is not None:
         data = int(data)
         # Invert the cleaned data if needed
@@ -15,5 +14,7 @@ def clean_data(data, invert):
             data = not data
     else:
         data = 0
+
+    data = int(data)
     print(data)
     return data

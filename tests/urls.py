@@ -6,11 +6,6 @@ from tests.forms import CIE_form_1, CIE_form_2
 
 urlpatterns = [
     path(
-        route='',
-        view=views.test_selector,
-        name='test_selector'
-    ),
-    path(
         route='cie/<test_code>',
         view=CIE.as_view(),
         name='cie_test'
