@@ -5,7 +5,7 @@ from tests.forms import *
 from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404
 from tests.utils import clean_data
-from weasyprint import HTML
+
 
 class CIE(SessionWizardView):
     form_list = [candidato,
@@ -462,9 +462,10 @@ def test_result(request, test_type, test_id):
 
     print('escaalas perra', EST, ANS, AUC, EFI, SEG, IND, DOM, COG, SOC, AJS, AGR, TOL, HAB, DISC, LID, VER, IMG, CONG)
 
-    title = 'LEONARDA FLORES HERNANDEZ'
+    title = 'FLORES HERNANDEZ'
 
-    return render(request, 'test_result.html', dict(title=title,
+    return render(request, 'test_result.html', dict(cuestionario=cuestionario,
+                                                    title=title,
                                                     result=result,
                                                     EST=EST,
                                                     ANS=ANS,

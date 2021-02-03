@@ -39,6 +39,10 @@
     margin-right: auto;
 }
 
+.box {
+    padding: 25px;
+}
+
 table, td, th {
   border: 1px solid #ddd;
   text-align: left;
@@ -50,7 +54,11 @@ table {
 }
 
 th, td {
-  padding: 15px;
+  padding: 10px;
+}
+
+.space {
+    padding-top: 25px;
 }
 
 
@@ -59,12 +67,12 @@ th, td {
 <body>
     <div class="app-main">
         <div class="col-6">
-            <br><br>
             <div class="section">
-                <h1>{{ title }}</h1>
+                <div class="box">
+                    <h1>{{ cuestionario.nombre }} {{ title }}</h1>
+                </div>
                 <br>
-                <br>
-                <div style="width: 700px">
+                <div style="width: 700px; padding: 25px;">
                     <canvas id="myChart" width="400" height="400"></canvas>
                     <br>
                     <br>
@@ -75,92 +83,111 @@ th, td {
 
         <div class="col-6">
             <div class="section">
-                <br><br>
-                <h1>RESULTADOS</h1>
-                <br><br>
-                <table>
-                    <tr>
-                        <th>ESCALA</th>
-                        <th>VALOR</th>
-                    </tr>
-                    <tr>
-                        <td>EST</td>
-                        <td>{{ EST }}</td>
-                    </tr>
-                    <tr>
-                        <td>ANS</td>
-                        <td>{{ ANS }}</td>
-                    </tr>
-                    <tr>
-                        <td>AUC</td>
-                        <td>{{ AUC }}</td>
-                    </tr>
-                    <tr>
-                        <td>EFI</td>
-                        <td>{{ EFI }}</td>
-                    </tr>
-                    <tr>
-                        <td>SEG</td>
-                        <td>{{ SEG }}</td>
-                    </tr>
-                    <tr>
-                        <td>IND</td>
-                        <td>{{ IND }}</td>
-                    </tr>
-                    <tr>
-                        <td>DOM</td>
-                        <td>{{ DOM }}</td>
-                    </tr>
-                    <tr>
-                        <td>COG</td>
-                        <td>{{ COG }}</td>
-                    </tr>
-                    <tr>
-                        <td>SOC</td>
-                        <td>{{ SOC }}</td>
-                    </tr>
-                    <tr>
-                        <td>AJS</td>
-                        <td>{{ AJS }}</td>
-                    </tr>
-                    <tr>
-                        <td>AGR</td>
-                        <td>{{ AGR }}</td>
-                    </tr>
-                    <tr>
-                        <td>TOL</td>
-                        <td>{{ TOL }}</td>
-                    </tr>
-                    <tr>
-                        <td>HAB</td>
-                        <td>{{ HAB }}</td>
-                    </tr>
-                    <tr>
-                        <td>DISC</td>
-                        <td>{{ DISC }}</td>
-                    </tr>
-                    <tr>
-                        <td>LID</td>
-                        <td>{{ LID }}</td>
-                    </tr>
-                    <tr>
-                        <td>VER</td>
-                        <td>{{ VER }}</td>
-                    </tr><tr>
-                        <td>IMG</td>
-                        <td>{{ IMG }}</td>
-                    </tr>
-                    <tr>
-                        <td>CONG</td>
-                        <td>{{ CONG }}</td>
-                    </tr>
-                </table>
+                <div class="box">
+                    <h1>RESULTADOS CIE</h1>
+                    <br><br>
 
+                    <table>
+                        <tr>
+                            <th>ESCALA</th>
+                            <th>VALOR</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>EST</td>
+                            <td>{{ EST }}</td>
+                            <td style="background: red;">{{ EST }}</td>
+                        </tr>
+                        <tr>
+                            <td>ANS</td>
+                            <td>{{ ANS }}</td>
+                        </tr>
+                        <tr>
+                            <td>AUC</td>
+                            <td>{{ AUC }}</td>
+                        </tr>
+                        <tr>
+                            <td>EFI</td>
+                            <td>{{ EFI }}</td>
+                        </tr>
+                        <tr>
+                            <td>SEG</td>
+                            <td>{{ SEG }}</td>
+                        </tr>
+                        <tr>
+                            <td>IND</td>
+                            <td>{{ IND }}</td>
+                        </tr>
+                        <tr>
+                            <td>DOM</td>
+                            <td>{{ DOM }}</td>
+                        </tr>
+                        <tr>
+                            <td>COG</td>
+                            <td>{{ COG }}</td>
+                        </tr>
+                        <tr>
+                            <td>SOC</td>
+                            <td>{{ SOC }}</td>
+                        </tr>
+                        <tr>
+                            <td>AJS</td>
+                            <td>{{ AJS }}</td>
+                        </tr>
+                        <tr>
+                            <td>AGR</td>
+                            <td>{{ AGR }}</td>
+                        </tr>
+                        <tr>
+                            <td>TOL</td>
+                            <td>{{ TOL }}</td>
+                        </tr>
+                        <tr>
+                            <td>HAB</td>
+                            <td>{{ HAB }}</td>
+                        </tr>
+                        <tr>
+                            <td>DISC</td>
+                            <td>{{ DISC }}</td>
+                        </tr>
+                        <tr>
+                            <td>LID</td>
+                            <td>{{ LID }}</td>
+                        </tr>
+                        <tr>
+                            <td>VER</td>
+                            <td>{{ VER }}</td>
+                        </tr><tr>
+                            <td>IMG</td>
+                            <td>{{ IMG }}</td>
+                        </tr>
+                        <tr>
+                            <td>CONG</td>
+                            <td>{{ CONG }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-
-
     </div>
+    <div class="space"></div>
+    <div class="app-main">
+        <div class="col-lg-12">
+            <div class="section">
+                <div class="box">
+                    <h1>{{ cuestionario.nombre }} {{ title }}</h1>
+                </div>
+                <br>
+                <div style="width: 700px; padding: 25px;">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <br>
+                    <br>
+                    <p>{{ result }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
 
