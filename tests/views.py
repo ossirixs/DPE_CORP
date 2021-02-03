@@ -5,7 +5,6 @@ from tests.forms import *
 from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404
 from tests.utils import clean_data
-from weasyprint import HTML
 
 class CIE(SessionWizardView):
     form_list = [candidato,
