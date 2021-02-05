@@ -280,9 +280,430 @@ def test_result(request, test_type, test_id):
         q_232 = cuestionario.q_232
         q_233 = cuestionario.q_233
 
-
     except:
         pass
+
+    EST_DICT = {'26': 97,
+                '25': 87,
+                '24': 83,
+                '23': 76,
+                '22': 67,
+                '21': 63,
+                '20': 58,
+                '19': 55,
+                '18': 50,
+                '17': 48,
+                '16': 42,
+                '15': 40,
+                '14': 37,
+                '13': 33,
+                '12': 29,
+                '11': 24,
+                '10': 24,
+                '9': 17,
+                '8': 17,
+                '7': 15,
+                '6': 12,
+                '5': 9,
+                '4': 3,
+                '3': 3,
+                '2': 3,
+                '1': 3,
+                '0': 3}
+
+    ANS_DICT = {'25': 97,
+                '24': 97,
+                '23': 97,
+                '22': 97,
+                '21': 91,
+                '20': 85,
+                '19': 83,
+                '18': 76,
+                '17': 71,
+                '16': 71,
+                '15': 67,
+                '14': 60,
+                '13': 58,
+                '12': 55,
+                '11': 52,
+                '10': 48,
+                '9': 45,
+                '8': 42,
+                '7': 40,
+                '6': 37,
+                '5': 33,
+                '4': 29,
+                '3': 24,
+                '2': 17,
+                '1': 9,
+                '0': 3}
+
+    AUC_DICT = {'25': 97,
+                '24': 87,
+                '23': 76,
+                '22': 71,
+                '21': 63,
+                '20': 55,
+                '19': 50,
+                '18': 45,
+                '17': 40,
+                '16': 37,
+                '15': 33,
+                '14': 29,
+                '13': 24,
+                '12': 24,
+                '11': 17,
+                '10': 15,
+                '9': 12,
+                '8': 9,
+                '7': 9,
+                '6': 3,
+                '5': 3,
+                '4': 3,
+                '3': 3,
+                '2': 3,
+                '1': 3,
+                '0': 3}
+
+    EFI_DICT = {'25': 91,
+                '24': 71,
+                '23': 60,
+                '22': 52,
+                '21': 42,
+                '20': 37,
+                '19': 29,
+                '18': 24,
+                '17': 17,
+                '16': 17,
+                '15': 12,
+                '14': 9,
+                '13': 3,
+                '12': 3,
+                '11': 3,
+                '10': 3,
+                '9': 3,
+                '8': 3,
+                '7': 3,
+                '6': 3,
+                '5': 3,
+                '4': 3,
+                '3': 3,
+                '2': 3,
+                '1': 3,
+                '0': 3}
+
+    SEG_DICT = {'24': 97,
+                '23': 76,
+                '22': 60,
+                '21': 52,
+                '20': 45,
+                '19': 42,
+                '18': 37,
+                '17': 33,
+                '16': 29,
+                '15': 29,
+                '14': 29,
+                '13': 24,
+                '12': 17,
+                '11': 17,
+                '10': 17,
+                '9': 15,
+                '8': 15,
+                '7': 12,
+                '6': 12,
+                '5': 12,
+                '4': 12,
+                '3': 12,
+                '2': 12,
+                '1': 12,
+                '0': 3}
+    IND_DICT = {'19': 97,
+                '18': 97,
+                '17': 97,
+                '16': 97,
+                '15': 97,
+                '14': 97,
+                '13': 91,
+                '12': 83,
+                '11': 76,
+                '10': 67,
+                '9': 58,
+                '8': 52,
+                '7': 45,
+                '6': 37,
+                '5': 33,
+                '4': 24,
+                '3': 17,
+                '2': 12,
+                '1': 9,
+                '0': 9}
+
+    DOM_DICT = {'24': 97,
+                '23': 97,
+                '22': 97,
+                '21': 91,
+                '20': 91,
+                '19': 85,
+                '18': 83,
+                '17': 83,
+                '16': 76,
+                '15': 71,
+                '14': 71,
+                '13': 67,
+                '12': 63,
+                '11': 58,
+                '10': 55,
+                '9': 52,
+                '8': 48,
+                '7': 42,
+                '6': 37,
+                '5': 33,
+                '4': 24,
+                '3': 17,
+                '2': 12,
+                '1': 3,
+                '0': 3}
+
+    COG_DICT = {'24': 97,
+                '23': 76,
+                '22': 63,
+                '21': 50,
+                '20': 42,
+                '19': 33,
+                '18': 29,
+                '17': 24,
+                '16': 17,
+                '15': 12,
+                '14': 9,
+                '13': 3,
+                '12': 3,
+                '11': 3,
+                '10': 3,
+                '9': 3,
+                '8': 3,
+                '7': 3,
+                '6': 3,
+                '5': 3,
+                '4': 3,
+                '3': 3,
+                '2': 3,
+                '1': 3,
+                '0': 3}
+
+    SOC_DICT = {'25': 97,
+                '24': 76,
+                '23': 63,
+                '22': 55,
+                '21': 50,
+                '20': 45,
+                '19': 42,
+                '18': 40,
+                '17': 37,
+                '16': 33,
+                '15': 33,
+                '14': 33,
+                '13': 29,
+                '12': 29,
+                '11': 29,
+                '10': 24,
+                '9': 24,
+                '8': 24,
+                '7': 24,
+                '6': 24,
+                '5': 24,
+                '4': 0,
+                '3': 24,
+                '2': 24,
+                '1': 24,
+                '0': 24}
+
+    AJS_DICT = {'19': 97,
+                '18': 97,
+                '17': 76,
+                '16': 60,
+                '15': 52,
+                '14': 42,
+                '13': 37,
+                '12': 29,
+                '11': 29,
+                '10': 24,
+                '9': 17,
+                '8': 17,
+                '7': 17,
+                '5': 17,
+                '4': 15,
+                '3': 15,
+                '2': 15,
+                '1': 15,
+                '0': 3}
+
+    AGR_DICT = {'21': 97,
+                '20': 97,
+                '19': 97,
+                '18': 97,
+                '17': 97,
+                '16': 97,
+                '15': 87,
+                '14': 85,
+                '13': 83,
+                '12': 76,
+                '11': 71,
+                '10': 67,
+                '9': 63,
+                '8': 58,
+                '7': 52,
+                '6': 48,
+                '5': 42,
+                '4': 37,
+                '3': 33,
+                '2': 24,
+                '1': 17,
+                '0': 0}
+
+    TOL_DICT = {'19': 97,
+                '18': 83,
+                '17': 71,
+                '16': 63,
+                '15': 55,
+                '14': 50,
+                '13': 42,
+                '12': 37,
+                '11': 29,
+                '10': 24,
+                '9': 17,
+                '8': 12,
+                '7': 9,
+                '6': 3,
+                '5': 3,
+                '4': 3,
+                '3': 3,
+                '2': 3,
+                '1': 3,
+                '0': 3}
+
+    HAB_DICT = {'20': 83,
+                '19': 63,
+                '18': 50,
+                '17': 40,
+                '16': 33,
+                '15': 24,
+                '14': 17,
+                '13': 17,
+                '12': 12,
+                '11': 9,
+                '10': 9,
+                '9': 9,
+                '8': 3,
+                '7': 3,
+                '6': 3,
+                '5': 3,
+                '4': 3,
+                '3': 3,
+                '2': 3,
+                '1': 3,
+                '0': 3}
+
+    DISC_DICT = {
+                '25': 97,
+                '24': 67,
+                '23': 48,
+                '22': 37,
+                '21': 29,
+                '20': 24,
+                '19': 24,
+                '18': 24,
+                '17': 24,
+                '16': 24,
+                '15': 24,
+                '14': 24,
+                '13': 24,
+                '12': 24,
+                '11': 24,
+                '10': 24,
+                '9': 24,
+                '8': 24,
+                '7': 24,
+                '6': 24,
+                '5': 24,
+                '4': 24,
+                '3': 24,
+                '2': 24,
+                '1': 24,
+                '0': 17}
+
+    LID_DICT = {'19': 97,
+                '18': 97,
+                '17': 87,
+                '16': 83,
+                '15': 76,
+                '14': 71,
+                '13': 67,
+                '12': 63,
+                '11': 60,
+                '10': 55,
+                '9': 52,
+                '8': 48,
+                '7': 42,
+                '6': 37,
+                '5': 29,
+                '4': 24,
+                '3': 17,
+                '2': 12,
+                '1': 9,
+                '0': 3}
+
+    VER_DICT = {'21': 97,
+                '20': 97,
+                '19': 97,
+                '18': 97,
+                '17': 97,
+                '16': 97,
+                '15': 97,
+                '14': 97,
+                '13': 91,
+                '12': 83,
+                '11': 76,
+                '10': 76,
+                '9': 67,
+                '8': 60,
+                '7': 55,
+                '6': 48,
+                '5': 40,
+                '4': 29,
+                '3': 17,
+                '2': 12,
+                '1': 3,
+                '0': 3}
+
+    IMG_DICT = {'28': 76,
+                '27': 58,
+                '26': 48,
+                '25': 40,
+                '24': 37,
+                '23': 29,
+                '22': 24,
+                '21': 24,
+                '20': 17,
+                '19': 17,
+                '18': 15,
+                '17': 12,
+                '16': 9,
+                '15': 3,
+                '14': 3,
+                '13': 3,
+                '12': 3,
+                '11': 3,
+                '10': 3,
+                '9': 3,
+                '8': 3,
+                '7': 3,
+                '6': 3,
+                '5': 3,
+                '4': 3,
+                '3': 3,
+                '2': 3,
+                '1': 3,
+                '0': 3}
 
     EST_true = [q_144, q_188]
     EST_false = [q_1, q_8, q_18, q_26, q_47, q_57, q_68, q_70, q_79, q_91, q_104, q_105, q_125, q_130, q_154, q_167,
@@ -369,98 +790,111 @@ def test_result(request, test_type, test_id):
              "ante las circunstancias que no puede controlar. Es susceptible e irritable emocionalmente. " \
              "Se altera fácilmente. Manifiesta cambios de ánimo y mal humor."
 
-    print('ESTs', EST_true, EST_false)
 
-    print('en true EST', EST)
     for pregunta in EST_true:
         EST += clean_data(pregunta, invert=0)
-    print('en false EST', EST)
     for pregunta in EST_false:
         EST += clean_data(pregunta, invert=1)
-
-    print('final EST', EST)
+    EST_S = EST_DICT.get(f'{EST}')
 
     for pregunta in ANS_true:
         ANS += clean_data(pregunta, invert=0)
     for pregunta in ANS_false:
         ANS += clean_data(pregunta, invert=1)
+    ANS_S = ANS_DICT.get(f'{ANS}')
 
     for pregunta in AUC_true:
         AUC += clean_data(pregunta, invert=0)
     for pregunta in AUC_false:
         AUC += clean_data(pregunta, invert=1)
+    AUC_S = AUC_DICT.get(f'{AUC}')
 
     for pregunta in EFI_true:
         EFI += clean_data(pregunta, invert=0)
     for pregunta in EFI_false:
         EFI += clean_data(pregunta, invert=1)
+    EFI_S = EFI_DICT.get(f'{EFI}')
 
     for pregunta in SEG_true:
         SEG += clean_data(pregunta, invert=0)
     for pregunta in SEG_false:
         SEG += clean_data(pregunta, invert=1)
+    SEG_S = SEG_DICT.get(f'{SEG}')
 
     for pregunta in IND_true:
         IND += clean_data(pregunta, invert=0)
     for pregunta in IND_false:
         IND += clean_data(pregunta, invert=1)
+    IND_S = IND_DICT.get(f'{IND}')
 
     for pregunta in DOM_true:
         DOM += clean_data(pregunta, invert=0)
     for pregunta in DOM_false:
         DOM += clean_data(pregunta, invert=1)
+    DOM_S = DOM_DICT.get(f'{DOM}')
 
     for pregunta in COG_true:
         COG += clean_data(pregunta, invert=0)
     for pregunta in COG_false:
         COG += clean_data(pregunta, invert=1)
+    COG_S = COG_DICT.get(f'{COG}')
 
     for pregunta in SOC_true:
         SOC += clean_data(pregunta, invert=0)
     for pregunta in SOC_false:
         SOC += clean_data(pregunta, invert=1)
+    SOC_S = SOC_DICT.get(f'{SOC}')
 
     for pregunta in AJS_true:
         AJS += clean_data(pregunta, invert=0)
     for pregunta in AJS_false:
         AJS += clean_data(pregunta, invert=1)
+    AJS_S = AJS_DICT.get(f'{AJS}')
 
     for pregunta in AGR_true:
         AGR += clean_data(pregunta, invert=0)
     for pregunta in AGR_false:
         AGR += clean_data(pregunta, invert=1)
+    AGR_S = AGR_DICT.get(f'{AGR}')
 
     for pregunta in TOL_true:
         TOL += clean_data(pregunta, invert=0)
     for pregunta in TOL_false:
         TOL += clean_data(pregunta, invert=1)
+    TOL_S = TOL_DICT.get(f'{TOL}')
 
     for pregunta in HAB_true:
         HAB += clean_data(pregunta, invert=0)
     for pregunta in HAB_false:
         HAB += clean_data(pregunta, invert=1)
+    HAB_S = HAB_DICT.get(f'{HAB}')
 
     for pregunta in DISC_true:
         DISC += clean_data(pregunta, invert=0)
     for pregunta in DISC_false:
         DISC += clean_data(pregunta, invert=1)
+    DISC_S = DISC_DICT.get(f'{DISC}')
 
     for pregunta in LID_true:
         LID += clean_data(pregunta, invert=0)
     for pregunta in LID_false:
         LID += clean_data(pregunta, invert=1)
+    LID_S = LID_DICT.get(f'{LID}')
 
     for pregunta in VER_true:
         VER += clean_data(pregunta, invert=0)
     for pregunta in VER_false:
         VER += clean_data(pregunta, invert=1)
+    VER_S = VER_DICT.get(f'{VER}')
 
     for pregunta in IMG_true:
         IMG += clean_data(pregunta, invert=0)
     for pregunta in IMG_false:
         IMG += clean_data(pregunta, invert=1)
+    IMG_S = IMG_DICT.get(f'{IMG}')
 
     print('escaalas perra', EST, ANS, AUC, EFI, SEG, IND, DOM, COG, SOC, AJS, AGR, TOL, HAB, DISC, LID, VER, IMG, CONG)
+    print('EST CULERA', EST_S, ANS_S, AUC_S, EFI_S, SEG_S, IND_S, DOM_S, COG_S, SOC_S, AJS_S, AGR_S, TOL_S, HAB_S, DISC_S, LID_S, VER_S, IMG_S)
 
     title = 'FLORES HERNANDEZ'
 
