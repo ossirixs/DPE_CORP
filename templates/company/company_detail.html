@@ -200,7 +200,7 @@
                                         <td>{{ code.test.test_name }}</td>
                                         <td>{{ code.code }}</td>
                                         <td>{{ code.user.username }}</td>
-                                        <td>{{ code.expiration }}</td>
+                                        <td>{{ code.get_formated_exp }}</td>
                                         <td>
                                             {% if code.activate == True%}
                                                 <div class="badge badge-success">Activa</div>
@@ -251,7 +251,7 @@
                                         </select>   
                                     </div>
                                     {% comment %} <div class="col-md-4">
-                                        <label for="company-id" class="">Compania</label>
+                                        <label for="company-id" class="">Compañia</label>
                                         <select name="company" id="company-id" class="form-control" required>
                                             <option value="">--</option>
                                             {% for company in companies %}
@@ -261,7 +261,7 @@
                                     </div> {% endcomment %}
                                     <div class="col-md-3">
                                         <div class="position-relative form-group">
-                                            <label for="expiration-id" class="">Fecha de Expiracion</label>
+                                            <label for="expiration-id" class="">Fecha de Expiración</label>
                                             <input name="expiration" id="expiration-id" type="date" class="form-control" value="" required>
                                         </div>
                                     </div>
@@ -269,7 +269,7 @@
                                 <div class="form-row">
                                     <div class="col-md-3">
                                         <div class="position-relative form-group">
-                                            <button class="mt-2 btn btn-primary">Crear Nuevo Codigo</button>
+                                            <button class="mt-2 btn btn-primary">Crear Nuevo Código</button>
                                         </div>
                                     </div>
                                 </div>
@@ -278,7 +278,7 @@
                                 <input type="hidden" name="create_code" value=1>
                                 
                             </form>
-                            <h5 class="card-title">Codigos para esta compania:</h5>
+                            <h5 class="card-title">Codigos para esta compañia:</h5>
                             <table class="mb-0 table">
                                 <thead>
                                 <tr>
@@ -287,7 +287,7 @@
                                     <th>Creador</th>
                                     <th>Expiracion</th>
                                     <th>Estatus</th>
-                                    <th>Activacion</th>
+                                    <th>Activación</th>
                                     <th>Borrar</th>
                                 </tr>
                                 </thead>
@@ -297,7 +297,7 @@
                                             <td>{{ code.test.test_name }}</td>
                                             <td>{{ code.code }}</td>
                                             <td>{{ code.user.username }}</td>
-                                            <td>{{ code.expiration }}</td>
+                                            <td>{{ code.get_formated_exp }}</td>
                                             <td>
                                                 {% if code.activate == True%}
                                                     <div class="badge badge-success">Activa</div>
@@ -351,7 +351,7 @@
                                         <td>{{ code.test.test_name }}</td>
                                         <td>{{ code.code }}</td>
                                         <td>{{ code.user.username }}</td>
-                                        <td>{{ code.expiration }}</td>
+                                        <td>{{ code.get_formated_exp }}</td>
                                         <td>
                                             {% if code.activate == True%}
                                                 <div class="badge badge-success">Activa</div>
@@ -477,7 +477,7 @@
                 {% comment %} SEARCH RESULTS {% endcomment %}
                 <div id="results-form-id" class="card-section d-none">
                     <h5 class="card-title">Buscar por Tipo de Prueba:</h5>
-                    <form method="POST" action=""   class="">
+                    <form method="POST" action="{% url 'company:test_results_list' company.company_name %}"   class="">
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="col-md-4">
@@ -488,7 +488,8 @@
                                     {% endfor %}
                                 </select>   
                             </div>
-                            <input type="hidden" name="select_test_type" value=1>
+                            <input type="hidden" name="company" value={{company.id}}>
+                            <input type="hidden" name="select_test" value=1>
                             <button type="submit" class="btn btn-primary">Seleccionar</button>
                         </div>
                     </form>

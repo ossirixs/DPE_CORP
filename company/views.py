@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.db.models import Q
-from datetime import datetime
+from datetime import datetime, date
 
 #Models.
 from company.models import Company, TestCode, CompanyTest, TestCatalog
@@ -323,22 +323,6 @@ def company_detail(request,company_id):
                                                                 'tab':'codes',
                                                                 })
 
-        # RESULTS LIST
-        elif request.POST.get('select_test_type'):
-            print('Select test')
-            # Get the test from the request
-            test = request.POST.get('test')
-            if test == "CIE":
-                cie_objects = ObjectCIE.objects.filter(codigo__company=selected_company)
-
-                return render(request,'company/results_list.html', {
-                                                            "company":selected_company,
-                                                            "company_main":company_main,
-                                                            "test":'CIE',
-                                                            "cie_objects":cie_objects,
-                                                            })
-
-
     return render(request,'company/company_detail.html', {
                                                             "company":selected_company,
                                                             "company_main":company_main,
@@ -349,6 +333,52 @@ def company_detail(request,company_id):
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
                                                             })
+
+@login_required
+def test_results_list(request, company_name):
+    """List all test results from the selected company."""
+    #Select an test type.
+    if request.method == 'POST':
+        if request.POST.get('select_test'):
+            test = request.POST.get('test', False)
+            company_id = request.POST.get('company', False)
+            selected_company = Company.objects.get(id=company_id)
+            if test and company_id:
+                print("test_type", test)
+                if test == "CIE":
+                    cie_objects = ObjectCIE.objects.filter(codigo__company=selected_company)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'CIE',
+                                                                "cie_objects":cie_objects,
+                                                                })
+        if request.POST.get('filter_results'):
+            test = request.POST.get('test', False)
+            company_id = request.POST.get('company_id', False)
+            selected_company = Company.objects.get(id=company_id)
+            if test and company_id:
+                if test == "CIE":
+                    cie_objects = ObjectCIE.objects.filter(codigo__company=selected_company)
+                    applicant_name = request.POST.get('applicant_name', '')
+                    test_date = request.POST.get('test_date', '')
+                    if applicant_name:
+                        cie_objects = cie_objects.filter(nombre__contains=applicant_name)
+                    if test_date:                        
+                        cie_objects = cie_objects.filter(created__date=test_date)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'CIE',
+                                                                "cie_objects":cie_objects,
+                                                                "test_date":test_date,
+                                                                "applicant_name":applicant_name,
+                                                                })
+        
+
+
 
 @login_required
 def modify_user(request, company_name):

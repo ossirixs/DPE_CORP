@@ -11,6 +11,11 @@ urlpatterns = [
         name='cie_test'
     ),
     path(
+        route='cie_instructions/<test_code>',
+        view=views.cie_instructions,
+        name='cie_instructions'
+    ),
+    path(
         route='cpecon/<test_code>',
         view=CIE.as_view(),
         name='dpecon_test'

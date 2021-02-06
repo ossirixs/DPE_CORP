@@ -3,45 +3,11 @@ from django import forms
 
 class candidato(forms.Form):
     SEXO = ((0, "Femenino"), (1, "Masculino"))
-    ESTADOS = ((0, "Ciudad de México"),
-               (1, "Aguascalientes"),
-               (2, "Baja California"),
-               (3, "Baja California Sur"),
-               (4, "Campeche"),
-               (5, "Coahuila"),
-               (6, "Colima"),
-               (7, "Chiapas"),
-               (8, "Chihuahua"),
-               (9, "Durango"),
-               (10, "Guanajuato"),
-               (11, "Guerrero"),
-               (12, "Hidalgo"),
-               (13, "Jalisco"),
-               (14, "México"),
-               (15, "Michoacán"),
-               (16, "Morelos"),
-               (17, "Nayarit"),
-               (18, "Nuevo León"),
-               (19, "Oaxaca"),
-               (20, "Puebla"),
-               (21, "Querétaro"),
-               (22, "Quintana Roo"),
-               (23, "San Luis Potosí"),
-               (24, "Sinaloa"),
-               (25, "Sonora"),
-               (26, "Tabasco"),
-               (27, "Tamaulipas"),
-               (28, "Tlaxcala"),
-               (29, "Veracruz"),
-               (30, "Yucatán"),
-               (31, "Zacatecas"))
 
     nombre = forms.CharField(label='Nombre completo', required=True)
     edad = forms.IntegerField(label='Edad', required=True)
-    profesion = forms.CharField(label='Profesion', required=True)
+    email = forms.CharField(label='Correo Electrónico', required=True)
     sexo = forms.ChoiceField(label='Sexo', required=True, widget=forms.RadioSelect, choices=SEXO)
-    estado = forms.ChoiceField(label='Lugar de Nacimiento', required=True, widget=forms.Select, choices=ESTADOS)
-    rfc = forms.CharField(label='RFC', required=True)
 
 
 class CIE_form_1(forms.Form):

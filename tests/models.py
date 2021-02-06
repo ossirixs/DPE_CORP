@@ -12,10 +12,8 @@ class ObjectCIE(models.Model):
     # Datos del candidato
     nombre = models.CharField(max_length=50, default='', help_text='Nombre completo del candidato')
     edad = models.IntegerField(default=1, help_text='Edad del candidato')
-    profesion = models.CharField(max_length=50, default='', help_text='Profesion del candidato')
+    email = models.CharField(max_length=50, default='', help_text='Email del candidato')
     sexo = models.CharField(max_length=50, default='', help_text='Sexo del candidato')
-    estado = models.CharField(max_length=50, default='', help_text='Estado de nacimiento del candidato')
-    rfc = models.CharField(max_length=50, default='', help_text='RFC del candidato')
     # Preguntas del cuestionario
     q_1 = models.BooleanField(null=True)
     q_2 = models.BooleanField(null=True)
@@ -250,3 +248,7 @@ class ObjectCIE(models.Model):
     q_231 = models.BooleanField(null=True)
     q_232 = models.BooleanField(null=True)
     q_233 = models.BooleanField(null=True)
+
+    @property
+    def get_formated_created(self):
+        return self.created.strftime('%d/%m/%Y')

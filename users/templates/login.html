@@ -336,16 +336,15 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
 						{% csrf_token %}
 						{% if error %}
 							<p class="alert alert-danger">{{ error }}</p>
-						{% endif %}
+							{% endif %}
+						<div class="space-m"></div>
+						<div class="space-m"></div>
             <div class="form-group">
               <label for="code-id">Codigo</label>
               <input type="text" id="code-id" name="test_code" required="required"/>
             </div>
             <div class="space-m"></div>
-            <div class="form-group">
-              <label for="name-id">Nombre completo</label>
-              <input type="text" id="name-id" name="name" required="required"/>
-            </div>
+            <div class="space-m"></div>
             <div class="space-m"></div>
             <div class="form-group">
               <label class="form-remember">

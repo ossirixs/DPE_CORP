@@ -1,10 +1,16 @@
+# Django
 from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render, redirect
+# Models
 from tests.models import ObjectCIE
 from company.models import TestCode
-from tests.forms import *
+# Libraries
 from formtools.wizard.views import SessionWizardView
-from django.shortcuts import get_object_or_404
+# Utils
 from tests.utils import clean_data
+from users.utils import check_code
+# Forms
+from tests.forms import *
 
 
 class CIE(SessionWizardView):
@@ -919,3 +925,19 @@ def test_result(request, test_type, test_id):
                                                     VER=VER,
                                                     IMG=IMG,
                                                     CONG=CONG))
+
+def cie_instructions(request, test_code):
+    if request.method == 'GET':
+        if TestCode.objects.filter(code=test_code).exists():
+            test_code_object = TestCode.objects.get(code=test_code)
+            # Check if code is valid
+            code_errors = check_code(test_code_object)
+            if code_errors == None:
+                return render(request,'cie_instructions.html',{'code': test_code})
+        return redirect('login')
+
+    else:
+        start = request.POST.get('start', False)
+        if start:
+            return redirect('cie_test',test_code=test_code)
+        return render(request,'cie_instructions.html',{'code': test_code})

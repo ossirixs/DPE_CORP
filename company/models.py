@@ -1,6 +1,7 @@
 #Django.
 from django.db import models
 from django.urls import reverse
+from datetime import date
 #Models.
 from users.models import User
 
@@ -57,6 +58,14 @@ class TestCode(models.Model):
 
     def __str__(self):
         return f"{self.company}, {self.test}"
+
+    @property
+    def is_expired(self):
+        return date.today() > self.expiration
+
+    @property
+    def get_formated_exp(self):
+        return self.expiration.strftime('%d/%m/%Y')
 
 class CompanyTest(models.Model):
     """
