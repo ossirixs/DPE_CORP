@@ -410,7 +410,7 @@
                             <tr>
                                 <td>{{ company_user.first_name }}</td>
                                 <td>
-                                    <form method="POST" action="{% url 'company:user_detail' company.company_name %}">
+                                    <form method="POST" action="{% url 'company:user_detail' company.id %}">
                                         {% csrf_token %} 
                                             <button type="submit" class="btn btn-primary btn-sm">  Ir  </button>
                                             <input type="hidden" name="company" value={{company.id}}>

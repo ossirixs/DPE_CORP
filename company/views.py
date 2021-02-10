@@ -381,9 +381,10 @@ def test_results_list(request, company_name):
 
 
 @login_required
-def modify_user(request, company_name):
+def modify_user(request, company_id):
     """Modify a company user."""
     if request.method == 'POST':
+        company = Company.objects.get(id=company_id)
         #Select an user.
         if request.POST.get('company_user_id'):
             print("company_user_id", request.POST.get('company_user_id'))
@@ -394,7 +395,7 @@ def modify_user(request, company_name):
             args = {
                 "user":request.user,
                 "selected_user":selected_user,
-                "company_name":company_name,
+                "company":company,
             }
 
             return render(request, "company/user_detail.html", args)
@@ -411,27 +412,27 @@ def modify_user(request, company_name):
 
             args = {
                 "selected_user":company_user,
-                "company_name":company_name,
+                "company":company,
                 'user': request.user
             }
 
             return render(request, "company/user_detail.html", args)
 
 @login_required
-def list_results(request, company_name):
+def list_results(request, company_id):
     """List all users from the selected company."""
     if request.method == 'POST':
+        # Get the company.
+        company = Company.objects.get(id=company_id)
         #Select an user.
         if request.POST.get('company_user_id'):
-            print("company_user_id", request.POST.get('company_user_id'))
             user_id = request.POST.get('company_user_id')
             selected_user = User.objects.get(id=user_id)
-            print("selectd user", selected_user.first_name)
 
             args = {
                 "user":request.user,
                 "selected_user":selected_user,
-                "company_name":company_name,
+                "company":company,
             }
 
             return render(request, "company/user_detail.html", args)
@@ -448,7 +449,7 @@ def list_results(request, company_name):
 
             args = {
                 "selected_user":company_user,
-                "company_name":company_name,
+                "company":company,
                 'user': request.user
             }
 

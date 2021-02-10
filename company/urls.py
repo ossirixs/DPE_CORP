@@ -3,7 +3,7 @@ from company import views
 
 urlpatterns = [
     path(
-        route='mdfy_usr/<company_name>', 
+        route='mdfy_usr/<company_id>', 
         view=views.modify_user, 
         name='user_detail'
     ),

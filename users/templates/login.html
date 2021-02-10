@@ -332,7 +332,7 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
         </div>
         <div class="space-s"></div>
         <div class="form-content">
-          <form method="post" action="{% url 'test' True %}" name="test_form" id="test_form-id">
+          <form method="post" action="{% url 'login' %}" name="test_form" id="test_form-id">
 						{% csrf_token %}
 						{% if error %}
 							<p class="alert alert-danger">{{ error }}</p>
@@ -352,6 +352,7 @@ background: radial-gradient(circle, rgba(90,180,219,1) 50%, rgba(18,118,161,1) 1
             <div class="form-group">
               <button name="test-btn" type="submit" ><b>Ingresar a la prueba</b></button>
             </div>
+						<input type="hidden" name="test_login" value=1>
           </form>
         </div>
       </div>
