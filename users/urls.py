@@ -17,9 +17,4 @@ urlpatterns = [
         view=views.log_out, 
         name='logout'
     ),
-    path(
-        route='/<test_form_token>',
-        view=views.test_view, 
-        name='test'
-    ),
 ]

@@ -18,6 +18,7 @@
                         Lista de Resultados para la prueba {{ test }}.
                     </div>
                 </div>
+                
             </div>   
         </div>
     </div> 
@@ -25,11 +26,42 @@
 
 {% block content_container %}
 <div class="row">
-
-
     <div class="col-md-12 col-lg-12">
         <div class="main-card mb-3 card">
             <div class="card-body">
+                <h5 class="card-title">Filtrar Resultados:</h5>
+                <form method="POST" action="{% url 'company_detail' company.id %}" style="position: absolute; right: 0; top: 10px;">
+                    {% csrf_token %} 
+                    <button class="mb-2 mr-2 btn btn-success">&#8592; &nbsp; Volver</button>
+                    <input type="hidden" name="action" value="select">
+                    <input type="hidden" name="company" value={{company.id}}>
+                </form>
+                <form method="POST"  class="">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <label for="applicant-id" class="">Nombre del candidato</label>
+                            <input type="text" name="applicant_name" class="form-control" value="{{applicant_name}}"> 
+                        </div>
+                        <div class="col-md-3">
+                            <div class="position-relative form-group">
+                                <label for="test_date-id" class="">Fecha</label>
+                                <input name="test_date" id="test_date-id" type="date" class="form-control" value="{{test_date}}">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="position-relative form-group" style="margin-top: 22px;">
+                                <button name="filter" class="mt-2 btn btn-primary">Filtrar</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="company_id" value={{company.id}}>
+                    <input type="hidden" name="test" value={{test}}>
+                    <input type="hidden" name="filter_results" value=1>                        
+                </form>
+
+
                 <h5 class="card-title">Lista de resultados:</h5>
                     <table class="mb-0 table">
                         <thead>
@@ -50,7 +82,7 @@
                                     {{cie_object.codigo.test.test_name}}
                                 </td>
                                 <td>
-                                    {{cie_object.created}}
+                                    {{cie_object.get_formated_created}}
                                 </td>
                                 <td>
                                     <form method="POST" class="" action="{% url 'test_result' cie_object.codigo.test.test_name cie_object.id %}" target="_blank">

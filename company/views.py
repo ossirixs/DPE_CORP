@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.db.models import Q
-from datetime import datetime
+from datetime import datetime, date
 
 #Models.
 from company.models import Company, TestCode, CompanyTest, TestCatalog
@@ -323,22 +323,6 @@ def company_detail(request,company_id):
                                                                 'tab':'codes',
                                                                 })
 
-        # RESULTS LIST
-        elif request.POST.get('select_test_type'):
-            print('Select test')
-            # Get the test from the request
-            test = request.POST.get('test')
-            if test == "CIE":
-                cie_objects = ObjectCIE.objects.filter(codigo__company=selected_company)
-
-                return render(request,'company/results_list.html', {
-                                                            "company":selected_company,
-                                                            "company_main":company_main,
-                                                            "test":'CIE',
-                                                            "cie_objects":cie_objects,
-                                                            })
-
-
     return render(request,'company/company_detail.html', {
                                                             "company":selected_company,
                                                             "company_main":company_main,
@@ -351,9 +335,56 @@ def company_detail(request,company_id):
                                                             })
 
 @login_required
-def modify_user(request, company_name):
+def test_results_list(request, company_name):
+    """List all test results from the selected company."""
+    #Select an test type.
+    if request.method == 'POST':
+        if request.POST.get('select_test'):
+            test = request.POST.get('test', False)
+            company_id = request.POST.get('company', False)
+            selected_company = Company.objects.get(id=company_id)
+            if test and company_id:
+                print("test_type", test)
+                if test == "CIE":
+                    cie_objects = ObjectCIE.objects.filter(codigo__company=selected_company)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'CIE',
+                                                                "cie_objects":cie_objects,
+                                                                })
+        if request.POST.get('filter_results'):
+            test = request.POST.get('test', False)
+            company_id = request.POST.get('company_id', False)
+            selected_company = Company.objects.get(id=company_id)
+            if test and company_id:
+                if test == "CIE":
+                    cie_objects = ObjectCIE.objects.filter(codigo__company=selected_company)
+                    applicant_name = request.POST.get('applicant_name', '')
+                    test_date = request.POST.get('test_date', '')
+                    if applicant_name:
+                        cie_objects = cie_objects.filter(nombre__contains=applicant_name)
+                    if test_date:                        
+                        cie_objects = cie_objects.filter(created__date=test_date)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'CIE',
+                                                                "cie_objects":cie_objects,
+                                                                "test_date":test_date,
+                                                                "applicant_name":applicant_name,
+                                                                })
+        
+
+
+
+@login_required
+def modify_user(request, company_id):
     """Modify a company user."""
     if request.method == 'POST':
+        company = Company.objects.get(id=company_id)
         #Select an user.
         if request.POST.get('company_user_id'):
             print("company_user_id", request.POST.get('company_user_id'))
@@ -364,7 +395,7 @@ def modify_user(request, company_name):
             args = {
                 "user":request.user,
                 "selected_user":selected_user,
-                "company_name":company_name,
+                "company":company,
             }
 
             return render(request, "company/user_detail.html", args)
@@ -381,27 +412,27 @@ def modify_user(request, company_name):
 
             args = {
                 "selected_user":company_user,
-                "company_name":company_name,
+                "company":company,
                 'user': request.user
             }
 
             return render(request, "company/user_detail.html", args)
 
 @login_required
-def list_results(request, company_name):
+def list_results(request, company_id):
     """List all users from the selected company."""
     if request.method == 'POST':
+        # Get the company.
+        company = Company.objects.get(id=company_id)
         #Select an user.
         if request.POST.get('company_user_id'):
-            print("company_user_id", request.POST.get('company_user_id'))
             user_id = request.POST.get('company_user_id')
             selected_user = User.objects.get(id=user_id)
-            print("selectd user", selected_user.first_name)
 
             args = {
                 "user":request.user,
                 "selected_user":selected_user,
-                "company_name":company_name,
+                "company":company,
             }
 
             return render(request, "company/user_detail.html", args)
@@ -418,7 +449,7 @@ def list_results(request, company_name):
 
             args = {
                 "selected_user":company_user,
-                "company_name":company_name,
+                "company":company,
                 'user': request.user
             }
 

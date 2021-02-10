@@ -13,7 +13,7 @@
                     </i>
                 </div>
                 <div>
-                    {{ company_name }}
+                    {{ company.company_name }}
                     <div class="page-title-subheading">
                         Administracion de Pruebas Psicometricas.
                     </div>
@@ -25,15 +25,13 @@
 
 {% block content_container %}
 <div class="row">
-
-
     <div class="col-md-12 col-lg-12">
         <div class="main-card mb-3 card">
             <div class="card-body">
 
                 {% comment %} MODIFY COMPANY USER {% endcomment %}
                 <div id="create-form-id" class="card-section">
-                    <form method="POST" action="{% url 'company:user_detail' company_name %}" class="">
+                    <form method="POST" action="{% url 'company:user_detail' company.id %}" class="">
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="col-md-3">
@@ -76,6 +74,13 @@
                         <button class="mt-2 btn btn-primary">Actualizar Usuario</button>
                     </form>
                 </div>
+
+                <form method="POST" action="{% url 'company_detail' company.id %}" style="position: absolute; right: 0; top: 10px;">
+                    {% csrf_token %} 
+                    <button class="mb-2 mr-2 btn btn-success">&#8592; &nbsp; Volver</button>
+                    <input type="hidden" name="action" value="select">
+                    <input type="hidden" name="company" value={{company.id}}>
+                </form>
             </div>
         </div>
     </div>

@@ -5,6 +5,9 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm
 from django.views.decorators.http import require_http_methods
 
+# Utils
+from users.utils import check_code
+
 #Models
 from users.models import User
 from company.models import Company, TestCode
@@ -13,6 +16,27 @@ def login_view(request):
     """Login view."""
     print("login_view")
     if request.method == 'POST':
+        print('test_login',request.POST.get('test_login'))
+        if request.POST.get('test_login', False):
+            code = request.POST['test_code']
+            print("code", code)
+            # Look for the code entered in the database
+            if TestCode.objects.filter(code=code).exists():
+                test_code = TestCode.objects.get(code=code)
+                # Check if code is valid
+                code_errors = check_code(test_code)
+                if code_errors == None:
+                    # If no errors access to the test
+                    if test_code.test.test_name == 'CIE':
+                        return redirect('cie_instructions',test_code=code)
+                    if test_code.test.test_name == 'DPECON':
+                        return redirect('dpecon_test',test_code=code)
+                else:
+                    
+                    return render(request,'login.html', {'error':code_errors})
+            else:
+                return render(request,'login.html', {'error':'El codigo es incorrecto'})
+
         username = request.POST['username']
         password = request.POST['password']
         # Authenticate usert.
@@ -33,10 +57,6 @@ def login_view(request):
 @login_required
 def users_adm(request):
     print("users_adm")
-    all_users = User.objects.all()
-    for user in all_users:
-        print('user:', user.username)
-    print(request.user.id)
 
     #Get current user to populate form.
     user = request.user
@@ -81,25 +101,28 @@ def log_out(request):
     return redirect('login')
 
 
-def test_view(request, test_form_token):
-    """Start Test view."""
+def test_view(request):
+    """Start Test WorkFlow."""
     print("start_test_view")
     if request.method == 'POST':
-        participant_name = request.POST['name']
-        print("participant",participant_name)
         code = request.POST['test_code']
-        print("sended code",code)
+        print("code", code)
         # Look for the code entered in the database
-        
         if TestCode.objects.filter(code=code).exists():
             test_code = TestCode.objects.get(code=code)
-            print("test_code.test",test_code.test.test_name)
-            if test_code.test.test_name == 'CIE':
-                return redirect('cie_test',test_code=code)
-            if test_code.test.test_name == 'DPECON':
-                return redirect('dpecon_test',test_code=code)
+            # Check if code is valid
+            code_errors = check_code(test_code)
+            if code_errors == None:
+                # If no errors access to the test
+                if test_code.test.test_name == 'CIE':
+                    return redirect('cie_instructions',test_code=code)
+                if test_code.test.test_name == 'DPECON':
+                    return redirect('dpecon_test',test_code=code)
+            else:
+                
+                return render(request,'login.html', {'error':code_errors})
         else:
-            return render(request,'login.html', {'error':'El codigo no es valido'})
+            return render(request,'login.html', {'error':'El codigo es incorrecto'})
 
     #if not take to the log in page.
     return render(request, 'login.html')
