@@ -4,7 +4,10 @@ from company.models import TestCode
 from tests.forms import *
 from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404
-from tests.utils import clean_data
+from tests.utils import clean_data, score_tag_CIE
+from weasyprint import HTML
+from django.template.loader import get_template
+from django.http import HttpResponse
 
 
 class CIE(SessionWizardView):
@@ -283,7 +286,14 @@ def test_result(request, test_type, test_id):
     except:
         pass
 
-    EST_DICT = {'26': 97,
+    EST_DICT = {'Alto': "Presenta estabilidad y ajuste emocional. Es un individuo sosegado, sereno y equilibrado, "
+                        "que difícilmente mostrará impulsividad. De buen carácter, con ausencia de tensión y "
+                        "preocupaciones.",
+                'Medio': "Se trata de un individuo con control y estabilidad emocionales.",
+                'Bajo': "Impulsiva, nerviosa e irritable, esta persona se sobreexcita ante las circunstancias que no "
+                        "puede controlar. Es susceptible e irritable emocionalmente. Se altera fácilmente. "
+                        "Manifiesta cambios de ánimo y mal humor.",
+                '26': 97,
                 '25': 87,
                 '24': 83,
                 '23': 76,
@@ -311,7 +321,12 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    ANS_DICT = {'25': 97,
+    ANS_DICT = {'Alto': "Presenta preocupación alta, por lo que se muestra irritable, nerviosa, impaciente e inquieta. "
+                         "Le falta concentración y es susceptible de distracciones. Muestra miedos, temores y tensión.",
+                'Medio': "Persona equilibrada, que no muestra reacciones ansiosas frente a las distintas situaciones.",
+                'Bajo': "No muestra irritabilidad, perturbación ni impaciencia. Es una persona que se muestra relajada "
+                        "y tranquila, con ausencia de tensión, miedos y conductas excéntricas.",
+                '25': 97,
                 '24': 97,
                 '23': 97,
                 '22': 97,
@@ -338,7 +353,14 @@ def test_result(request, test_type, test_id):
                 '1': 9,
                 '0': 3}
 
-    AUC_DICT = {'25': 97,
+    AUC_DICT = {'Alto': "Con alta opinión de sí y elevada autoestima, esta persona tiene una buena autoimagen de sí. "
+                        "Con alto sentimiento de valía de su imagen física, psíquica y social.",
+                'Medio': "Posee una adecuada valoración personal y aceptación de su imagen física, psíquica y social. " \
+                         "Con apropiado sentimiento de valía.",
+                'Bajo': "Esta persona puede tener una pobre visión y aceptación de sí misma. Con sentimientos de "
+                        "inferioridad y pobre autoimagen, depende de la estima de los demás. Es indecisa ante las "
+                        "situaciones sociales.",
+                '25': 97,
                 '24': 87,
                 '23': 76,
                 '22': 71,
@@ -365,7 +387,12 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    EFI_DICT = {'25': 91,
+    EFI_DICT = {'Alto': "Es un individuo con iniciativas propias, que se lanza a la actividad con seguridad. "
+                        "Acepta las responsabilidades confiado en sí mismo, siendo eficaz. Es competente, eficiente y emprendedor.",
+                'Medio': "Es un sujeto con competencia y eficacia en la realización de distintas conductas interactivas.",
+                'Bajo': "Evidencia poca confianza y seguridad en sí misma, por lo que duda de lo que hace y es insegura "
+                        "ante las adversidades.",
+                '25': 91,
                 '24': 71,
                 '23': 60,
                 '22': 52,
@@ -392,7 +419,11 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    SEG_DICT = {'24': 97,
+    SEG_DICT = {'Alto': "Esta persona confía en sus posibilidades, por lo que está segura de lo que hace y de cómo lo hace.",
+                'Medio': "Esta persona posee confianza en sus posibilidades y recursos propios, al mismo tiempo que "
+                         "seguridad para enfrentarse a los acontecimientos de la vida.",
+                'Bajo': "Al ser una persona de poca confianza, duda de lo que hace y es insegura ante las adversidades.",
+                '24': 97,
                 '23': 76,
                 '22': 60,
                 '21': 52,
@@ -417,7 +448,14 @@ def test_result(request, test_type, test_id):
                 '2': 12,
                 '1': 12,
                 '0': 3}
-    IND_DICT = {'19': 97,
+
+    IND_DICT = {'Alto': "La persona muestra libertad de acción. Es independiente, autónoma y autosuficiente. "
+                        "Por lo que les da primacía a sus intereses frente a los del grupo. Puede soslayar las "
+                        "necesidades de los demás. Toma sus propias decisiones e iniciativas.",
+                'Medio': "Este individuo actúa sin tener en cuenta las opiniones o puntos de vista de otras personas o del grupo.",
+                'Bajo': "Depende de los demás, por lo que es una seguidora fiel, que busca apoyos de los otros. "
+                        "Asimismo, intenta no desagradar, por lo que busca aprobación.",
+                '19': 97,
                 '18': 97,
                 '17': 97,
                 '16': 97,
@@ -438,7 +476,13 @@ def test_result(request, test_type, test_id):
                 '1': 9,
                 '0': 9}
 
-    DOM_DICT = {'24': 97,
+    DOM_DICT = {'Alto': "Es enérgica, asertiva y activa. Le gusta organizar y mandar, siendo dominante. "
+                        "Dirige al grupo y su trabajo. Con orientación al liderazgo, puede ser intolerante y agresiva,"
+                        " pero competitiva e independiente.",
+                'Medio': " Este individuo tiende a dirigir a los demás y a organizar actividades.",
+                'Bajo': "Se trata de una persona que acepta órdenes y no fuerza las situaciones. "
+                        "Intenta agradar a los demás, siendo dócil y obediente.",
+                '24': 97,
                 '23': 97,
                 '22': 97,
                 '21': 91,
@@ -464,7 +508,13 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    COG_DICT = {'24': 97,
+    COG_DICT = {'Alto': "Al poseer buen control cognitivo, es una persona analítica y reflexiva, lo que le permite ser "
+                        "precavida y organizada. Tiene control verbal y de sus acciones, pues primero analiza y luego "
+                        "responde. Procura solucionar los problemas por sí misma.",
+                'Medio': "Es un individuo con adecuado manejo de los procesos y habilidades de autocontrol verbal y en "
+                         "sus respuestas ante distintas situaciones.",
+                'Bajo': "Con pobre control cognitivo es un individuo de impulsividad verbal, que puede dar respuestas sin pensar.",
+                '24': 97,
                 '23': 76,
                 '22': 63,
                 '21': 50,
@@ -490,7 +540,13 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    SOC_DICT = {'25': 97,
+    SOC_DICT = {'Alto': "De carácter alegre y amigable, a este sujeto sociable, le resulta fácil ser abierto y espontáneo. "
+                        "Es expresivo y comunicativo, con gusto y facilidad por las relaciones sociales. "
+                        "Por su iniciativa social, participa en actividades en las que pueda estar y trabajar con gente.",
+                'Medio': "Es un sujeto con facilidad para las relaciones sociales.",
+                'Bajo': "No le gustan mucho las situaciones sociales, por lo que es inhibida, retraída, tímida y distante. "
+                        "Es una persona reservada y poco comunicativa.",
+                '25': 97,
                 '24': 76,
                 '23': 63,
                 '22': 55,
@@ -517,7 +573,13 @@ def test_result(request, test_type, test_id):
                 '1': 24,
                 '0': 24}
 
-    AJS_DICT = {'19': 97,
+    AJS_DICT = {'Alto': "Preocupada por las normas sociales, esta persona acepta y sigue bien las reglas y tradiciones. "
+                        "Cumple las obligaciones, siendo conservadora y convencional.",
+                'Medio': "Esta persona muestra una adecuada captación social o sociabilización al medio familiar, profesional o laboral.",
+                'Bajo': "A esta persona le cuesta seguir las normas y reglas, pues tiende a despreciarlas, "
+                        "lo mismo que las tradiciones. Al ser rebelde y no convencional, tiene bajo ajuste social, "
+                        "por lo que suele aparecer a los demás como conflictiva e inadaptada.",
+                '19': 97,
                 '18': 97,
                 '17': 76,
                 '16': 60,
@@ -537,7 +599,13 @@ def test_result(request, test_type, test_id):
                 '1': 15,
                 '0': 3}
 
-    AGR_DICT = {'21': 97,
+    AGR_DICT = {'Alto': "Al ser un individuo agresivo, belicoso y hostil, muestra intolerancia y se vuelve crítico a "
+                        "las acciones de los demás. Dando respuestas inadecuadas ante las dificultades y frustraciones. "
+                        "Discute e incluso puede llegar a insultar.",
+                'Medio': "Esta persona ofrece un adecuado tipo de respuestas ante las dificultades y frustraciones que presenta la vida.",
+                'Bajo': "Es un individuo tolerante, sociable, amable y comprensivo. Da respuestas adecuadas ante las "
+                        "frustraciones y situaciones difíciles.",
+                '21': 97,
                 '20': 97,
                 '19': 97,
                 '18': 97,
@@ -560,7 +628,14 @@ def test_result(request, test_type, test_id):
                 '1': 17,
                 '0': 0}
 
-    TOL_DICT = {'19': 97,
+    TOL_DICT = {'Alto': "Tolerante y comprensiva, es una persona con intereses amplios, liberal y sociable. Como tolera "
+                        "las ideas de los demás, sabe vivir con los valores y creencias ajenas.",
+                'Medio': "Es una persona con independencia de pensamiento y acción, respecto a la forma de ser y actuar "
+                         "y a la procedencia de los demás.",
+                'Bajo': "Es una persona inflexible e intransigente que actúa con rigidez e intolerancia. "
+                        "Todo lo evalúa desde su propia perspectiva o valores. Le resulta difícil convivir con las "
+                        "ideas y valores de los otros.",
+                '19': 97,
                 '18': 83,
                 '17': 71,
                 '16': 63,
@@ -581,7 +656,13 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    HAB_DICT = {'20': 83,
+    HAB_DICT = {'Alto': "Socialmente inteligente y hábil, este individuo sabe enfrentarse y adaptarse a las distintas "
+                        "situaciones sociales con desenvoltura.",
+                'Medio': "Este individuo posee capacidad para la adaptación inteligente a los distintos ambientes y "
+                         "situaciones sociales, así como facilidad de actuación en los mismos.",
+                'Bajo': "Individuo poco hábil socialmente y a veces torpe, lo cual le impide adaptarse adecuadamente a "
+                        "los distintos ambientes, pues no usa bien las estrategias de conducta.",
+                '20': 83,
                 '19': 63,
                 '18': 50,
                 '17': 40,
@@ -603,35 +684,46 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    DISC_DICT = {
-                '25': 97,
-                '24': 67,
-                '23': 48,
-                '22': 37,
-                '21': 29,
-                '20': 24,
-                '19': 24,
-                '18': 24,
-                '17': 24,
-                '16': 24,
-                '15': 24,
-                '14': 24,
-                '13': 24,
-                '12': 24,
-                '11': 24,
-                '10': 24,
-                '9': 24,
-                '8': 24,
-                '7': 24,
-                '6': 24,
-                '5': 24,
-                '4': 24,
-                '3': 24,
-                '2': 24,
-                '1': 24,
-                '0': 17}
+    DISC_DICT = {'Alto': "Cumplidora, responsable, formal, seria y disciplinada, esta persona cumple con el deber que "
+                         "asume y se adapta adecuadamente a las situaciones de trabajo.",
+                 'Medio': "Tiene capacidad para actuar como una persona responsable, seria, cumplidora de su deber, "
+                          "de sus obligaciones y de su trabajo.",
+                 'Bajo': "Es una persona informal y poco responsable de sus deberes. Puede ser inadaptada al trabajo y "
+                         "conflictiva, por lo que desdeña la disciplina o la puntualidad.",
+                 '25': 97,
+                 '24': 67,
+                 '23': 48,
+                 '22': 37,
+                 '21': 29,
+                 '20': 24,
+                 '19': 24,
+                 '18': 24,
+                 '17': 24,
+                 '16': 24,
+                 '15': 24,
+                 '14': 24,
+                 '13': 24,
+                 '12': 24,
+                 '11': 24,
+                 '10': 24,
+                 '9': 24,
+                 '8': 24,
+                 '7': 24,
+                 '6': 24,
+                 '5': 24,
+                 '4': 24,
+                 '3': 24,
+                 '2': 24,
+                 '1': 24,
+                 '0': 17}
 
-    LID_DICT = {'19': 97,
+    LID_DICT = {'Alto': "Le gusta mandar, dirigir y organizar. Se siente líder. Es autosuficiente, independiente y "
+                        "dominante. Entusiasta y segura de sí misma, sabe dirigir y organizar actividades.",
+                'Medio': "Tiene capacidad para dirigir grupos, asociaciones y equipos, organizar las actividades y el "
+                         "trabajo de los demás y conseguir los objetivos y metas.",
+                'Bajo': "Se muestra desinteresado por mandar o dirigir. No muestra garra ni transmite entusiasmo, "
+                        "o los demás lo perciben así.",
+                '19': 97,
                 '18': 97,
                 '17': 87,
                 '16': 83,
@@ -652,7 +744,11 @@ def test_result(request, test_type, test_id):
                 '1': 9,
                 '0': 3}
 
-    VER_DICT = {'21': 97,
+    VER_DICT = {'Alto': "Se expresa libre de fingimiento. Es una persona veraz, sencilla y sincera.",
+                'Medio': "Muestra libertad para expresarse sin fingimiento, reconociendo esas pequeñas debilidades "
+                         "humanas referidas a sí misma para quedar bien consigo.",
+                'Bajo': "Trata de esconder sus debilidades.",
+                '21': 97,
                 '20': 97,
                 '19': 97,
                 '18': 97,
@@ -675,7 +771,10 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
-    IMG_DICT = {'28': 76,
+    IMG_DICT = {'Alto': "Presenta mucho control de su imagen personal, por lo que se preocupa de dar una buena impresión.",
+                'Medio': "Evitó distorsionar sus respuestas.",
+                'Bajo': "Ofrece una adecuada imagen de sí misma.",
+                '28': 76,
                 '27': 58,
                 '26': 48,
                 '25': 40,
@@ -785,122 +884,176 @@ def test_result(request, test_type, test_id):
     IMG = 0
     CONG = 0
 
-
-    result = "Est (Estabilidad Emocional) Bajo: Impulsiva, nerviosa e irritable, esta persona se sobreexcita " \
-             "ante las circunstancias que no puede controlar. Es susceptible e irritable emocionalmente. " \
-             "Se altera fácilmente. Manifiesta cambios de ánimo y mal humor."
-
-
     for pregunta in EST_true:
         EST += clean_data(pregunta, invert=0)
     for pregunta in EST_false:
         EST += clean_data(pregunta, invert=1)
-    EST_S = EST_DICT.get(f'{EST}')
+    score = EST_DICT.get(f'{EST}')
+    result = score_tag_CIE(score)
+    description = EST_DICT.get(f'{result}')
+    EST = {'score': score, 'result': result, 'description': description}
 
     for pregunta in ANS_true:
         ANS += clean_data(pregunta, invert=0)
     for pregunta in ANS_false:
         ANS += clean_data(pregunta, invert=1)
-    ANS_S = ANS_DICT.get(f'{ANS}')
+    score = ANS_DICT.get(f'{ANS}')
+    result = score_tag_CIE(score)
+    description = ANS_DICT.get(f'{result}')
+    ANS = {'score': score, 'result': result, 'description': description}
 
     for pregunta in AUC_true:
         AUC += clean_data(pregunta, invert=0)
     for pregunta in AUC_false:
         AUC += clean_data(pregunta, invert=1)
-    AUC_S = AUC_DICT.get(f'{AUC}')
+    score = AUC_DICT.get(f'{AUC}')
+    result = score_tag_CIE(score)
+    description = AUC_DICT.get(f'{result}')
+    AUC = {'score': score, 'result': result, 'description': description}
 
     for pregunta in EFI_true:
         EFI += clean_data(pregunta, invert=0)
     for pregunta in EFI_false:
         EFI += clean_data(pregunta, invert=1)
-    EFI_S = EFI_DICT.get(f'{EFI}')
+    score = EFI_DICT.get(f'{EFI}')
+    result = score_tag_CIE(score)
+    description = EFI_DICT.get(f'{result}')
+    EFI = {'score': score, 'result': result, 'description': description}
 
     for pregunta in SEG_true:
         SEG += clean_data(pregunta, invert=0)
     for pregunta in SEG_false:
         SEG += clean_data(pregunta, invert=1)
-    SEG_S = SEG_DICT.get(f'{SEG}')
+    score = SEG_DICT.get(f'{SEG}')
+    result = score_tag_CIE(score)
+    description = SEG_DICT.get(f'{result}')
+    SEG = {'score': score, 'result': result, 'description': description}
 
     for pregunta in IND_true:
         IND += clean_data(pregunta, invert=0)
     for pregunta in IND_false:
         IND += clean_data(pregunta, invert=1)
-    IND_S = IND_DICT.get(f'{IND}')
+    score = IND_DICT.get(f'{IND}')
+    result = score_tag_CIE(score)
+    description = IND_DICT.get(f'{result}')
+    IND = {'score': score, 'result': result, 'description': description}
 
     for pregunta in DOM_true:
         DOM += clean_data(pregunta, invert=0)
     for pregunta in DOM_false:
         DOM += clean_data(pregunta, invert=1)
-    DOM_S = DOM_DICT.get(f'{DOM}')
+    score = DOM_DICT.get(f'{DOM}')
+    result = score_tag_CIE(score)
+    description = DOM_DICT.get(f'{result}')
+    DOM = {'score': score, 'result': result, 'description': description}
 
     for pregunta in COG_true:
         COG += clean_data(pregunta, invert=0)
     for pregunta in COG_false:
         COG += clean_data(pregunta, invert=1)
-    COG_S = COG_DICT.get(f'{COG}')
+    score = COG_DICT.get(f'{COG}')
+    result = score_tag_CIE(score)
+    description = COG_DICT.get(f'{result}')
+    COG = {'score': score, 'result': result, 'description': description}
 
     for pregunta in SOC_true:
         SOC += clean_data(pregunta, invert=0)
     for pregunta in SOC_false:
         SOC += clean_data(pregunta, invert=1)
-    SOC_S = SOC_DICT.get(f'{SOC}')
+    score = SOC_DICT.get(f'{SOC}')
+    result = score_tag_CIE(score)
+    description = SOC_DICT.get(f'{result}')
+    SOC = {'score': score, 'result': result, 'description': description}
 
     for pregunta in AJS_true:
         AJS += clean_data(pregunta, invert=0)
     for pregunta in AJS_false:
         AJS += clean_data(pregunta, invert=1)
-    AJS_S = AJS_DICT.get(f'{AJS}')
+    score = AJS_DICT.get(f'{AJS}')
+    result = score_tag_CIE(score)
+    description = AJS_DICT.get(f'{result}')
+    AJS = {'score': score, 'result': result, 'description': description}
 
     for pregunta in AGR_true:
         AGR += clean_data(pregunta, invert=0)
     for pregunta in AGR_false:
         AGR += clean_data(pregunta, invert=1)
-    AGR_S = AGR_DICT.get(f'{AGR}')
+    score = AGR_DICT.get(f'{AGR}')
+    result = score_tag_CIE(score)
+    description = AGR_DICT.get(f'{result}')
+    AGR = {'score': score, 'result': result, 'description': description}
 
     for pregunta in TOL_true:
         TOL += clean_data(pregunta, invert=0)
     for pregunta in TOL_false:
         TOL += clean_data(pregunta, invert=1)
-    TOL_S = TOL_DICT.get(f'{TOL}')
+    score = TOL_DICT.get(f'{TOL}')
+    result = score_tag_CIE(score)
+    description = TOL_DICT.get(f'{result}')
+    TOL = {'score': score, 'result': result, 'description': description}
 
     for pregunta in HAB_true:
         HAB += clean_data(pregunta, invert=0)
     for pregunta in HAB_false:
         HAB += clean_data(pregunta, invert=1)
-    HAB_S = HAB_DICT.get(f'{HAB}')
+    score = HAB_DICT.get(f'{HAB}')
+    result = score_tag_CIE(score)
+    description = HAB_DICT.get(f'{result}')
+    HAB = {'score': score, 'result': result, 'description': description}
 
     for pregunta in DISC_true:
         DISC += clean_data(pregunta, invert=0)
     for pregunta in DISC_false:
         DISC += clean_data(pregunta, invert=1)
-    DISC_S = DISC_DICT.get(f'{DISC}')
+    score = DISC_DICT.get(f'{DISC}')
+    result = score_tag_CIE(score)
+    description = DISC_DICT.get(f'{result}')
+    DISC = {'score': score, 'result': result, 'description': description}
 
     for pregunta in LID_true:
         LID += clean_data(pregunta, invert=0)
     for pregunta in LID_false:
         LID += clean_data(pregunta, invert=1)
-    LID_S = LID_DICT.get(f'{LID}')
+    score = LID_DICT.get(f'{LID}')
+    result = score_tag_CIE(score)
+    description = LID_DICT.get(f'{result}')
+    LID = {'score': score, 'result': result, 'description': description}
 
     for pregunta in VER_true:
         VER += clean_data(pregunta, invert=0)
     for pregunta in VER_false:
         VER += clean_data(pregunta, invert=1)
-    VER_S = VER_DICT.get(f'{VER}')
+    score = VER_DICT.get(f'{VER}')
+    result = score_tag_CIE(score)
+    description = VER_DICT.get(f'{result}')
+    VER = {'score': score, 'result': result, 'description': description}
 
     for pregunta in IMG_true:
         IMG += clean_data(pregunta, invert=0)
     for pregunta in IMG_false:
         IMG += clean_data(pregunta, invert=1)
-    IMG_S = IMG_DICT.get(f'{IMG}')
+    score = IMG_DICT.get(f'{IMG}')
+    result = score_tag_CIE(score)
+    description = IMG_DICT.get(f'{result}')
+    IMG = {'score': score, 'result': result, 'description': description}
 
-    print('escaalas perra', EST, ANS, AUC, EFI, SEG, IND, DOM, COG, SOC, AJS, AGR, TOL, HAB, DISC, LID, VER, IMG, CONG)
-    print('EST CULERA', EST_S, ANS_S, AUC_S, EFI_S, SEG_S, IND_S, DOM_S, COG_S, SOC_S, AJS_S, AGR_S, TOL_S, HAB_S, DISC_S, LID_S, VER_S, IMG_S)
 
-    title = 'FLORES HERNANDEZ'
+    if 'export_button' in request.POST:
+
+        html_template = get_template('CIE/results.html')
+
+        # Render the context into the PDF/HTML template
+        context = dict(title='RESULTADOS',
+                       content='CONTENIDO')
+        html = html_template.render(context)
+        pdf_file = HTML(string=html).write_pdf()
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'filename="TEST"'
+
+        # Return the response to preview the PDF in a new tab
+        return response
 
     return render(request, 'test_result.html', dict(cuestionario=cuestionario,
-                                                    title=title,
-                                                    result=result,
                                                     EST=EST,
                                                     ANS=ANS,
                                                     AUC=AUC,

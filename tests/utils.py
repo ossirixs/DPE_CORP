@@ -16,5 +16,18 @@ def clean_data(data, invert):
         data = 0
 
     data = int(data)
-    print(data)
     return data
+
+def score_tag_CIE(score):
+    """
+    Function that returns the score label for a given score points value
+    """
+    if score < 31:
+        score_tag = 'Bajo'
+    elif 30 < score < 71:
+        score_tag = 'Medio'
+    elif score > 70:
+        score_tag = 'Alto'
+    else:
+        score_tag = 'sin valor'
+    return score_tag

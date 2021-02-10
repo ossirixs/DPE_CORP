@@ -80,9 +80,9 @@ th, td {
         <div class="div-50">
             <div class="section">
                 <div class="box">
-                    <h1>{{ cuestionario.nombre }} {{ title }}</h1>
+                    <h1>{{ cuestionario.nombre }}</h1>
                 </div>
-                <div style="padding: 25px; height: 600px; overflow-y: scroll;">
+                <div style="padding: 25px; max-height: 80vh; overflow: auto ">
                     <canvas id="myChart" width="400" height="400"></canvas>
                 </div>
             </div>
@@ -91,9 +91,17 @@ th, td {
         <div class="div-50">
             <div class="section">
                 <div class="box">
-                    <h1>RESULTADOS CIE</h1>
+                    <div>
+                        <h1>RESULTADOS CIE</h1>
+                    </div>
+                    <div>
+                        <form method="POST" target="_blank">
+                            {% csrf_token %}
+                            <button name="export_button"  style="position: relative">Descargar Reporte</button>
+                        </form>
+                    </div>
                 </div>
-                    <div style="height: 600px; overflow-y: scroll; padding: 20px 25px;">
+                    <div style="max-height: 80vh; overflow: auto ;padding: 1px 25px;">
                     <table>
                         <tr>
                             <th>ESCALA</th>
@@ -102,98 +110,201 @@ th, td {
                         </tr>
                         <tr>
                             <td>EST</td>
-                            <td>{{ EST }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ EST.score }}</td>
+                            <td>{{ EST.result }}</td>
                         </tr>
                         <tr>
                             <th colspan="3">DESCRIPCION</th>
                         </tr>
                         <tr>
-                            <td colspan="3">DESCRIPCION</td>
+                            <td colspan="3">{{ EST.description }}</td>
                         </tr>
                         <tr>
                             <td>ANS</td>
-                            <td>{{ ANS }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ ANS.score }}</td>
+                            <td>{{ ANS.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ ANS.description }}</td>
                         </tr>
                         <tr>
                             <td>AUC</td>
-                            <td>{{ AUC }}</td>
-                            <td>ALTO</td>
+                            <td>{{ AUC.score }}</td>
+                            <td>{{ AUC.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ AUC.description }}</td>
                         </tr>
                         <tr>
                             <td>EFI</td>
-                            <td>{{ EFI }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ EFI.score }}</td>
+                            <td>{{ EFI.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ EFI.description }}</td>
                         </tr>
                         <tr>
                             <td>SEG</td>
-                            <td>{{ SEG }}</td>
-                            <td>BAJO</td>
+                            <td>{{ SEG.score }}</td>
+                            <td>{{ SEG.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ SEG.description }}</td>
                         </tr>
                         <tr>
                             <td>IND</td>
-                            <td>{{ IND }}</td>
-                            <td>BAJO</td>
+                            <td>{{ IND.score }}</td>
+                            <td>{{ IND.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ IND.description }}</td>
                         </tr>
                         <tr>
                             <td>DOM</td>
-                            <td>{{ DOM }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ DOM.score }}</td>
+                            <td>{{ DOM.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ DOM.description }}</td>
                         </tr>
                         <tr>
                             <td>COG</td>
-                            <td>{{ COG }}</td>
-                            <td>ALTO</td>
+                            <td>{{ COG.score }}</td>
+                            <td>{{ COG.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ COG.description }}</td>
                         </tr>
                         <tr>
                             <td>SOC</td>
-                            <td>{{ SOC }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ SOC.score }}</td>
+                            <td>{{ SOC.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ SOC.description }}</td>
                         </tr>
                         <tr>
                             <td>AJS</td>
-                            <td>{{ AJS }}</td>
-                            <td>ALTO</td>
+                            <td>{{ AJS.score }}</td>
+                            <td>{{ AJS.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ AJS.description }}</td>
                         </tr>
                         <tr>
                             <td>AGR</td>
-                            <td>{{ AGR }}</td>
-                            <td>BAJO</td>
+                            <td>{{ AGR.score }}</td>
+                            <td>{{ AGR.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ AGR.description }}</td>
                         </tr>
                         <tr>
                             <td>TOL</td>
-                            <td>{{ TOL }}</td>
-                            <td>BAJO</td>
+                            <td>{{ TOL.score }}</td>
+                            <td>{{ TOL.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ TOL.description }}</td>
                         </tr>
                         <tr>
                             <td>HAB</td>
-                            <td>{{ HAB }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ HAB.score }}</td>
+                            <td>{{ HAB.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ HAB.description }}</td>
                         </tr>
                         <tr>
                             <td>DISC</td>
-                            <td>{{ DISC }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ DISC.score }}</td>
+                            <td>{{ DISC.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ DISC.description }}</td>
                         </tr>
                         <tr>
                             <td>LID</td>
-                            <td>{{ LID }}</td>
-                            <td>MEDIO</td>
+                            <td>{{ LID.score }}</td>
+                            <td>{{ LID.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ LID.description }}</td>
                         </tr>
                         <tr>
                             <td>VER</td>
-                            <td>{{ VER }}</td>
-                            <td>ALTO</td>
-                        </tr><tr>
+                            <td>{{ VER.score }}</td>
+                            <td>{{ VER.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ VER.description }}</td>
+                        </tr>
+                        <tr>
                             <td>IMG</td>
-                            <td>{{ IMG }}</td>
-                            <td>ALTO</td>
+                            <td>{{ IMG.score }}</td>
+                            <td>{{ IMG.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ IMG.description }}</td>
                         </tr>
                         <tr>
                             <td>CONG</td>
-                            <td>{{ CONG }}</td>
-                            <td>BAJO</td>
+                            <td>{{ CONG.score }}</td>
+                            <td>{{ CONG.result }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="3">DESCRIPCION</th>
+                        </tr>
+                        <tr>
+                            <td colspan="3">{{ CONG.description }}</td>
                         </tr>
                     </table>
                     </div>
@@ -219,12 +330,13 @@ var myChart = new Chart(ctx, {
       }],
     type: 'polarArea',
     data: {
-        labels: ['EST', 'ANS', 'AUC', 'EFI', 'SEG', 'IND', 'DOM', 'CCG', 'SOC', 'AJS', 'AGR', 'TOL', 'HAB', 'DISC',
+        labels: ['EST', 'ANS', 'AUC', 'EFI', 'SEG', 'IND', 'DOM', 'COG', 'SOC', 'AJS', 'AGR', 'TOL', 'HAB', 'DISC',
                     'LID', 'VER', 'IMG', 'CONG'],
         datasets: [{
             label: '# of Votes',
-            data: [{{ EST }}, {{ ANS }}, {{ AUC }}, {{ EFI }}, {{ SEG }}, {{ IND }}, {{ DOM }}, {{ CCG }}, {{ SOC }},
-                    {{ AJS }},{{ AGR }}, {{ TOL }}, {{ HAB }}, {{ DISC }}, {{ LID }}, {{ VER }}, {{ IMG }}, {{ CONG }}],
+            data: [{{ EST.score }}, {{ ANS.score }}, {{ AUC.score }}, {{ EFI.score }}, {{ SEG.score }}, {{ IND.score}},
+                    {{ DOM.score }}, {{ COG.score }}, {{ SOC.score }}, {{ AJS.score }},{{ AGR.score }}, {{ TOL.score }},
+                    {{ HAB.score }}, {{ DISC.score }}, {{ LID.score }}, {{ VER.score }}, {{ IMG.score }}, {{ CONG.score }}],
             backgroundColor: [
                 'rgba(18, 118, 161, 0.7)',
                 'rgba(205, 92, 92, 0.7)',
