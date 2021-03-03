@@ -1,0 +1,297 @@
+{% extends "base_test.html" %}
+{% load i18n %}
+{% block page_title %}<title>Integridad</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
+
+{% block content %}
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <p>9 de 20</p>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">49. Marcela trabaja en una dulcería. Para ganar un poco más, ella compra producto propio y lo vende en la dulcería, conservando para sí las ganancias. ¿Te parece que haya que sancionar a Marcela?</p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_49_1">
+              <input type="radio" name="q_49" value="0" required="" id="id_49_1">
+              Definitivamente
+            </label>
+          </li>
+          <li>
+            <label for="id_49_2">
+              <input type="radio" name="q_49" value="1" required="" id="id_49_2">
+              No, pues ella compró su propia mercancía
+            </label>
+          </li>
+          <li>
+            <label for="id_49_3">
+              <input type="radio" name="q_49" value="1" required="" id="id_49_3">
+              No, pues lo está haciendo dentro de la dulcería
+            </label>
+          </li>
+          <li>
+            <label for="id_49_4">
+              <input type="radio" name="q_49" value="1" required="" id="id_49_4">
+              Sí, siempre y cuando lo haga todos los días.
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">50. ¿Cuántas veces has sido interrogado por un policía, por haber cometido una infracción? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_50_1">
+              <input type="radio" name="q_50" value="0" required="" id="id_50_1">
+              Una vez
+            </label>
+          </li>
+          <li>
+            <label for="id_50_2">
+              <input type="radio" name="q_50" value="1" required="" id="id_50_2">
+              Dos veces
+            </label>
+          </li>
+          <li>
+            <label for="id_50_3">
+              <input type="radio" name="q_50" value="1" required="" id="id_50_3">
+              Más de dos veces
+            </label>
+          </li>
+          <li>
+            <label for="id_50_4">
+              <input type="radio" name="q_50" value="1" required="" id="id_50_4">
+              Nunca me han detenido
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">51. ¿Alguna vez cometiste un error en el trabajo y lo ocultaste a tus superiores? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_51_1">
+              <input type="radio" name="q_51" value="0" required="" id="id_51_1">
+              Si
+            </label>
+          </li>
+          <li>
+            <label for="id_51_2">
+              <input type="radio" name="q_51" value="1" required="" id="id_51_2">
+              No
+            </label>
+          </li>
+          <li>
+            <label for="id_51_3">
+              <input type="radio" name="q_51" value="1" required="" id="id_51_3">
+              Sí, en caso de errores menores.
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">52. Si alguien es lo suficientemente listo como para obtener dinero de otro con trucos, tiene derecho a quedárselo: </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_52_1">
+              <input type="radio" name="q_52" value="0" required="" id="id_52_1">
+              Correcto 
+            </label>
+          </li>
+          <li>
+            <label for="id_52_2">
+              <input type="radio" name="q_52" value="1" required="" id="id_52_2">
+              Incorrecto
+            </label>
+          </li>
+          <li>
+            <label for="id_52_3">
+              <input type="radio" name="q_52" value="1" required="" id="id_52_3">
+              Depende
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">53. ¿Te parece que haya que sancionar a un empleado por haber aceptado mercancía o equipos de un proveedor? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_53_1">
+              <input type="radio" name="q_53" value="0" required="" id="id_53_1">
+              No
+            </label>
+          </li>
+          <li>
+            <label for="id_53_2">
+              <input type="radio" name="q_53" value="1" required="" id="id_53_2">
+              Sí, sólo si sucedió muchas veces 
+            </label>
+          </li>
+          <li>
+            <label for="id_53_3">
+              <input type="radio" name="q_53" value="1" required="" id="id_53_3">
+              Sí, sólo si influyó en su trabajo
+            </label>
+          </li>
+          <li>
+            <label for="id_53_4">
+              <input type="radio" name="q_53" value="1" required="" id="id_53_4">
+              Sí, en todo caso
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">54. En tu opinión, ¿cuál es el porcentaje de las personas que pagan o aceptan soborno?</p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_54_1">
+              <input type="radio" name="q_54" value="0" required="" id="id_54_1">
+              1%
+            </label>
+          </li>
+          <li>
+            <label for="id_54_2">
+              <input type="radio" name="q_54" value="1" required="" id="id_54_2">
+              5%
+            </label>
+          </li>
+          <li>
+            <label for="id_54_3">
+              <input type="radio" name="q_54" value="1" required="" id="id_54_3">
+              10%
+            </label>
+          </li>
+          <li>
+            <label for="id_54_4">
+              <input type="radio" name="q_54" value="1" required="" id="id_54_4">
+              25%
+            </label>
+          </li>
+          <li>
+            <label for="id_54_5">
+              <input type="radio" name="q_54" value="1" required="" id="id_54_5">
+              50%
+            </label>
+          </li>
+          <li>
+            <label for="id_54_6">
+              <input type="radio" name="q_54" value="1" required="" id="id_54_6">
+              70%
+            </label>
+          </li>
+          <li>
+            <label for="id_54_7">
+              <input type="radio" name="q_54" value="1" required="" id="id_54_7">
+              75% o más
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <form onsubmit="calculateIntegrityForm()" method="post">
+      {% csrf_token %}
+      <div class="form-buttons">
+        <input type="hidden" name="integrity_object_id" value="{{integrity_object_id}}"/>
+
+        <input id="id-adictions" type="hidden" name="adictions" value="0" />
+        <input id="id-judgement" type="hidden" name="judgement" value="0" />
+        <input id="id-discipline" type="hidden" name="discipline" value="0" />
+        <input id="id-veracity" type="hidden" name="veracity" value="0" />
+        <input id="id-loyalty" type="hidden" name="loyalty" value="0" />
+        <input id="id-intentionality" type="hidden" name="intentionality" value="0" />
+        <input id="id-ethic" type="hidden" name="ethic" value="0" />
+        <input id="id-reliability" type="hidden" name="reliability" value="0" />
+
+        <input type="hidden" name="step" value="9"/>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Update the values in the form according to the selected answers
+    function calculateIntegrityForm(){
+      let adictions = 0
+      let judgement = 0
+      let discipline = 0
+      let veracity = 0
+      let loyalty = 0
+      let intentionality = 0
+      let ethic = 0
+      let reliability = 0
+
+      // ********* ADICTIONS
+      
+      document.getElementById("id-adictions").value = adictions
+
+      // ********* JUDGEMENT
+
+      document.getElementById("id-judgement").value = judgement
+
+      // ********* DISCIPLINE
+      if (document.getElementById("id_53_2").checked) discipline = discipline + 1
+      if (document.getElementById("id_53_3").checked) discipline = discipline + 1
+      if (document.getElementById("id_53_4").checked) discipline = discipline + 5
+
+      document.getElementById("id-discipline").value = discipline
+
+      // ********* VERACITY
+      if (document.getElementById("id_50_1").checked) veracity = veracity + 3
+      if (document.getElementById("id_50_2").checked) veracity = veracity + 1
+      if (document.getElementById("id_50_4").checked) veracity = veracity + 5
+      
+      if (document.getElementById("id_51_2").checked) veracity = veracity + 5
+      if (document.getElementById("id_51_3").checked) veracity = veracity + 1
+
+      document.getElementById("id-veracity").value = veracity
+
+      // ********* LOYALTY
+
+      document.getElementById("id-loyalty").value = loyalty
+
+      // ********* INTENTIONALITY
+      if (document.getElementById("id_49_1").checked) intentionality = intentionality + 5
+      if (document.getElementById("id_49_4").checked) intentionality = intentionality + 3
+
+      if (document.getElementById("id_52_3").checked) intentionality = intentionality + 5
+
+      if (document.getElementById("id_54_1").checked) intentionality = intentionality + 5
+      
+      document.getElementById("id-intentionality").value = intentionality
+      
+      // ********* ETHIC
+      if (document.getElementById("id_51_2").checked) ethic = ethic + 5
+      if (document.getElementById("id_51_3").checked) ethic = ethic + 1
+
+      document.getElementById("id-ethic").value = ethic
+
+      // ********* RELIABILITY
+
+      document.getElementById("id-reliability").value = reliability
+
+    }
+  </script>
+{% endblock %}

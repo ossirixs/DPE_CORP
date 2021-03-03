@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Integridad</title>
+  {% block content_title %}{% endblock %}
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+  <meta charset="UTF-8">
+</head>
+<style>
+  .body {
+    font-family: Helvetica, sans-serif;
+  }
+
+  .h1 {
+    font-family: Helvetica, sans-serif;
+  }
+
+  .div-t {
+    display: table;
+    width: 100%;
+  }
+
+  .div-50 {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .div-70 {
+    width: 60%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .div-30 {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .section {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .box {
+    padding: 25px;
+  }
+
+  table,
+  td,
+  th {
+    text-align: left;
+  }
+
+
+  th,
+  td {
+    padding: 10px;
+  }
+
+  .space {
+    padding-top: 25px;
+  }
+
+  .Alto {
+    background: #C2FFE7
+  }
+
+  .Medio {
+    background: #DFF4FF
+  }
+
+  .Bajo {
+    background: #EFDFFF
+  }
+
+  .Description {
+    background: #f6f7ff
+  }
+  .result-p {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .scale-table {
+    border: #ddd solid 1px;
+  }
+</style>
+
+<body>
+  <div class="div-t">
+
+    <div class="">
+      <div class="">
+        <div class="box">
+          <div>
+            <h1>Resultados  {{ results.name }}</h1>
+          </div>
+          <div>
+            <form method="POST" target="_blank">
+              {% csrf_token %}
+              <button name="export_button" class="btn btn-primary" style="position: relative">Descargar Reporte</button>
+            </form>
+          </div>
+        </div>
+        <div style="max-height: 80vh; overflow: auto ;padding: 1px 25px;">
+          <table>
+            <tr>
+              <td style="vertical-align: baseline; width: 50%;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(18, 118, 161, 0.3)">ADICCIONES</td>
+                    <td class="result-p">{{ results.adictions }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="addictions_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.adictions_score }}</h4>
+                      <p>{{ result_descriptions.adictions_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(45, 145, 62, 0.3)">JUICIO</td>
+                    <td class="result-p">{{ results.judgement }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="judgement_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.judgement_score }}</h4>
+                      <p>{{ result_descriptions.judgement_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(205, 92, 62, 0.3)">DISCIPLINA</td>
+                    <td class="result-p">{{ results.discipline }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="discipline_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.discipline_score }}</h4>
+                      <p>{{ result_descriptions.discipline_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(123, 145, 43, 0.3)">VERACIDAD</td>
+                    <td class="result-p">{{ results.veracity }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="veracity_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.veracity_score }}</h4>
+                      <p>{{ result_descriptions.veracity_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(36, 23, 62, 0.3)">LEALTAD</td>
+                    <td class="result-p">{{ results.loyalty }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="loyalty_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.loyalty_score }}</h4>
+                      <p>{{ result_descriptions.loyalty_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(124, 36, 62, 0.3)">INTENCIONALIDAD</td>
+                    <td class="result-p">{{ results.intentionality }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="intentionality_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.intentionality_score }}</h4>
+                      <p>{{ result_descriptions.intentionality_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(45, 86, 23, 0.3)">ETICA</td>
+                    <td class="result-p">{{ results.ethic }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="ethic_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.ethic_score }}</h4>
+                      <p>{{ result_descriptions.ethic_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(15, 144, 23, 0.3)">SEGURIDAD</td>
+                    <td class="result-p">{{ results.reliability }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="reliability_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.reliability_score }}</h4>
+                      <p>{{ result_descriptions.reliability_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="space"></div>
+</body>
+
+</html>
+
+<script type="text/javascript">
+
+  // Addictions
+
+  var ctx = document.getElementById('addictions_chart').getContext('2d');
+
+  var myAddictionsChart = new Chart(ctx, {
+    plugins: [{
+      beforeInit: function (myAddictionsChart, options) {
+        myAddictionsChart.legend.afterFit = function () {
+        };
+      }
+    }],
+    type: 'doughnut',
+    data: {
+      
+      datasets: [{
+        data: [{{ results.adictions }}, 67 -  parseInt("{{results.adictions}}",10)],
+      backgroundColor: [
+        {% if scores.adictions_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.adictions_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+        'rgb(204, 242, 255)',
+      ],
+      borderWidth: 3
+    }]
+  },
+});
+
+// judgement
+
+ctx = document.getElementById('judgement_chart').getContext('2d');
+
+var myjudgementChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myjudgementChart, options) {
+      myjudgementChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [{{ results.judgement }}, 71 -  parseInt("{{results.judgement}}",10)],
+    backgroundColor: [
+        {% if scores.judgement_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.judgement_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// discipline
+
+ ctx = document.getElementById('discipline_chart').getContext('2d');
+
+var mydisciplineChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (mydisciplineChart, options) {
+      mydisciplineChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [{{ results.discipline }}, 55 -  parseInt("{{results.discipline}}",10)],
+    backgroundColor: [
+        {% if scores.discipline_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.discipline_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// veracity
+
+ ctx = document.getElementById('veracity_chart').getContext('2d');
+
+var myveracityChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myveracityChart, options) {
+      myveracityChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [{{ results.veracity }}, 108 -  parseInt("{{results.veracity}}",10)],
+    backgroundColor: [
+        {% if scores.veracity_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.veracity_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// loyalty
+
+ ctx = document.getElementById('loyalty_chart').getContext('2d');
+
+var myloyaltyChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myloyaltyChart, options) {
+      myloyaltyChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [{{ results.loyalty }}, 33 -  parseInt("{{results.loyalty}}",10)],
+    backgroundColor: [
+        {% if scores.loyalty_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.loyalty_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// intentionality
+
+ ctx = document.getElementById('intentionality_chart').getContext('2d');
+
+var myintentionalityChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myintentionalityChart, options) {
+      myintentionalityChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [{{ results.intentionality }}, 201 -  parseInt("{{results.intentionality}}",10)],
+    backgroundColor: [
+        {% if scores.intentionality_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.intentionality_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// ethic
+
+ ctx = document.getElementById('ethic_chart').getContext('2d');
+
+var myethicChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myethicChart, options) {
+      myethicChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [{{ results.ethic }}, 146 -  parseInt("{{results.ethic}}",10)],
+    backgroundColor: [
+        {% if scores.ethic_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.ethic_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// reliability
+
+ctx = document.getElementById('reliability_chart').getContext('2d');
+
+var myreliabilityChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myreliabilityChart, options) {
+      myreliabilityChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [{{ results.reliability }}, 41 -  parseInt("{{results.reliability}}",10)],
+    backgroundColor: [
+        {% if scores.reliability_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.reliability_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+
+
+</script>

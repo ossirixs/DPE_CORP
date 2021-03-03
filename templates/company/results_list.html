@@ -73,25 +73,62 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for cie_object in cie_objects %}
-                            <tr>
-                                <td>
-                                    {{cie_object.nombre}}
-                                </td>
-                                <td>
-                                    {{cie_object.codigo.test.test_name}}
-                                </td>
-                                <td>
-                                    {{cie_object.get_formated_created}}
-                                </td>
-                                <td>
-                                    <form method="POST" class="" action="{% url 'test_result' cie_object.codigo.test.test_name cie_object.id %}" target="_blank">
-                                        {% csrf_token %} 
-                                            <button type="submit" class="btn btn-primary">  Ir  </button>
-                                    </form>
-                                </td>
-                            </tr>    
-                        {% endfor %}
+                            {% if test == 'CIE'%}
+                                {% for cie_object in cie_objects %}
+                                    <tr>
+                                        <td>
+                                            {{cie_object.nombre}}
+                                        </td>
+                                        <td>
+                                            {{cie_object.codigo.test.test_name}}
+                                        </td>
+                                        <td>
+                                            {{cie_object.get_formated_created}}
+                                        </td>
+                                        <td>
+                                            <form method="POST" class="" action="{% url 'test_result' cie_object.codigo.test.test_name cie_object.id %}" target="_blank">
+                                                {% csrf_token %} 
+                                                    <button type="submit" class="btn btn-primary">  Ir  </button>
+                                            </form>
+                                        </td>
+                                    </tr>    
+                                {% endfor %}
+                            {% elif test == 'Integridad' %}
+                                {% for integrity_object in integrity_objects %}
+                                        <tr>
+                                            <td>
+                                                {{integrity_object.name}}
+                                            </td>
+                                            <td>
+                                                {{integrity_object.code.test.test_name}}
+                                            </td>
+                                            <td>
+                                                {{integrity_object.get_formated_created}}
+                                            </td>
+                                            <td>
+                                                <form method="POST" class="" action="{% url 'integrity_test_result' integrity_object.code.test.test_name integrity_object.id %}" target="_blank">
+                                                    {% csrf_token %} 
+                                                        <button type="submit" class="btn btn-primary">  Ir  </button>
+                                                </form>
+                                            </td>
+                                        </tr>    
+                                    {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td>
+                                        -
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                    <td>
+                                        -
+                                    </td>
+                                </tr>  
+                            {% endif %}
                         </tbody>
                     </table>
             </div>

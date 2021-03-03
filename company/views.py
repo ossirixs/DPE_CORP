@@ -8,7 +8,7 @@ from datetime import datetime, date
 #Models.
 from company.models import Company, TestCode, CompanyTest, TestCatalog
 from users.models import User
-from tests.models import ObjectCIE
+from tests.models import ObjectCIE, ObjectIntegrity
 
 #Forms
 from company.forms import NewCompanyForm, TestCodeForm, CompanyTestForm
@@ -255,12 +255,11 @@ def company_detail(request,company_id):
             company = selected_company
 
             now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
+            current_time_ml = now.strftime("%f")
 
             test_id = request.POST.get('test_id')
-            print('test_id',test_id)
             test = TestCatalog.objects.get(id=test_id)
-            code = test.test_name[0:5]+"-"+number_date+"-"+company.company_name[0:4]+"-"+expiration.replace("-","")
+            code = test.test_name+"-"+number_date+"-"+company.company_name[0:4]+"-"+expiration.replace("-","")+current_time_ml
             new_code = TestCodeForm({'user':user,'company':company,'test':test,'code':code,'activate':True,'expiration':expiration})
             if new_code.is_valid():
                 new_code.save()
@@ -337,10 +336,11 @@ def company_detail(request,company_id):
 @login_required
 def test_results_list(request, company_name):
     """List all test results from the selected company."""
-    #Select an test type.
+    #Select a test type.
     if request.method == 'POST':
         if request.POST.get('select_test'):
             test = request.POST.get('test', False)
+            print("TEST", test)
             company_id = request.POST.get('company', False)
             selected_company = Company.objects.get(id=company_id)
             if test and company_id:
@@ -353,6 +353,15 @@ def test_results_list(request, company_name):
                                                                 "company_main":selected_company.company_main,
                                                                 "test":'CIE',
                                                                 "cie_objects":cie_objects,
+                                                                })
+                if test == "Integridad":
+                    integrity_objects = ObjectIntegrity.objects.filter(code__company=selected_company)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'Integridad',
+                                                                "integrity_objects":integrity_objects,
                                                                 })
         if request.POST.get('filter_results'):
             test = request.POST.get('test', False)
@@ -373,6 +382,24 @@ def test_results_list(request, company_name):
                                                                 "company_main":selected_company.company_main,
                                                                 "test":'CIE',
                                                                 "cie_objects":cie_objects,
+                                                                "test_date":test_date,
+                                                                "applicant_name":applicant_name,
+                                                                })
+            if test and company_id:
+                if test == "Integridad":
+                    integrity_objects = ObjectIntegrity.objects.filter(code__company=selected_company)
+                    applicant_name = request.POST.get('applicant_name', '')
+                    test_date = request.POST.get('test_date', '')
+                    if applicant_name:
+                        integrity_objects = integrity_objects.filter(name__contains=applicant_name)
+                    if test_date:                        
+                        integrity_objects = integrity_objects.filter(created__date=test_date)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'Integridad',
+                                                                "integrity_objects":integrity_objects,
                                                                 "test_date":test_date,
                                                                 "applicant_name":applicant_name,
                                                                 })
