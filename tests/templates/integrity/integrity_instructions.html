@@ -1,13 +1,61 @@
 {% extends "base_test.html" %}
 {% load i18n %}
-{% block page_title %}<title>Prueba CIE</title>{% endblock %}
-{% block header_title %}CIE{% endblock %}
+{% block page_title %}<title>Prueba Integridad</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
 
 {% block content %}
   <div class="test-main__inner" >
     <div style="text-align: center;">
-      <h4>Test de Integridad - Instrucciones</h4>
+      <h4>¡Bienvenida (o) al área Psicométrica de DPE!</h4>
       <br>
+    </div>
+    <div style="text-align: center;">
+      <h4 >Instrucciones</h4>
+      <br>
+    </div>
+    <div>
+      <p>
+        Selecciona la respuesta que consideras que más aplica  a tu forma de ser o de pensar o <br>
+        que en tu caso es simplemente la respuesta correcta. <br>
+        Responde lo primero que te venga a la mente, pues para cada hoja dispones de {{ IntegrityObject }}<br>
+        y al terminar el tiempo pasará a la siguiente hoja de manera automática.<br><br>
+        Ejemplo: <br>
+      </p>
+    </div>
+    <div>
+      <div class="question-block">
+        <div>
+          <p class="q-first">7. Las normas y disciplina en el trabajo, como el uso de gafete o el llenado del reporte diario o la puntualidad son: </p>
+        </div>
+        <div>
+          <ul>
+            <li>
+              <label for="id_7_1">
+                <input type="radio" name="q_7" value="0" required="" id="id_7_1">
+                Un mal necesario
+              </label>
+            </li>
+            <li>
+              <label for="id_7_2">
+                <input type="radio" name="q_7" value="1" required="" id="id_7_2">
+                Propias de la época de las cavernas
+              </label>
+            </li>
+            <li>
+              <label for="id_7_3">
+                <input type="radio" name="q_7" value="1" required="" id="id_7_3">
+                Guías para mantener el orden 
+              </label>
+            </li>
+            <li>
+              <label for="id_7_4">
+                <input type="radio" name="q_7" value="1" required="" id="id_7_4">
+                Medios para tener controlados a los empleados 
+              </label>
+            </li>
+          </ul>
+        </div>
+      </div>
     </div>
 
     <form method="post">
