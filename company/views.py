@@ -248,7 +248,7 @@ def company_detail(request,company_id):
             print('create code')
             # Concat strings to create the code
             #company_id = request.POST.get('company_id')
-            expiration = request.POST.get('expiration')
+            expiration = request.POST.get('expiration', '')
             date = datetime.fromordinal(733828)
             number_date = date.strftime('%Y%m%d')
             #company = Company.objects.get(id=company_id)
@@ -260,7 +260,11 @@ def company_detail(request,company_id):
             test_id = request.POST.get('test_id')
             test = TestCatalog.objects.get(id=test_id)
             code = test.test_name+"-"+number_date+"-"+company.company_name[0:4]+"-"+expiration.replace("-","")+current_time_ml
-            new_code = TestCodeForm({'user':user,'company':company,'test':test,'code':code,'activate':True,'expiration':expiration})
+            if test.test_name == 'Integridad':
+                seconds_integrity = request.POST.get('seconds_integrity', 0)
+            else:
+                seconds_integrity = 0
+            new_code = TestCodeForm({'user':user,'company':company,'test':test,'code':code,'activate':True,'expiration':expiration,'seconds_integrity':int(seconds_integrity)})
             if new_code.is_valid():
                 new_code.save()
                 print("created new code")

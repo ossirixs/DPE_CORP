@@ -54,7 +54,8 @@ class TestCode(models.Model):
     code = models.CharField(max_length=60)
     creation = models.DateTimeField(auto_now_add=True)
     activate = models.BooleanField(default=True)
-    expiration = models.DateField()
+    expiration = models.DateField(null=True,blank=True)
+    seconds_integrity = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.company}, {self.test}"
@@ -66,6 +67,16 @@ class TestCode(models.Model):
     @property
     def get_formated_exp(self):
         return self.expiration.strftime('%d/%m/%Y')
+        
+    @property
+    def get_minutes(self):
+        if self.seconds_integrity:
+            m, s = divmod(self.seconds_integrity, 60)
+            if s == 0: s = '00'
+            minutes = f'{m}:{s}'
+            return minutes
+        else:
+            return '-'
 
 class CompanyTest(models.Model):
     """

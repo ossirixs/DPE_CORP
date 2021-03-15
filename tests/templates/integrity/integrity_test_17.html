@@ -170,7 +170,7 @@
         </ul>
       </div>
     </div>
-    <form onsubmit="calculateIntegrityForm()" method="post">
+    <form id="form-id" onsubmit="calculateIntegrityForm()" method="post">
       {% csrf_token %}
       <div class="form-buttons">
         <input type="hidden" name="integrity_object_id" value="{{integrity_object_id}}"/>
@@ -255,5 +255,13 @@
       document.getElementById("id-reliability").value = reliability
 
     }
+
+
+    // TIMER
+    let miliseconds_integrity = parseInt('{{seconds_integrity}}', 10) * 1000
+    window.setTimeout(function () {
+      document.getElementById('form-id').submit();
+    }, miliseconds_integrity);
+    
   </script>
 {% endblock %}

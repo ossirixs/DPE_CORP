@@ -1104,7 +1104,7 @@ def integrity_instructions(request, test_code):
             # Check if code is valid
             code_errors = check_code(test_code_object)
             if code_errors == None:
-                return render(request,'integrity/integrity_instructions.html')
+                return render(request,'integrity/integrity_instructions.html',{'test_code_object':test_code_object})
         return redirect('login')
 
     else:
@@ -1152,6 +1152,9 @@ def integrity_test(request, test_code):
         next_step = int(current_step) + 1
         # Get the next form template to display
         next_test_template = 'integrity/'+str(test_steps.get(next_step))
+        # Get the text_code to obtain the time assigned por each page
+        test_code_object = TestCode.objects.get(code=test_code)
+        seconds_integrity = test_code_object.seconds_integrity
         # If current step is 0, save the ObjectIntegrity object with the candidate's info
         if current_step == 0:
             test_form = candidato(request.POST)
@@ -1169,7 +1172,7 @@ def integrity_test(request, test_code):
                 # Display errors
                 return render(request, 'integrity/'+str(test_steps.get(current_step)), {'form': candidato})
             # Go to the next template, for this case the next template is integrity_test_1.html
-            return render(request, next_test_template, {'integrity_object_id': integrity_object.id})
+            return render(request, next_test_template, {'integrity_object_id': integrity_object.id,'seconds_integrity':seconds_integrity,})
         else:
             # Get the saved integrity_object to update
             integrity_object_id = int(request.POST.get('integrity_object_id'))
@@ -1193,7 +1196,7 @@ def integrity_test(request, test_code):
                                 dict(title = 'Integridad',name = integrity_object.name))            
             
             # Go to the next template
-            return render(request, next_test_template, {'step': current_step, 'integrity_object_id': integrity_object.id})
+            return render(request, next_test_template, {'step': current_step, 'integrity_object_id': integrity_object.id, 'seconds_integrity':seconds_integrity})
     return redirect('login')
 
 def integrity_test_result(request, test_type, test_id):
