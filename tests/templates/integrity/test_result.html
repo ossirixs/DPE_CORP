@@ -119,7 +119,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(18, 118, 161, 0.3)">ADICCIONES</td>
-                    <td class="result-p">{{ results.adictions }}%</td>
+                    <td class="result-p">{{ percentages.adictions_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -128,7 +128,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.adictions_score }}</h4>
+                      <h4>{{ scores.adictions_percentage }}</h4>
                       <p>{{ result_descriptions.adictions_desc_result }}</p>
                     </td>
                   </tr>
@@ -138,7 +138,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(45, 145, 62, 0.3)">JUICIO</td>
-                    <td class="result-p">{{ results.judgement }}%</td>
+                    <td class="result-p">{{ percentages.judgement_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -147,7 +147,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.judgement_score }}</h4>
+                      <h4>{{ scores.judgement_percentage }}</h4>
                       <p>{{ result_descriptions.judgement_desc_result }}</p>
                     </td>
                   </tr>
@@ -159,7 +159,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(205, 92, 62, 0.3)">DISCIPLINA</td>
-                    <td class="result-p">{{ results.discipline }}%</td>
+                    <td class="result-p">{{ percentages.discipline_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -168,7 +168,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.discipline_score }}</h4>
+                      <h4>{{ scores.discipline_percentage }}</h4>
                       <p>{{ result_descriptions.discipline_desc_result }}</p>
                     </td>
                   </tr>
@@ -178,7 +178,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(123, 145, 43, 0.3)">VERACIDAD</td>
-                    <td class="result-p">{{ results.veracity }}%</td>
+                    <td class="result-p">{{ percentages.veracity_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -187,7 +187,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.veracity_score }}</h4>
+                      <h4>{{ scores.veracity_percentage }}</h4>
                       <p>{{ result_descriptions.veracity_desc_result }}</p>
                     </td>
                   </tr>
@@ -199,7 +199,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(36, 23, 62, 0.3)">LEALTAD</td>
-                    <td class="result-p">{{ results.loyalty }}%</td>
+                    <td class="result-p">{{ percentages.loyalty_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -208,7 +208,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.loyalty_score }}</h4>
+                      <h4>{{ scores.loyalty_percentage }}</h4>
                       <p>{{ result_descriptions.loyalty_desc_result }}</p>
                     </td>
                   </tr>
@@ -218,7 +218,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(124, 36, 62, 0.3)">INTENCIONALIDAD</td>
-                    <td class="result-p">{{ results.intentionality }}%</td>
+                    <td class="result-p">{{ percentages.intentionality_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -227,7 +227,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.intentionality_score }}</h4>
+                      <h4>{{ scores.intentionality_percentage }}</h4>
                       <p>{{ result_descriptions.intentionality_desc_result }}</p>
                     </td>
                   </tr>
@@ -239,7 +239,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(45, 86, 23, 0.3)">ETICA</td>
-                    <td class="result-p">{{ results.ethic }}%</td>
+                    <td class="result-p">{{ percentages.ethic_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -248,7 +248,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.ethic_score }}</h4>
+                      <h4>{{ scores.ethic_percentage }}</h4>
                       <p>{{ result_descriptions.ethic_desc_result }}</p>
                     </td>
                   </tr>
@@ -258,7 +258,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(15, 144, 23, 0.3)">SEGURIDAD</td>
-                    <td class="result-p">{{ results.reliability }}%</td>
+                    <td class="result-p">{{ percentages.reliability_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -267,7 +267,7 @@
                       </div>
                     </td>
                     <td>
-                      <h4>{{ scores.reliability_score }}</h4>
+                      <h4>{{ scores.reliability_percentage }}</h4>
                       <p>{{ result_descriptions.reliability_desc_result }}</p>
                     </td>
                   </tr>
@@ -304,9 +304,9 @@
       datasets: [{
         data: [{{ results.adictions }}, 67 -  parseInt("{{results.adictions}}",10)],
       backgroundColor: [
-        {% if scores.adictions_score == 'Aprobado' %}
+        {% if scores.adictions_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.adictions_score == 'Aprobado con Reservas' %}
+        {% elif scores.adictions_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -335,9 +335,9 @@ var myjudgementChart = new Chart(ctx, {
     datasets: [{
       data: [{{ results.judgement }}, 71 -  parseInt("{{results.judgement}}",10)],
     backgroundColor: [
-        {% if scores.judgement_score == 'Aprobado' %}
+        {% if scores.judgement_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.judgement_score == 'Aprobado con Reservas' %}
+        {% elif scores.judgement_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -367,9 +367,9 @@ var mydisciplineChart = new Chart(ctx, {
     datasets: [{
       data: [{{ results.discipline }}, 55 -  parseInt("{{results.discipline}}",10)],
     backgroundColor: [
-        {% if scores.discipline_score == 'Aprobado' %}
+        {% if scores.discipline_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.discipline_score == 'Aprobado con Reservas' %}
+        {% elif scores.discipline_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -399,9 +399,9 @@ var myveracityChart = new Chart(ctx, {
     datasets: [{
       data: [{{ results.veracity }}, 108 -  parseInt("{{results.veracity}}",10)],
     backgroundColor: [
-        {% if scores.veracity_score == 'Aprobado' %}
+        {% if scores.veracity_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.veracity_score == 'Aprobado con Reservas' %}
+        {% elif scores.veracity_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -431,9 +431,9 @@ var myloyaltyChart = new Chart(ctx, {
     datasets: [{
       data: [{{ results.loyalty }}, 33 -  parseInt("{{results.loyalty}}",10)],
     backgroundColor: [
-        {% if scores.loyalty_score == 'Aprobado' %}
+        {% if scores.loyalty_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.loyalty_score == 'Aprobado con Reservas' %}
+        {% elif scores.loyalty_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -463,9 +463,9 @@ var myintentionalityChart = new Chart(ctx, {
     datasets: [{
       data: [{{ results.intentionality }}, 201 -  parseInt("{{results.intentionality}}",10)],
     backgroundColor: [
-        {% if scores.intentionality_score == 'Aprobado' %}
+        {% if scores.intentionality_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.intentionality_score == 'Aprobado con Reservas' %}
+        {% elif scores.intentionality_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -495,9 +495,9 @@ var myethicChart = new Chart(ctx, {
     datasets: [{
       data: [{{ results.ethic }}, 146 -  parseInt("{{results.ethic}}",10)],
     backgroundColor: [
-        {% if scores.ethic_score == 'Aprobado' %}
+        {% if scores.ethic_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.ethic_score == 'Aprobado con Reservas' %}
+        {% elif scores.ethic_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -527,9 +527,9 @@ var myreliabilityChart = new Chart(ctx, {
     datasets: [{
       data: [{{ results.reliability }}, 41 -  parseInt("{{results.reliability}}",10)],
     backgroundColor: [
-        {% if scores.reliability_score == 'Aprobado' %}
+        {% if scores.reliability_percentage == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.reliability_score == 'Aprobado con Reservas' %}
+        {% elif scores.reliability_percentage == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 

@@ -1274,80 +1274,260 @@ def integrity_test_result(request, test_type, test_id):
         "failed": " Generalmente se involucra en situaciones de incertidumbre, exponiéndose al peligro, lo que puede ocasionar un perjuicio o daño. Se deja llevar por la suerte, procede o toma decisiones de manera azarosa, de forma casual e imprevista, poniendo en riesgo su patrimonio, lo mismo que bienes o activos ajenos.",
     }
 
-    if integrity_object.adictions >= 50:
+    # Addictions percentage
+    if integrity_object.adictions <= 67 : addiction_percentage = 99
+    if integrity_object.adictions <= 61 : addiction_percentage = 95
+    if integrity_object.adictions <= 58 : addiction_percentage = 90
+    if integrity_object.adictions <= 56 : addiction_percentage = 85
+    if integrity_object.adictions <= 54 : addiction_percentage = 80
+    if integrity_object.adictions <= 53 : addiction_percentage = 75
+    if integrity_object.adictions <= 51 : addiction_percentage = 70
+    if integrity_object.adictions <= 50 : addiction_percentage = 65
+    if integrity_object.adictions <= 49 : addiction_percentage = 60
+    if integrity_object.adictions <= 47 : addiction_percentage = 55
+    if integrity_object.adictions <= 46 : addiction_percentage = 50
+    if integrity_object.adictions <= 45 : addiction_percentage = 45
+    if integrity_object.adictions <= 44 : addiction_percentage = 40
+    if integrity_object.adictions <= 42 : addiction_percentage = 35
+    if integrity_object.adictions <= 41 : addiction_percentage = 30
+    if integrity_object.adictions <= 39 : addiction_percentage = 25
+    if integrity_object.adictions <= 36 : addiction_percentage = 20
+    if integrity_object.adictions <= 32 : addiction_percentage = 15
+    if integrity_object.adictions <= 29 : addiction_percentage = 10
+    if integrity_object.adictions <= 23 : addiction_percentage = 5
+    if integrity_object.adictions <= 7 : addiction_percentage = 1
+
+    if addiction_percentage >= 61:
         adictions_desc_result = adictions_desc['passed']
         adictions_score = "Aprobado"
-    elif integrity_object.adictions <= 46:
+    elif addiction_percentage <= 50:
         adictions_desc_result = adictions_desc['failed']
         adictions_score = "Reprobado"
     else:
         adictions_desc_result = adictions_desc['passed_cond']
         adictions_score = "Aprobado con Reservas"
+
+    # Judgement percentage
+    if integrity_object.judgement <= 71 : judgement_percentage = 99
+    if integrity_object.judgement <= 69 : judgement_percentage = 95
+    if integrity_object.judgement <= 66 : judgement_percentage = 90
+    if integrity_object.judgement <= 63 : judgement_percentage = 85
+    if integrity_object.judgement <= 62 : judgement_percentage = 80
+    if integrity_object.judgement <= 60 : judgement_percentage = 75
+    if integrity_object.judgement <= 59 : judgement_percentage = 70
+    if integrity_object.judgement <= 58 : judgement_percentage = 65
+    if integrity_object.judgement <= 56 : judgement_percentage = 60
+    if integrity_object.judgement <= 55 : judgement_percentage = 55
+    if integrity_object.judgement <= 54 : judgement_percentage = 50
+    if integrity_object.judgement <= 52 : judgement_percentage = 45
+    if integrity_object.judgement <= 50 : judgement_percentage = 40
+    if integrity_object.judgement <= 48 : judgement_percentage = 35
+    if integrity_object.judgement <= 46 : judgement_percentage = 30
+    if integrity_object.judgement <= 44 : judgement_percentage = 25
+    if integrity_object.judgement <= 42 : judgement_percentage = 20
+    if integrity_object.judgement <= 39 : judgement_percentage = 15
+    if integrity_object.judgement <= 34 : judgement_percentage = 10
+    if integrity_object.judgement <= 29 : judgement_percentage = 5
+    if integrity_object.judgement <= 6 : judgement_percentage = 1
         
-    if integrity_object.judgement >= 58:
+    if judgement_percentage >= 61:
         judgement_desc_result = judgement_desc['passed']
         judgement_score = "Aprobado"
-    elif integrity_object.judgement <= 54:
+    elif judgement_percentage <= 50:
         judgement_desc_result = judgement_desc['failed']
         judgement_score = "Reprobado"
     else:
         judgement_desc_result = judgement_desc['passed_cond']
         judgement_score = "Aprobado con Reservas"
 
-    if integrity_object.discipline >= 39:
+    # Discipline percentage
+    if integrity_object.discipline <= 55 : discipline_percentage = 99
+    if integrity_object.discipline <= 52 : discipline_percentage = 95
+    if integrity_object.discipline <= 49 : discipline_percentage = 90
+    if integrity_object.discipline <= 47 : discipline_percentage = 85
+    if integrity_object.discipline <= 45 : discipline_percentage = 80
+    if integrity_object.discipline <= 42 : discipline_percentage = 75
+    if integrity_object.discipline <= 40 : discipline_percentage = 70
+    if integrity_object.discipline <= 39 : discipline_percentage = 65
+    if integrity_object.discipline <= 37 : discipline_percentage = 60
+    if integrity_object.discipline <= 35 : discipline_percentage = 55
+    if integrity_object.discipline <= 34 : discipline_percentage = 50
+    if integrity_object.discipline <= 33 : discipline_percentage = 45
+    if integrity_object.discipline <= 31 : discipline_percentage = 40
+    if integrity_object.discipline <= 29 : discipline_percentage = 35
+    if integrity_object.discipline <= 27 : discipline_percentage = 30
+    if integrity_object.discipline <= 24 : discipline_percentage = 25
+    if integrity_object.discipline <= 22 : discipline_percentage = 20
+    if integrity_object.discipline <= 20 : discipline_percentage = 15
+    if integrity_object.discipline <= 15 : discipline_percentage = 10
+    if integrity_object.discipline <= 11 : discipline_percentage = 5
+    if integrity_object.discipline <= 5 : discipline_percentage = 1
+
+    if discipline_percentage >= 61:
         discipline_desc_result = discipline_desc['passed']
         discipline_score = "Aprobado"
-    elif integrity_object.discipline <= 34:
+    elif discipline_percentage <= 50:
         discipline_desc_result = discipline_desc['failed']
         discipline_score = "Reprobado"
     else:
         discipline_desc_result = discipline_desc['passed_cond']
         discipline_score = "Aprobado con Reservas"
 
-    if integrity_object.veracity >= 79:
+    # Veracity percentage
+    if integrity_object.veracity <= 108 : veracity_percentage = 99
+    if integrity_object.veracity <= 93 : veracity_percentage = 95
+    if integrity_object.veracity <= 89 : veracity_percentage = 90
+    if integrity_object.veracity <= 87 : veracity_percentage = 85
+    if integrity_object.veracity <= 84 : veracity_percentage = 80
+    if integrity_object.veracity <= 82 : veracity_percentage = 75
+    if integrity_object.veracity <= 80 : veracity_percentage = 70
+    if integrity_object.veracity <= 79 : veracity_percentage = 65
+    if integrity_object.veracity <= 77 : veracity_percentage = 60
+    if integrity_object.veracity <= 76 : veracity_percentage = 55
+    if integrity_object.veracity <= 75 : veracity_percentage = 50
+    if integrity_object.veracity <= 73 : veracity_percentage = 45
+    if integrity_object.veracity <= 72 : veracity_percentage = 40
+    if integrity_object.veracity <= 70 : veracity_percentage = 35
+    if integrity_object.veracity <= 68 : veracity_percentage = 30
+    if integrity_object.veracity <= 65 : veracity_percentage = 25
+    if integrity_object.veracity <= 62 : veracity_percentage = 20
+    if integrity_object.veracity <= 57 : veracity_percentage = 15
+    if integrity_object.veracity <= 52 : veracity_percentage = 10
+    if integrity_object.veracity <= 42 : veracity_percentage = 5
+    if integrity_object.veracity <= 10 : veracity_percentage = 1
+
+    if veracity_percentage >= 61:
         veracity_desc_result = veracity_desc['passed']
         veracity_score = "Aprobado"
-    elif integrity_object.veracity <= 75:
+    elif veracity_percentage <= 50:
         veracity_desc_result = veracity_desc['failed']
         veracity_score = "Reprobado"
     else:
         veracity_desc_result = veracity_desc['passed_cond']
         veracity_score = "Aprobado con Reservas"
 
-    if integrity_object.loyalty > 27:
+    # Loyalty percentage
+    if integrity_object.loyalty <= 33 : loyalty_percentage = 99
+    if integrity_object.loyalty <= 32 : loyalty_percentage = 95
+    if integrity_object.loyalty <= 31 : loyalty_percentage = 90
+    if integrity_object.loyalty <= 30 : loyalty_percentage = 85
+    if integrity_object.loyalty <= 29 : loyalty_percentage = 75
+    if integrity_object.loyalty <= 28 : loyalty_percentage = 70
+    if integrity_object.loyalty <= 27 : loyalty_percentage = 60
+    if integrity_object.loyalty <= 26 : loyalty_percentage = 55
+    if integrity_object.loyalty <= 25 : loyalty_percentage = 45
+    if integrity_object.loyalty <= 24 : loyalty_percentage = 35
+    if integrity_object.loyalty <= 23 : loyalty_percentage = 30
+    if integrity_object.loyalty <= 22 : loyalty_percentage = 25
+    if integrity_object.loyalty <= 21 : loyalty_percentage = 20
+    if integrity_object.loyalty <= 19 : loyalty_percentage = 15
+    if integrity_object.loyalty <= 17 : loyalty_percentage = 10
+    if integrity_object.loyalty <= 13 : loyalty_percentage = 5
+    if integrity_object.loyalty <= 2 : loyalty_percentage = 1
+
+    if loyalty_percentage > 61:
         loyalty_desc_result = loyalty_desc['passed']
         loyalty_score = "Aprobado"
-    elif integrity_object.loyalty < 26:
+    elif loyalty_percentage < 50:
         loyalty_desc_result = loyalty_desc['failed']
         loyalty_score = "Reprobado"
     else:
         loyalty_desc_result = loyalty_desc['passed_cond']
         loyalty_score = "Aprobado con Reservas"
 
-    if integrity_object.intentionality >= 166:
+    # Intentionality percentage
+    if integrity_object.intentionality <= 201 : intentionality_percentage = 99
+    if integrity_object.intentionality <= 190 : intentionality_percentage = 95
+    if integrity_object.intentionality <= 185 : intentionality_percentage = 90
+    if integrity_object.intentionality <= 180 : intentionality_percentage = 85
+    if integrity_object.intentionality <= 176 : intentionality_percentage = 80
+    if integrity_object.intentionality <= 172 : intentionality_percentage = 75
+    if integrity_object.intentionality <= 168 : intentionality_percentage = 70
+    if integrity_object.intentionality <= 166 : intentionality_percentage = 65
+    if integrity_object.intentionality <= 163 : intentionality_percentage = 60
+    if integrity_object.intentionality <= 160 : intentionality_percentage = 55
+    if integrity_object.intentionality <= 156 : intentionality_percentage = 50
+    if integrity_object.intentionality <= 152 : intentionality_percentage = 45
+    if integrity_object.intentionality <= 149 : intentionality_percentage = 40
+    if integrity_object.intentionality <= 146 : intentionality_percentage = 35
+    if integrity_object.intentionality <= 143 : intentionality_percentage = 30
+    if integrity_object.intentionality <= 139 : intentionality_percentage = 25
+    if integrity_object.intentionality <= 132 : intentionality_percentage = 20
+    if integrity_object.intentionality <= 124 : intentionality_percentage = 15
+    if integrity_object.intentionality <= 108 : intentionality_percentage = 10
+    if integrity_object.intentionality <= 68 : intentionality_percentage = 5
+    if integrity_object.intentionality <= 21 : intentionality_percentage = 1
+
+    if intentionality_percentage >= 61:
         intentionality_desc_result = intentionality_desc['passed']
         intentionality_score = "Aprobado"
-    elif integrity_object.intentionality <= 156:
+    elif intentionality_percentage <= 50:
         intentionality_desc_result = intentionality_desc['failed']
         intentionality_score = "Reprobado"
     else:
         intentionality_desc_result = intentionality_desc['passed_cond']
         intentionality_score = "Aprobado con Reservas"
 
-    if integrity_object.ethic >= 115:
+    # Ethic percentage
+    if integrity_object.ethic <= 146 : ethic_percentage = 99
+    if integrity_object.ethic <= 134 : ethic_percentage = 95
+    if integrity_object.ethic <= 129 : ethic_percentage = 90
+    if integrity_object.ethic <= 126 : ethic_percentage = 85
+    if integrity_object.ethic <= 123 : ethic_percentage = 80
+    if integrity_object.ethic <= 120 : ethic_percentage = 75
+    if integrity_object.ethic <= 118 : ethic_percentage = 70
+    if integrity_object.ethic <= 115 : ethic_percentage = 65
+    if integrity_object.ethic <= 113 : ethic_percentage = 60
+    if integrity_object.ethic <= 111 : ethic_percentage = 55
+    if integrity_object.ethic <= 108 : ethic_percentage = 50
+    if integrity_object.ethic <= 105 : ethic_percentage = 45
+    if integrity_object.ethic <= 102 : ethic_percentage = 40
+    if integrity_object.ethic <= 98 : ethic_percentage = 35
+    if integrity_object.ethic <= 94 : ethic_percentage = 30
+    if integrity_object.ethic <= 89 : ethic_percentage = 25
+    if integrity_object.ethic <= 85 : ethic_percentage = 20
+    if integrity_object.ethic <= 79 : ethic_percentage = 15
+    if integrity_object.ethic <= 68 : ethic_percentage = 10
+    if integrity_object.ethic <= 53 : ethic_percentage = 5
+    if integrity_object.ethic <= 20 : ethic_percentage = 1
+
+    if ethic_percentage >= 61:
         ethic_desc_result = ethic_desc['passed']
         ethic_score = "Aprobado"
-    elif integrity_object.ethic <= 108:
+    elif ethic_percentage <= 50:
         ethic_desc_result = ethic_desc['failed']
         ethic_score = "Reprobado"
     else:
         ethic_desc_result = ethic_desc['passed_cond']
         ethic_score = "Aprobado con Reservas"
 
-    if integrity_object.reliability >= 50:
+    # Reliability percentage
+    if integrity_object.reliability  <= 41 : reliability_percentage = 99
+    if integrity_object.reliability  <= 40 : reliability_percentage = 95
+    if integrity_object.reliability  <= 39 : reliability_percentage = 90
+    if integrity_object.reliability  <= 37 : reliability_percentage = 85
+    if integrity_object.reliability  <= 35 : reliability_percentage = 80
+    if integrity_object.reliability  <= 34 : reliability_percentage = 75
+    if integrity_object.reliability  <= 33 : reliability_percentage = 70
+    if integrity_object.reliability  <= 32 : reliability_percentage = 65
+    if integrity_object.reliability  <= 31 : reliability_percentage = 60
+    if integrity_object.reliability  <= 29 : reliability_percentage = 55
+    if integrity_object.reliability  <= 28 : reliability_percentage = 50
+    if integrity_object.reliability  <= 26 : reliability_percentage = 45
+    if integrity_object.reliability  <= 25 : reliability_percentage = 40
+    if integrity_object.reliability  <= 23 : reliability_percentage = 35
+    if integrity_object.reliability  <= 22 : reliability_percentage = 30
+    if integrity_object.reliability  <= 21 : reliability_percentage = 25
+    if integrity_object.reliability  <= 18 : reliability_percentage = 20
+    if integrity_object.reliability  <= 15 : reliability_percentage = 15
+    if integrity_object.reliability  <= 12 : reliability_percentage = 10
+    if integrity_object.reliability  <= 9 : reliability_percentage = 5
+    if integrity_object.reliability  <= 3 : reliability_percentage = 1
+
+    if integrity_object.reliability >= 61:
         reliability_desc_result = reliability_desc['passed']
         reliability_score = "Aprobado"
-    elif integrity_object.reliability <= 46:
+    elif integrity_object.reliability <= 50:
         reliability_desc_result = reliability_desc['failed']
         reliability_score = "Reprobado"
     else:
@@ -1377,6 +1557,15 @@ def integrity_test_result(request, test_type, test_id):
         "reliability_score" :reliability_score,
     }
 
+    percentages = {
+        "adictions_percentage" :addiction_percentage,
+        "judgement_percentage" :judgement_percentage,
+        "discipline_percentage" :discipline_percentage,
+        "veracity_percentage" :veracity_percentage,
+        "loyalty_percentage" :loyalty_percentage,
+        "intentionality_percentage" :intentionality_percentage,
+        "ethic_percentage" :ethic_percentage,
+        "reliability_percentage" :reliability_percentage,
+    }
 
-
-    return render(request, 'integrity/test_result.html', {"results":integrity_object, "result_descriptions":result_descriptions, "scores": scores})
+    return render(request, 'integrity/test_result.html', {"results":integrity_object, "result_descriptions":result_descriptions, "scores": scores, "percentages": percentages})
