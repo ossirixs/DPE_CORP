@@ -1,6 +1,7 @@
 # Django
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render, redirect
+import tempfile
 # Models
 from tests.models import ObjectCIE, ObjectIntegrity
 from company.models import TestCode
@@ -9,10 +10,11 @@ from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404
 from tests.utils import clean_data, score_tag_CIE
 from weasyprint import HTML
+from django.template.loader import render_to_string
 from django.template.loader import get_template
 from django.http import HttpResponse
 # Utils
-from tests.utils import clean_data
+from tests.utils import *
 from users.utils import check_code
 # Forms
 from tests.forms import *
@@ -1203,21 +1205,6 @@ def integrity_test_result(request, test_type, test_id):
 
     integrity_object = get_object_or_404(ObjectIntegrity, pk=test_id)
 
-    if 'export_button' in request.POST:
-
-        html_template = get_template('integrity/results.html')
-
-        # Render the context into the PDF/HTML template
-        context = dict(title='RESULTADOS INTEGRIDAD',
-                       content='CONTENIDO')
-        html = html_template.render(context)
-        pdf_file = HTML(string=html).write_pdf()
-        response = HttpResponse(pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = 'filename="TEST"'
-
-        # Return the response to preview the PDF in a new tab
-        return response
-
     # adictions Description
     adictions_desc = {
         "passed": "Es una persona que no muestra dependencia por el consumo, tanto de bebidas alcohólicas, drogas, psicofármacos, tabaco o alimentos en exceso. Señala interés en el cuidado de su salud física, psíquica y equilibrio emocional.",
@@ -1524,10 +1511,10 @@ def integrity_test_result(request, test_type, test_id):
     if integrity_object.reliability  <= 9 : reliability_percentage = 5
     if integrity_object.reliability  <= 3 : reliability_percentage = 1
 
-    if integrity_object.reliability >= 61:
+    if reliability_percentage >= 61:
         reliability_desc_result = reliability_desc['passed']
         reliability_score = "Aprobado"
-    elif integrity_object.reliability <= 50:
+    elif reliability_percentage <= 50:
         reliability_desc_result = reliability_desc['failed']
         reliability_score = "Reprobado"
     else:
@@ -1567,5 +1554,20 @@ def integrity_test_result(request, test_type, test_id):
         "ethic_percentage" :ethic_percentage,
         "reliability_percentage" :reliability_percentage,
     }
+
+    if 'export_button' in request.POST:
+
+        html_template = get_template('integrity/test_result_pdf.html')
+
+        # Render the context into the PDF/HTML template
+        context = {"results":integrity_object, "result_descriptions":result_descriptions, "scores": scores, "percentages": percentages}
+
+        html = html_template.render(context)
+        pdf_file = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'filename="PruebaIntegridad.pdf"'
+
+        # Return the response to preview the PDF in a new tab
+        return response
 
     return render(request, 'integrity/test_result.html', {"results":integrity_object, "result_descriptions":result_descriptions, "scores": scores, "percentages": percentages})
