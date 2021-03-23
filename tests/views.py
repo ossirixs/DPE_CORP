@@ -812,6 +812,24 @@ def test_result(request, test_type, test_id):
                 '1': 3,
                 '0': 3}
 
+    CONG_DICT = {'Alto': "Buena coherencia entre las respuestas dadas por la evaluada o evaluado.",
+                 'Medio': "Existe coherencia en las respuestas ofrecidas por la evaluada o evaluado.",
+                 'Bajo': "Dudosa fiabilidad de las respuestas dadas por la evaluada o evaluado.",
+                 '13': 97,
+                 '12': 97,
+                 '11': 76,
+                 '10': 58,
+                 '9': 45,
+                 '8': 37,
+                 '7': 29,
+                 '6': 29,
+                 '5': 24,
+                 '4': 24,
+                 '3': 24,
+                 '2': 24,
+                 '1': 17,
+                 '0': 15}
+
     EST_true = [q_144, q_188]
     EST_false = [q_1, q_8, q_18, q_26, q_47, q_57, q_68, q_70, q_79, q_91, q_104, q_105, q_125, q_130, q_154, q_167,
                  q_170, q_186, q_190, q_202, q_203, q_215, q_221, q_230]
@@ -1045,14 +1063,44 @@ def test_result(request, test_type, test_id):
     description = IMG_DICT.get(f'{result}')
     IMG = {'score': score, 'result': result, 'description': description}
 
+    CONG = ((bool(q_6) and bool(q_200)) + (bool(q_9) and bool(q_65)) + (bool(q_23) and bool(q_41)) +
+            (bool(q_76) and bool(q_206)) + (bool(q_90) and bool(q_214)) + (bool(q_93) and bool(q_106)) +
+            (bool(q_94) and bool(q_140)) + (bool(q_102) and bool(q_127)) + (bool(q_136) and bool(q_204)) +
+            (bool(q_156) and bool(q_221)) + (bool(q_194) and bool(q_205)))
+    score = CONG_DICT.get(f'{CONG}')
+    result = score_tag_CIE(score)
+    description = CONG_DICT.get(f'{result}')
+    CONG = {'score': score, 'result': result, 'description': description}
+
+
+    print(CONG)
+
+    context = dict(cuestionario=cuestionario,
+                   pdf='',
+                   EST=EST,
+                   ANS=ANS,
+                   AUC=AUC,
+                   EFI=EFI,
+                   SEG=SEG,
+                   IND=IND,
+                   DOM=DOM,
+                   COG=COG,
+                   SOC=SOC,
+                   AJS=AJS,
+                   AGR=AGR,
+                   TOL=TOL,
+                   HAB=HAB,
+                   DISC=DISC,
+                   LID=LID,
+                   VER=VER,
+                   IMG=IMG,
+                   CONG=CONG)
 
     if 'export_button' in request.POST:
 
-        html_template = get_template('CIE/results.html')
-
-        # Render the context into the PDF/HTML template
-        context = dict(title='RESULTADOS',
-                       content='CONTENIDO')
+        html_template = get_template('test_result.html')
+        context['pdf'] = True
+        print(context)
         html = html_template.render(context)
         pdf_file = HTML(string=html).write_pdf()
         response = HttpResponse(pdf_file, content_type='application/pdf')
@@ -1061,25 +1109,7 @@ def test_result(request, test_type, test_id):
         # Return the response to preview the PDF in a new tab
         return response
 
-    return render(request, 'test_result.html', dict(cuestionario=cuestionario,
-                                                    EST=EST,
-                                                    ANS=ANS,
-                                                    AUC=AUC,
-                                                    EFI=EFI,
-                                                    SEG=SEG,
-                                                    IND=IND,
-                                                    DOM=DOM,
-                                                    COG=COG,
-                                                    SOC=SOC,
-                                                    AJS=AJS,
-                                                    AGR=AGR,
-                                                    TOL=TOL,
-                                                    HAB=HAB,
-                                                    DISC=DISC,
-                                                    LID=LID,
-                                                    VER=VER,
-                                                    IMG=IMG,
-                                                    CONG=CONG))
+    return render(request, 'test_result.html', context)
 
 def cie_instructions(request, test_code):
     if request.method == 'GET':
