@@ -1,0 +1,267 @@
+{% extends "base_test.html" %}
+{% load i18n %}
+{% block page_title %}<title>Integridad</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
+
+{% block content %}
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <p>17 de 20</p>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">97. En tu opinión, ¿cuál es el porcentaje de personas que usan drogas? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_97_1">
+              <input type="radio" name="q_97" value="0" required="" id="id_97_1">
+              5%
+            </label>
+          </li>
+          <li>
+            <label for="id_97_2">
+              <input type="radio" name="q_97" value="1" required="" id="id_97_2">
+              10%
+            </label>
+          </li>
+          <li>
+            <label for="id_97_3">
+              <input type="radio" name="q_97" value="1" required="" id="id_97_3">
+              20%
+            </label>
+          </li>
+          <li>
+            <label for="id_97_4">
+              <input type="radio" name="q_97" value="1" required="" id="id_97_4">
+              30%
+            </label>
+          </li>
+          <li>
+            <label for="id_97_5">
+              <input type="radio" name="q_97" value="1" required="" id="id_97_5">
+              Más del 30%
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">98. ¿Consideras que la causa de la mayor parte de los casos de soborno o robo es lo que se llama “la ocasión hace al ladrón”?</p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_98_1">
+              <input type="radio" name="q_98" value="0" required="" id="id_98_1">
+              Sí
+            </label>
+          </li>
+          <li>
+            <label for="id_98_2">
+              <input type="radio" name="q_98" value="1" required="" id="id_98_2">
+              No
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">99. Ver a alguien cometer un delito y no denunciarlo es también un delito:</p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_99_1">
+              <input type="radio" name="q_99" value="0" required="" id="id_99_1">
+              Correcto
+            </label>
+          </li>
+          <li>
+            <label for="id_99_2">
+              <input type="radio" name="q_99" value="1" required="" id="id_99_2">
+              Incorrecto
+            </label>
+          </li>
+          <li>
+            <label for="id_99_3">
+              <input type="radio" name="q_99" value="1" required="" id="id_99_3">
+               Depende
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">100. ¿Qué es más grave?</p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_100_1">
+              <input type="radio" name="q_100" value="0" required="" id="id_100_1">
+              Mentir   
+            </label>
+          </li>
+          <li>
+            <label for="id_100_2">
+              <input type="radio" name="q_100" value="1" required="" id="id_100_2">
+              Ocultar
+            </label>
+          </li>
+          <li>
+            <label for="id_100_3">
+              <input type="radio" name="q_100" value="1" required="" id="id_100_3">
+              Retener
+            </label>
+          </li>
+          <li>
+            <label for="id_100_4">
+              <input type="radio" name="q_100" value="1" required="" id="id_100_4">
+              Ninguna
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">101. Un empleado que no fue promovido en su trabajo por causas injustificadas estafó al patrón por una suma de $500. Fue descubierto y despedido. ¿Consideras que el despido fue justificado?</p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_101_1">
+              <input type="radio" name="q_101" value="0" required="" id="id_101_1">
+              Sí
+            </label>
+          </li>
+          <li>
+            <label for="id_101_2">
+              <input type="radio" name="q_101" value="1" required="" id="id_101_2">
+              No
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">102. Verificar el pasado de una persona es un buen método para verificar su confiabilidad: </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_102_1">
+              <input type="radio" name="q_102" value="0" required="" id="id_102_1">
+              Correcto
+            </label>
+          </li>
+          <li>
+            <label for="id_102_2">
+              <input type="radio" name="q_102" value="1" required="" id="id_102_2">
+              Incorrecto
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <form id="form-id" onsubmit="calculateIntegrityForm()" method="post">
+      {% csrf_token %}
+      <div class="form-buttons">
+        <input type="hidden" name="integrity_object_id" value="{{integrity_object_id}}"/>
+
+        <input id="id-adictions" type="hidden" name="adictions" value="0" />
+        <input id="id-judgement" type="hidden" name="judgement" value="0" />
+        <input id="id-discipline" type="hidden" name="discipline" value="0" />
+        <input id="id-veracity" type="hidden" name="veracity" value="0" />
+        <input id="id-loyalty" type="hidden" name="loyalty" value="0" />
+        <input id="id-intentionality" type="hidden" name="intentionality" value="0" />
+        <input id="id-ethic" type="hidden" name="ethic" value="0" />
+        <input id="id-reliability" type="hidden" name="reliability" value="0" />
+
+        <input type="hidden" name="step" value="17"/>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Update the values in the form according to the selected answers
+    function calculateIntegrityForm(){
+      let adictions = 0
+      let judgement = 0
+      let discipline = 0
+      let veracity = 0
+      let loyalty = 0
+      let intentionality = 0
+      let ethic = 0
+      let reliability = 0
+
+      // ********* ADICTIONS
+      
+      document.getElementById("id-adictions").value = adictions
+
+      // ********* JUDGEMENT
+      if (document.getElementById("id_98_2").checked) judgement = judgement + 5
+
+      document.getElementById("id-judgement").value = judgement
+
+      // ********* DISCIPLINE
+
+      document.getElementById("id-discipline").value = discipline
+
+      // ********* VERACITY
+      if (document.getElementById("id_100_1").checked) veracity = veracity + 5
+      if (document.getElementById("id_100_2").checked) veracity = veracity + 3
+      if (document.getElementById("id_100_3").checked) veracity = veracity + 3
+
+      document.getElementById("id-veracity").value = veracity
+
+      // ********* LOYALTY
+
+      document.getElementById("id-loyalty").value = loyalty
+
+      // ********* INTENTIONALITY
+      if (document.getElementById("id_97_1").checked) intentionality = intentionality + 5
+      if (document.getElementById("id_97_2").checked) intentionality = intentionality + 3
+      if (document.getElementById("id_97_3").checked) intentionality = intentionality + 3
+      if (document.getElementById("id_97_4").checked) intentionality = intentionality + 1
+
+      if (document.getElementById("id_98_2").checked) intentionality = intentionality + 5
+
+      if (document.getElementById("id_99_1").checked) intentionality = intentionality + 5
+      if (document.getElementById("id_99_2").checked) intentionality = intentionality + 1
+      if (document.getElementById("id_99_3").checked) intentionality = intentionality + 3
+      
+      document.getElementById("id-intentionality").value = intentionality
+      
+      // ********* ETHIC
+      if (document.getElementById("id_99_1").checked) ethic = ethic + 5
+      if (document.getElementById("id_99_2").checked) ethic = ethic + 1
+      if (document.getElementById("id_99_3").checked) ethic = ethic + 3
+
+      if (document.getElementById("id_101_1").checked) ethic = ethic + 5
+
+      if (document.getElementById("id_102_1").checked) ethic = ethic + 5
+
+      document.getElementById("id-ethic").value = ethic
+
+      // ********* RELIABILITY
+
+      document.getElementById("id-reliability").value = reliability
+
+    }
+
+
+    // TIMER
+    let miliseconds_integrity = parseInt('{{seconds_integrity}}', 10) * 1000
+    window.setTimeout(function () {
+      document.getElementById('form-id').submit();
+    }, miliseconds_integrity);
+    
+  </script>
+{% endblock %}

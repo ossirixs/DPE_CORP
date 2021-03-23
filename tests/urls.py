@@ -6,23 +6,33 @@ from tests.forms import CIE_form_1, CIE_form_2
 
 urlpatterns = [
     path(
-        route='cie/<test_code>',
-        view=CIE.as_view(),
-        name='cie_test'
-    ),
-    path(
         route='cie_instructions/<test_code>',
         view=views.cie_instructions,
         name='cie_instructions'
     ),
     path(
-        route='cpecon/<test_code>',
+        route='cie/<test_code>',
         view=CIE.as_view(),
-        name='dpecon_test'
+        name='cie_test'
+    ),
+    path(
+        route='integrity_instructions/<test_code>',
+        view=views.integrity_instructions,
+        name='integrity_instructions'
+    ),
+    path(
+        route='integrity/<test_code>',
+        view=views.integrity_test,
+        name='integrity_test'
     ),
     path(
         route='results/<test_type>/<test_id>',
         view=views.test_result,
         name='test_result'
+    ),
+    path(
+        route='integrity_results/<test_type>/<test_id>',
+        view=views.integrity_test_result,
+        name='integrity_test_result'
     ),
 ]

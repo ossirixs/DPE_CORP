@@ -35,7 +35,7 @@ class TestCatalog(models.Model):
 
     TEST_TYPE = [
         ('CIE', 'CIE'),
-        ('DPECON' , 'DPECon'),
+        ('Integridad' , 'Integridad'),
     ]
 
     test_name = models.CharField( max_length=128, choices=TEST_TYPE, null=False, blank=False)
@@ -51,10 +51,11 @@ class TestCode(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=1)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     test = models.ForeignKey(TestCatalog, on_delete=models.CASCADE)
-    code = models.CharField(max_length=40)
+    code = models.CharField(max_length=60)
     creation = models.DateTimeField(auto_now_add=True)
     activate = models.BooleanField(default=True)
-    expiration = models.DateField()
+    expiration = models.DateField(null=True,blank=True)
+    seconds_integrity = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.company}, {self.test}"
@@ -66,6 +67,16 @@ class TestCode(models.Model):
     @property
     def get_formated_exp(self):
         return self.expiration.strftime('%d/%m/%Y')
+        
+    @property
+    def get_minutes(self):
+        if self.seconds_integrity:
+            m, s = divmod(self.seconds_integrity, 60)
+            if s == 0: s = '00'
+            minutes = f'{m}:{s}'
+            return minutes
+        else:
+            return '-'
 
 class CompanyTest(models.Model):
     """

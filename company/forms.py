@@ -23,7 +23,7 @@ class TestCodeForm(forms.ModelForm):
 
     class Meta:
         model = TestCode
-        fields = ['user' ,'company' ,'test' ,'code' ,'activate' ,'expiration' ]
+        fields = ['user' ,'company' ,'test' ,'code' ,'activate' ,'expiration','seconds_integrity' ]
 
 
 

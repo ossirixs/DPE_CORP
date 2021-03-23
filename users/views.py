@@ -29,8 +29,8 @@ def login_view(request):
                     # If no errors access to the test
                     if test_code.test.test_name == 'CIE':
                         return redirect('cie_instructions',test_code=code)
-                    if test_code.test.test_name == 'DPECON':
-                        return redirect('dpecon_test',test_code=code)
+                    if test_code.test.test_name == 'Integridad':
+                        return redirect('integrity_instructions',test_code=code)
                 else:
                     
                     return render(request,'login.html', {'error':code_errors})

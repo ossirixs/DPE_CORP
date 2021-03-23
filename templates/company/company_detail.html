@@ -145,7 +145,7 @@
                                 <div class="form-row">
                                     <div class="col-md-4">
                                         <label for="test-id" class="">Prueba</label>
-                                        <select name="test_id" id="test-id" class="form-control" required>
+                                        <select name="test_id" id="test-id" class="form-control" onchange="showMinutes(this)" required>
                                             <option value="">--</option>
                                                 {% for test in assigned_tests %}
                                                     <option value={{test.test.id}}>{{test.test.test_name}}</option>                                                                                
@@ -165,6 +165,16 @@
                                         <div class="position-relative form-group">
                                             <label for="expiration-id" class="">Fecha de Expiracion</label>
                                             <input name="expiration" id="expiration-id" type="date" class="form-control" value="" required>
+                                        </div>
+                                    </div>
+                                    <div id="minutes_div" class="col-md-3 d-none" >
+                                        <div class="position-relative form-group">
+                                            <label for="seconds-id" class="">Minutos disponibles por hoja</label>
+                                            <select name="seconds_integrity" id="seconds-id" class="form-control" required>
+                                                <option value=60>1</option>                                                                                
+                                                <option value=90>1:30</option>                                                                                
+                                                <option value=140>2:20</option>                                                                                
+                                            </select>   
                                         </div>
                                     </div>
                                 </div>
@@ -189,6 +199,7 @@
                                     <th>Codigo de acceso</th>
                                     <th>Creador</th>
                                     <th>Expiracion</th>
+                                    <th>Tiempo</th>
                                     <th>Estatus</th>
                                     <th>Activacion</th>
                                     <th>Borrar</th>
@@ -201,6 +212,7 @@
                                         <td>{{ code.code }}</td>
                                         <td>{{ code.user.username }}</td>
                                         <td>{{ code.get_formated_exp }}</td>
+                                        <td>{{ code.get_minutes }}</td>
                                         <td>
                                             {% if code.activate == True%}
                                                 <div class="badge badge-success">Activa</div>
@@ -429,41 +441,48 @@
                         <div class="form-row">
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="username-id" class="">Nombre de usuario</label><input name="username" id="username-id" type="text" class="form-control" value="">
+                                    <label for="username-id" class="">Nombre de usuario</label>
+                                    <input name="username" id="username-id" type="text" class="form-control" required placeholder="sin espacios">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="username-id" class="">Password</label><input name="password1" id="password-id" type="password" class="form-control" value="">
+                                    <label for="username-id" class="">Password</label>
+                                    <input name="password1" id="password-id" type="password" class="form-control" required value="">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="username-id" class="">Confirmar Password</label><input name="password2" id="password-id" type="password" class="form-control" value="">
+                                    <label for="username-id" class="">Confirmar Password</label>
+                                    <input name="password2" id="password-id" type="password" class="form-control" required value="">
                                 </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="name-id" class="">Nombre</label><input name="first_name" id="name-id" type="text" class="form-control" value="">
+                                        <label for="name-id" class="">Nombre</label>
+                                        <input name="first_name" id="name-id" type="text" class="form-control" required value="">
                                     </div>
                             </div>
                             <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="last-name-id" class="">Paterno</label><input name="last_name" id="last-name-id" type="text" class="form-control" value="">
+                                        <label for="last-name-id" class="">Paterno</label>
+                                        <input name="last_name" id="last-name-id" type="text" class="form-control" required value="">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="position-relative form-group">
-                                        <label for="second-last-name-id" class="">Materno</label><input name="second_last_name" id="second-last-name-id" type="text" class="form-control" value="">
+                                        <label for="second-last-name-id" class="">Materno</label>
+                                        <input name="second_last_name" id="second-last-name-id" type="text" class="form-control" required value="">
                                     </div>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="col-md-3">
                                 <div class="position-relative form-group">
-                                    <label for="email-id" class="">Email</label><input name="email" id="email-id" type="email" class="form-control" value="{{email}}">
+                                    <label for="email-id" class="">Email</label>
+                                    <input name="email" id="email-id" type="email" class="form-control" required>
                                 </div>
                             </div>
                         </div>
@@ -534,6 +553,17 @@
             tab_button.classList.add('active');
         }
     }
+
+    function showMinutes(input){
+        minutes_input = document.getElementById('minutes_div');
+        console.log(input.options[input.options.selectedIndex].text)
+        if (input.options[input.options.selectedIndex].text == 'Integridad') {
+            minutes_input.classList.remove('d-none');
+        }else{
+            minutes_input.classList.add('d-none');
+        }
+    }
+
     // Alerts for actions
     let saved_code = '{{saved_code}}'
     if ( saved_code ){

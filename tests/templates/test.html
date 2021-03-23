@@ -4,37 +4,39 @@
 {% block header_title %}CIE{% endblock %}
 
 {% block content %}
-  <div style="text-align: center;">
-    <p>Hoja {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</p>
-  </div>
-  <form action="" method="post">
-    {% csrf_token %}
-      <div >
-      {{ wizard.management_form }}
-        {% for field in wizard.form %}
-          {% if wizard.steps.step1 %}
-          <div class="question-row">
-            <div>
-              <p class="q-first">{{ field.label }}</p>
-            </div>
-            <div>
-              {{ field }}
-            </div>
-          </div>
-          {% else %}
-          <div class="question-row">
-            <div>
-              <p class="q-paragraph">{{ field.label }}</p>
-            </div>
-            <div>
-              {{ field }}
-            </div>
-          </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-    <div class="form-buttons">
-      <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <p>Hoja {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</p>
     </div>
-  </form>
+    <form action="" method="post">
+      {% csrf_token %}
+        <div >
+        {{ wizard.management_form }}
+          {% for field in wizard.form %}
+            {% if wizard.steps.step1 %}
+            <div class="question-row">
+              <div>
+                <p class="q-first">{{ field.label }}</p>
+              </div>
+              <div>
+                {{ field }}
+              </div>
+            </div>
+            {% else %}
+            <div class="question-row">
+              <div>
+                <p class="q-paragraph">{{ field.label }}</p>
+              </div>
+              <div>
+                {{ field }}
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      <div class="form-buttons">
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
 {% endblock %}

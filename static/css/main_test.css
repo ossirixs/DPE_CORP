@@ -29,14 +29,31 @@ body{
 .test-main__inner{
   margin: 0 auto;
   width: max-content;
+  max-width: 85%;
   background-color: white;
   padding: 30px 40px;
   border-radius: 10px;
   border: 1px solid #949394;
 }
 
+.test-main__inner__patient__data{
+  margin: 0 auto;
+  width: 50%;
+  background-color: white;
+  padding: 30px 40px;
+  border-radius: 10px;
+  border: 1px solid #949394;
+}
+
+
 .question-row{
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d4d2d2;
+}
+
+.question-block{
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #d4d2d2;

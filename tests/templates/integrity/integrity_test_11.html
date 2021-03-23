@@ -1,0 +1,324 @@
+{% extends "base_test.html" %}
+{% load i18n %}
+{% block page_title %}<title>Integridad</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
+
+{% block content %}
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <p>11 de 20</p>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">61. ¿Cuántas veces has sido remitido a la Alcaldía (oficina de la policía)? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_61_1">
+              <input type="radio" name="q_61" value="0" required="" id="id_61_1">
+              Una vez
+            </label>
+          </li>
+          <li>
+            <label for="id_61_2">
+              <input type="radio" name="q_61" value="1" required="" id="id_61_2">
+              Dos veces
+            </label>
+          </li>
+          <li>
+            <label for="id_61_3">
+              <input type="radio" name="q_61" value="1" required="" id="id_61_3">
+              Más de dos veces 
+            </label>
+          </li>
+          <li>
+            <label for="id_61_4">
+              <input type="radio" name="q_61" value="1" required="" id="id_61_4">
+              Ninguna
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">62. ¿Consideras oportuno que una persona mienta acerca de su pasado? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_62_1">
+              <input type="radio" name="q_62" value="0" required="" id="id_62_1">
+              Sí
+            </label>
+          </li>
+          <li>
+            <label for="id_62_2">
+              <input type="radio" name="q_62" value="1" required="" id="id_62_2">
+              No
+            </label>
+          </li>
+          <li>
+            <label for="id_62_3">
+              <input type="radio" name="q_62" value="1" required="" id="id_62_3">
+              A veces
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">63. ¿Cuántas veces te cacharon llevándote algo de una tienda?</p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_63_1">
+              <input type="radio" name="q_63" value="0" required="" id="id_63_1">
+              Sólo una vez
+            </label>
+          </li>
+          <li>
+            <label for="id_63_2">
+              <input type="radio" name="q_63" value="1" required="" id="id_63_2">
+              Más de una vez  
+            </label>
+          </li>
+          <li>
+            <label for="id_63_3">
+              <input type="radio" name="q_63" value="1" required="" id="id_63_3">
+              Una vez, jugando
+            </label>
+          </li>
+          <li>
+            <label for="id_63_4">
+              <input type="radio" name="q_63" value="1" required="" id="id_63_4">
+              Nunca
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">64. ¿Crees que las autoridades tienen derecho a inmiscuirse en la decisión de una persona de consumir drogas? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_64_1">
+              <input type="radio" name="q_64" value="0" required="" id="id_64_1">
+              Sí
+            </label>
+          </li>
+          <li>
+            <label for="id_64_2">
+              <input type="radio" name="q_64" value="1" required="" id="id_64_2">
+              Sí, pero sólo en caso de drogas duras 
+            </label>
+          </li>
+          <li>
+            <label for="id_64_3">
+              <input type="radio" name="q_64" value="1" required="" id="id_64_3">
+              No, si no se perjudica a nadie
+            </label>
+          </li>
+          <li>
+            <label for="id_64_4">
+              <input type="radio" name="q_64" value="1" required="" id="id_64_4">
+              No
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">65. ¿Cuál de las siguientes virtudes te parece fundamental? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_65_1">
+              <input type="radio" name="q_65" value="0" required="" id="id_65_1">
+              Justicia
+            </label>
+          </li>
+          <li>
+            <label for="id_65_2">
+              <input type="radio" name="q_65" value="1" required="" id="id_65_2">
+              Honestidad   
+            </label>
+          </li>
+          <li>
+            <label for="id_65_3">
+              <input type="radio" name="q_65" value="1" required="" id="id_65_3">
+              Confiabilidad
+            </label>
+          </li>
+          <li>
+            <label for="id_65_4">
+              <input type="radio" name="q_65" value="1" required="" id="id_65_4">
+              Lealtad
+            </label>
+          </li>
+          <li>
+            <label for="id_65_5">
+              <input type="radio" name="q_65" value="1" required="" id="id_65_5">
+              Puntualidad
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">66. ¿Cuál de los siguientes comportamientos te parece más reprobable? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_66_1">
+              <input type="radio" name="q_66" value="0" required="" id="id_66_1">
+              Ocultar algún error
+            </label>
+          </li>
+          <li>
+            <label for="id_66_2">
+              <input type="radio" name="q_66" value="1" required="" id="id_66_2">
+              Dar información falsa  
+            </label>
+          </li>
+          <li>
+            <label for="id_66_3">
+              <input type="radio" name="q_66" value="1" required="" id="id_66_3">
+              Mentirle al supervisor
+            </label>
+          </li>
+          <li>
+            <label for="id_66_4">
+              <input type="radio" name="q_66" value="1" required="" id="id_66_4">
+              Hacer “como que trabajo”
+            </label>
+          </li>
+          <li>
+            <label for="id_66_5">
+              <input type="radio" name="q_66" value="1" required="" id="id_66_5">
+              No devolver el cambio de un pago 
+            </label>
+          </li>
+          <li>
+            <label for="id_66_6">
+              <input type="radio" name="q_66" value="1" required="" id="id_66_6">
+              Faltar sin causa justificada
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <form id="form-id" onsubmit="calculateIntegrityForm()" method="post">
+      {% csrf_token %}
+      <div class="form-buttons">
+        <input type="hidden" name="integrity_object_id" value="{{integrity_object_id}}"/>
+
+        <input id="id-adictions" type="hidden" name="adictions" value="0" />
+        <input id="id-judgement" type="hidden" name="judgement" value="0" />
+        <input id="id-discipline" type="hidden" name="discipline" value="0" />
+        <input id="id-veracity" type="hidden" name="veracity" value="0" />
+        <input id="id-loyalty" type="hidden" name="loyalty" value="0" />
+        <input id="id-intentionality" type="hidden" name="intentionality" value="0" />
+        <input id="id-ethic" type="hidden" name="ethic" value="0" />
+        <input id="id-reliability" type="hidden" name="reliability" value="0" />
+
+        <input type="hidden" name="step" value="11"/>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Update the values in the form according to the selected answers
+    function calculateIntegrityForm(){
+      let adictions = 0
+      let judgement = 0
+      let discipline = 0
+      let veracity = 0
+      let loyalty = 0
+      let intentionality = 0
+      let ethic = 0
+      let reliability = 0
+
+      // ********* ADICTIONS
+      
+      document.getElementById("id-adictions").value = adictions
+
+      // ********* JUDGEMENT
+      if (document.getElementById("id_64_1").checked) judgement = judgement + 5
+
+      document.getElementById("id-judgement").value = judgement
+
+      // ********* DISCIPLINE
+      if (document.getElementById("id_61_1").checked) discipline = discipline + 1
+      
+      if (document.getElementById("id_61_4").checked) discipline = discipline + 5
+
+      if (document.getElementById("id_66_6").checked) discipline = discipline + 5
+
+      document.getElementById("id-discipline").value = discipline
+
+      // ********* VERACITY
+      if (document.getElementById("id_61_1").checked) veracity = veracity + 5
+      if (document.getElementById("id_61_2").checked) veracity = veracity + 5
+      if (document.getElementById("id_61_3").checked) veracity = veracity + 5
+      if (document.getElementById("id_61_4").checked) veracity = veracity + 5
+
+      if (document.getElementById("id_62_2").checked) veracity = veracity + 5
+      if (document.getElementById("id_62_3").checked) veracity = veracity + 1
+
+      if (document.getElementById("id_66_1").checked) veracity = veracity + 5
+      if (document.getElementById("id_66_2").checked) veracity = veracity + 5
+      if (document.getElementById("id_66_3").checked) veracity = veracity + 5
+      if (document.getElementById("id_66_4").checked) veracity = veracity + 5
+
+      document.getElementById("id-veracity").value = veracity
+
+      // ********* LOYALTY
+
+      document.getElementById("id-loyalty").value = loyalty
+
+      // ********* INTENTIONALITY
+      if (document.getElementById("id_63_3").checked) intentionality = intentionality + 1
+      if (document.getElementById("id_63_4").checked) intentionality = intentionality + 5
+
+      if (document.getElementById("id_66_5").checked) intentionality = intentionality + 5
+      
+      document.getElementById("id-intentionality").value = intentionality
+      
+      // ********* ETHIC
+      if (document.getElementById("id_62_2").checked) ethic = ethic + 5
+      if (document.getElementById("id_62_3").checked) ethic = ethic + 1
+
+      if (document.getElementById("id_65_1").checked) ethic = ethic + 3
+      if (document.getElementById("id_65_2").checked) ethic = ethic + 5
+      if (document.getElementById("id_65_3").checked) ethic = ethic + 3
+      if (document.getElementById("id_65_4").checked) ethic = ethic + 3
+      if (document.getElementById("id_65_5").checked) ethic = ethic + 1
+
+      document.getElementById("id-ethic").value = ethic
+
+      // ********* RELIABILITY
+
+      document.getElementById("id-reliability").value = reliability
+
+    }
+
+
+    // TIMER
+    let miliseconds_integrity = parseInt('{{seconds_integrity}}', 10) * 1000
+    window.setTimeout(function () {
+      document.getElementById('form-id').submit();
+    }, miliseconds_integrity);
+    
+  </script>
+{% endblock %}

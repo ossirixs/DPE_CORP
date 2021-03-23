@@ -4,113 +4,115 @@
 {% block header_title %}CIE{% endblock %}
 
 {% block content %}
-  <div style="text-align: center;">
-    <h4>¡Bienvenida (o) al área Psicométrica de DPE!</h4>
-    <br>
-  </div>
-  <div>
-    <p>
-      
-      Enseguida contestarás un cuestionario cuyas respuestas nos permitirán integrar <br>
-      tu Escala de Inteligencia Emocional, misma que te entregará posteriormente tu <br> 
-      enlace de Recursos Humanos.
-    </p>
-  </div>
-  <div style="text-align: center;">
-    <h4 >Instrucciones</h4>
-    <br>
-  </div>
-  <div>
-    <p>
-      Este cuestionario contiene 233 frases. <br>
-      Lee cada una de ellas y decide si, aplicada a ti misma (o), es verdadera (V) o falsa (F). <br>
-      Anota tu contestación en la hoja de respuestas, haciendo clic en el botón correspondiente. <br>
-      Ejemplo: <br>
-    </p>
-  </div>
-  <div>
-    <div class="question-row">
-      <div>
-        <p class="q-first">E1.  Los dias tristes me aburren.</p>
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        <label for="id_1-q_1_0">
-          <input type="radio" name="1-q_1" value="0" required="" id="id_1-q_1_0" checked>
-          Falso
-        </label>
-        <label for="id_1-q_1_1">
-          <input type="radio" name="1-q_1" value="1" required="" id="id_1-q_1_1">
-          Verdadero
-        </label>
-      </div>
-    </div>
-    <div class="question-row">
-      <div>
-        <p class="q-first">E2. Alguno de mis amigos me odia.</p>
-      </div>
-      <div style="display: flex; flex-direction: column;">
-        <label for="id_1-q_1_0">
-          <input type="radio" name="1-q_2" value="0" required="" id="id_1-q_1_0">
-          Falso
-        </label>
-        <label for="id_1-q_1_1">
-          <input type="radio" name="1-q_2" value="1" required="" id="id_1-q_1_1" checked>
-          Verdadero
-        </label>
-      </div>
-    </div>
-  </div>
-  <div>
-    <br>
-    <p>
-      Quien ha contestado a estos dos ejemplos considera que es verdad (V) que los <br> 
-      días tristes le aburren y ha marcado la V. Esta misma persona cree que es falso <br>
-      (F) que alguno de sus amigos la odie y por eso ha marcado la F (falso).<br><br>
-      Así pues, cuando leas las frases de esta prueba, si crees que su contenido <br>
-      es verdadero o con frecuencia verdadero, marca el botón de la V.<br>
-      Si la frase es falsa o con frecuencia falsa, marca el botón de la F.<br><br>
-      Si alguna frase tiene poca aplicación en tu caso o no estás seguro (a) si es <br>
-      verdadera o falsa haz todo lo posible por contestarla porque si dejas alguna sin <br>
-      contestar, se invalida la prueba, no podremos integrar tu Escala de Inteligencia <br>
-      Emocional y tendrás que solicitar una prueba nueva.<br><br>
-      Se sincera (o) en tus contestaciones, pues no serán dadas a conocer a terceros.<br><br>
-      Nota: Para simplificar la lectura, las frases se han redactado en el género masculino.<br><br>
-      Gracias por tu atención. 
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <h4>¡Bienvenida (o) al área Psicométrica de DPE!</h4>
       <br>
-    </p>
-    <h5 style="text-align: center;">¡Es hora de comenzar!</h5>
-    
-  </div>
-  <form action="" method="post">
-    {% csrf_token %}
-      <div >
-      {{ wizard.management_form }}
-        {% for field in wizard.form %}
-          {% if wizard.steps.step1 %}
-          <div class="question-row">
-            <div>
-              <p class="q-first">{{ field.label }}</p>
-            </div>
-            <div>
-              {{ field }}
-            </div>
-          </div>
-          {% else %}
-          <div class="question-row">
-            <div>
-              <p class="q-paragraph">{{ field.label }}</p>
-            </div>
-            <div>
-              {{ field }}
-            </div>
-          </div>
-          {% endif %}
-        {% endfor %}
-      </div>
-    <div class="form-buttons">
-      <input type="submit" class="btn btn-primary" value="Comenzar"/>
-      <input type="hidden" name="code" value="{code}"/>
-      <input type="hidden" name="start" value="{code}"/>
     </div>
-  </form>
+    <div>
+      <p>
+        
+        Enseguida contestarás un cuestionario cuyas respuestas nos permitirán integrar <br>
+        tu Escala de Inteligencia Emocional, misma que te entregará posteriormente tu <br> 
+        enlace de Recursos Humanos.
+      </p>
+    </div>
+    <div style="text-align: center;">
+      <h4 >Instrucciones</h4>
+      <br>
+    </div>
+    <div>
+      <p>
+        Este cuestionario contiene 233 frases. <br>
+        Lee cada una de ellas y decide si, aplicada a ti misma (o), es verdadera (V) o falsa (F). <br>
+        Anota tu contestación en la hoja de respuestas, haciendo clic en el botón correspondiente. <br>
+        Ejemplo: <br>
+      </p>
+    </div>
+    <div>
+      <div class="question-row">
+        <div>
+          <p class="q-first">E1.  Los dias tristes me aburren.</p>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <label for="id_1-q_1_0">
+            <input type="radio" name="1-q_1" value="0" required="" id="id_1-q_1_0" checked>
+            Falso
+          </label>
+          <label for="id_1-q_1_1">
+            <input type="radio" name="1-q_1" value="1" required="" id="id_1-q_1_1">
+            Verdadero
+          </label>
+        </div>
+      </div>
+      <div class="question-row">
+        <div>
+          <p class="q-first">E2. Alguno de mis amigos me odia.</p>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+          <label for="id_1-q_1_0">
+            <input type="radio" name="1-q_2" value="0" required="" id="id_1-q_1_0">
+            Falso
+          </label>
+          <label for="id_1-q_1_1">
+            <input type="radio" name="1-q_2" value="1" required="" id="id_1-q_1_1" checked>
+            Verdadero
+          </label>
+        </div>
+      </div>
+    </div>
+    <div>
+      <br>
+      <p>
+        Quien ha contestado a estos dos ejemplos considera que es verdad (V) que los <br> 
+        días tristes le aburren y ha marcado la V. Esta misma persona cree que es falso <br>
+        (F) que alguno de sus amigos la odie y por eso ha marcado la F (falso).<br><br>
+        Así pues, cuando leas las frases de esta prueba, si crees que su contenido <br>
+        es verdadero o con frecuencia verdadero, marca el botón de la V.<br>
+        Si la frase es falsa o con frecuencia falsa, marca el botón de la F.<br><br>
+        Si alguna frase tiene poca aplicación en tu caso o no estás seguro (a) si es <br>
+        verdadera o falsa haz todo lo posible por contestarla porque si dejas alguna sin <br>
+        contestar, se invalida la prueba, no podremos integrar tu Escala de Inteligencia <br>
+        Emocional y tendrás que solicitar una prueba nueva.<br><br>
+        Se sincera (o) en tus contestaciones, pues no serán dadas a conocer a terceros.<br><br>
+        Nota: Para simplificar la lectura, las frases se han redactado en el género masculino.<br><br>
+        Gracias por tu atención. 
+        <br>
+      </p>
+      <h5 style="text-align: center;">¡Es hora de comenzar!</h5>
+      
+    </div>
+    <form action="" method="post">
+      {% csrf_token %}
+        <div >
+        {{ wizard.management_form }}
+          {% for field in wizard.form %}
+            {% if wizard.steps.step1 %}
+            <div class="question-row">
+              <div>
+                <p class="q-first">{{ field.label }}</p>
+              </div>
+              <div>
+                {{ field }}
+              </div>
+            </div>
+            {% else %}
+            <div class="question-row">
+              <div>
+                <p class="q-paragraph">{{ field.label }}</p>
+              </div>
+              <div>
+                {{ field }}
+              </div>
+            </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      <div class="form-buttons">
+        <input type="submit" class="btn btn-primary" value="Comenzar"/>
+        <input type="hidden" name="code" value="{code}"/>
+        <input type="hidden" name="start" value="{code}"/>
+      </div>
+    </form>
+  </div>
 {% endblock %}

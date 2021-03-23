@@ -1,0 +1,245 @@
+{% extends "base_test.html" %}
+{% load i18n %}
+{% block page_title %}<title>Integridad</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
+
+{% block content %}
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <p>18 de 20</p>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">103. ¿Estarías dispuesta o dispuesto a perdonar a un empleado que robó porque tenía una buena razón para hacerlo? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_103_1">
+              <input type="radio" name="q_103" value="0" required="" id="id_103_1">
+              Sí
+            </label>
+          </li>
+          <li>
+            <label for="id_103_2">
+              <input type="radio" name="q_103" value="1" required="" id="id_103_2">
+              No
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">104. Sólo apuesto para divertirme y no por dinero: </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_104_1">
+              <input type="radio" name="q_104" value="0" required="" id="id_104_1">
+              Correcto
+            </label>
+          </li>
+          <li>
+            <label for="id_104_2">
+              <input type="radio" name="q_104" value="1" required="" id="id_104_2">
+              Incorrecto
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">105. ¿A quién le debe un empleado mayor lealtad? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_105_1">
+              <input type="radio" name="q_105" value="0" required="" id="id_105_1">
+              A sus compañeros
+            </label>
+          </li>
+          <li>
+            <label for="id_105_2">
+              <input type="radio" name="q_105" value="1" required="" id="id_105_2">
+              A su supervisor
+            </label>
+          </li>
+          <li>
+            <label for="id_105_3">
+              <input type="radio" name="q_105" value="1" required="" id="id_105_3">
+               A la Compañía
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">106. ¿Cuántas veces te llevaste de una tienda un producto sin pagar? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_106_1">
+              <input type="radio" name="q_106" value="0" required="" id="id_106_1">
+              Más de 1 vez
+            </label>
+          </li>
+          <li>
+            <label for="id_106_2">
+              <input type="radio" name="q_106" value="1" required="" id="id_106_2">
+              Sólo 1 vez
+            </label>
+          </li>
+          <li>
+            <label for="id_106_3">
+              <input type="radio" name="q_106" value="1" required="" id="id_106_3">
+              No lo he hecho
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">107. Hubo personas con las cuales trabajaste que engañaron al patrón: </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_107_1">
+              <input type="radio" name="q_107" value="0" required="" id="id_107_1">
+              Sí, la mayoría engañaba al patrón
+            </label>
+          </li>
+          <li>
+            <label for="id_107_2">
+              <input type="radio" name="q_107" value="1" required="" id="id_107_2">
+              Sí, algunos engañaban al patrón 
+            </label>
+          </li>
+          <li>
+            <label for="id_107_3">
+              <input type="radio" name="q_107" value="1" required="" id="id_107_3">
+              Ninguno de nosotros engañaba al patrón
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">108. ¿Si tuvieras más dinero apostarías más? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_108_1">
+              <input type="radio" name="q_108" value="0" required="" id="id_108_1">
+              Correcto
+            </label>
+          </li>
+          <li>
+            <label for="id_108_2">
+              <input type="radio" name="q_108" value="1" required="" id="id_108_2">
+              Incorrecto
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <form id="form-id" onsubmit="calculateIntegrityForm()" method="post">
+      {% csrf_token %}
+      <div class="form-buttons">
+        <input type="hidden" name="integrity_object_id" value="{{integrity_object_id}}"/>
+
+        <input id="id-adictions" type="hidden" name="adictions" value="0" />
+        <input id="id-judgement" type="hidden" name="judgement" value="0" />
+        <input id="id-discipline" type="hidden" name="discipline" value="0" />
+        <input id="id-veracity" type="hidden" name="veracity" value="0" />
+        <input id="id-loyalty" type="hidden" name="loyalty" value="0" />
+        <input id="id-intentionality" type="hidden" name="intentionality" value="0" />
+        <input id="id-ethic" type="hidden" name="ethic" value="0" />
+        <input id="id-reliability" type="hidden" name="reliability" value="0" />
+
+        <input type="hidden" name="step" value="18"/>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Update the values in the form according to the selected answers
+    function calculateIntegrityForm(){
+      let adictions = 0
+      let judgement = 0
+      let discipline = 0
+      let veracity = 0
+      let loyalty = 0
+      let intentionality = 0
+      let ethic = 0
+      let reliability = 0
+
+      // ********* ADICTIONS
+      
+      document.getElementById("id-adictions").value = adictions
+
+      // ********* JUDGEMENT
+
+      document.getElementById("id-judgement").value = judgement
+
+      // ********* DISCIPLINE
+      if (document.getElementById("id_103_1").checked) discipline = discipline + 1
+      if (document.getElementById("id_103_2").checked) discipline = discipline + 5
+
+      document.getElementById("id-discipline").value = discipline
+
+      // ********* VERACITY
+
+      document.getElementById("id-veracity").value = veracity
+
+      // ********* LOYALTY
+      if (document.getElementById("id_105_1").checked) loyalty = loyalty + 3
+      if (document.getElementById("id_105_2").checked) loyalty = loyalty + 3
+      if (document.getElementById("id_105_3").checked) loyalty = loyalty + 5
+
+      if (document.getElementById("id_107_2").checked) loyalty = loyalty + 1
+
+      document.getElementById("id-loyalty").value = loyalty
+
+      // ********* INTENTIONALITY
+      if (document.getElementById("id_103_1").checked) intentionality = intentionality + 1
+      if (document.getElementById("id_103_2").checked) intentionality = intentionality + 5
+
+      if (document.getElementById("id_106_2").checked) intentionality = intentionality + 1
+      if (document.getElementById("id_106_3").checked) intentionality = intentionality + 5
+      
+      document.getElementById("id-intentionality").value = intentionality
+      
+      // ********* ETHIC
+      if (document.getElementById("id_107_2").checked) ethic = ethic + 1
+
+      document.getElementById("id-ethic").value = ethic
+
+      // ********* RELIABILITY
+      if (document.getElementById("id_104_1").checked) reliability = reliability + 1
+      if (document.getElementById("id_104_2").checked) reliability = reliability + 5
+
+      if (document.getElementById("id_108_2").checked) reliability = reliability + 5
+
+      document.getElementById("id-reliability").value = reliability
+
+    }
+
+
+    // TIMER
+    let miliseconds_integrity = parseInt('{{seconds_integrity}}', 10) * 1000
+    window.setTimeout(function () {
+      document.getElementById('form-id').submit();
+    }, miliseconds_integrity);
+    
+  </script>
+{% endblock %}

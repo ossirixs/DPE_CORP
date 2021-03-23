@@ -252,3 +252,26 @@ class ObjectCIE(models.Model):
     @property
     def get_formated_created(self):
         return self.created.strftime('%d/%m/%Y')
+
+class ObjectIntegrity(models.Model):
+    # El código de la prueba al que está relacionado este cuestionario
+    code = models.ForeignKey(TestCode, blank=True, null=True, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True, blank=True,)
+    # Datos del candidato
+    name = models.CharField(max_length=50, default='', help_text='Nombre completo del candidato')
+    age = models.IntegerField(default=1, help_text='Edad del candidato')
+    email = models.CharField(max_length=50, default='', help_text='Email del candidato')
+    sex = models.CharField(max_length=50, default='', help_text='Sexo del candidato')
+    # Scales
+    adictions = models.IntegerField(default=0, help_text='adicciones')
+    judgement = models.IntegerField(default=0, help_text='juicio')
+    discipline = models.IntegerField(default=0, help_text='disciplina')
+    veracity = models.IntegerField(default=0, help_text='verecidad')
+    loyalty = models.IntegerField(default=0, help_text='lealtad')
+    intentionality = models.IntegerField(default=0, help_text='intencionalidad')
+    ethic = models.IntegerField(default=0, help_text='etica')
+    reliability = models.IntegerField(default=0, help_text='seguridad')
+
+    @property
+    def get_formated_created(self):
+        return self.created.strftime('%d/%m/%Y')

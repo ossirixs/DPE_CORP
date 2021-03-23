@@ -1,18 +1,20 @@
 # Django
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render, redirect
+import tempfile
 # Models
-from tests.models import ObjectCIE
+from tests.models import ObjectCIE, ObjectIntegrity
 from company.models import TestCode
 # Libraries
 from formtools.wizard.views import SessionWizardView
 from django.shortcuts import get_object_or_404
 from tests.utils import clean_data, score_tag_CIE
 from weasyprint import HTML
+from django.template.loader import render_to_string
 from django.template.loader import get_template
 from django.http import HttpResponse
 # Utils
-from tests.utils import clean_data
+from tests.utils import *
 from users.utils import check_code
 # Forms
 from tests.forms import *
@@ -1126,3 +1128,476 @@ def cie_instructions(request, test_code):
         if start:
             return redirect('cie_test',test_code=test_code)
         return render(request,'cie_instructions.html',{'code': test_code})
+
+def integrity_instructions(request, test_code):
+    if request.method == 'GET':
+        if TestCode.objects.filter(code=test_code).exists():
+            test_code_object = TestCode.objects.get(code=test_code)
+            # Check if code is valid
+            code_errors = check_code(test_code_object)
+            if code_errors == None:
+                return render(request,'integrity/integrity_instructions.html',{'test_code_object':test_code_object})
+        return redirect('login')
+
+    else:
+        start_test = request.POST.get('start_test', False)
+        if start_test:
+            return redirect('integrity_test',test_code=test_code)
+        return redirect('login')
+
+
+def integrity_test(request, test_code):
+
+    # Dictionary with all forms
+    test_steps = {
+        0: 'integrity_test_0.html',
+        1: 'integrity_test_1.html',
+        2: 'integrity_test_2.html',
+        3: 'integrity_test_3.html',
+        4: 'integrity_test_4.html',
+        5: 'integrity_test_5.html',
+        6: 'integrity_test_6.html',
+        7: 'integrity_test_7.html',
+        8: 'integrity_test_8.html',
+        9: 'integrity_test_9.html',
+        10: 'integrity_test_10.html',
+        11: 'integrity_test_11.html',
+        12: 'integrity_test_12.html',
+        13: 'integrity_test_13.html',
+        14: 'integrity_test_14.html',
+        15: 'integrity_test_15.html',
+        16: 'integrity_test_16.html',
+        17: 'integrity_test_17.html',
+        18: 'integrity_test_18.html',
+        19: 'integrity_test_19.html',
+        20: 'integrity_test_20.html',
+    }
+
+    # Display the candidate's info form
+    if request.method == 'GET':
+        test_template = 'integrity/'+str(test_steps.get(0))
+        return render(request, test_template, {'form': candidato})
+
+    # Start saving all the forms
+    elif request.method == 'POST':
+        current_step = int(request.POST.get('step'))
+        next_step = int(current_step) + 1
+        # Get the next form template to display
+        next_test_template = 'integrity/'+str(test_steps.get(next_step))
+        # Get the text_code to obtain the time assigned por each page
+        test_code_object = TestCode.objects.get(code=test_code)
+        seconds_integrity = test_code_object.seconds_integrity
+        # If current step is 0, save the ObjectIntegrity object with the candidate's info
+        if current_step == 0:
+            test_form = candidato(request.POST)
+            if test_form.is_valid():
+                integrity_object = ObjectIntegrity()
+                test_code_object = TestCode.objects.get(code=test_code)
+                integrity_object.code = test_code_object
+                integrity_object.name = test_form.cleaned_data['nombre']
+                integrity_object.age = test_form.cleaned_data['edad']
+                integrity_object.email = test_form.cleaned_data['email']
+                integrity_object.sex = test_form.cleaned_data['sexo']
+                integrity_object.save()
+                integrity_object.id
+            else:
+                # Display errors
+                return render(request, 'integrity/'+str(test_steps.get(current_step)), {'form': candidato})
+            # Go to the next template, for this case the next template is integrity_test_1.html
+            return render(request, next_test_template, {'integrity_object_id': integrity_object.id,'seconds_integrity':seconds_integrity,})
+        else:
+            # Get the saved integrity_object to update
+            integrity_object_id = int(request.POST.get('integrity_object_id'))
+            integrity_object = ObjectIntegrity.objects.get(id=integrity_object_id)
+            # Sum the values from the form to the saved values
+            integrity_object.adictions = integrity_object.adictions + int(request.POST.get('adictions', 0))
+            integrity_object.judgement = integrity_object.judgement + int(request.POST.get('judgement', 0))
+            integrity_object.discipline = integrity_object.discipline + int(request.POST.get('discipline', 0))
+            integrity_object.veracity = integrity_object.veracity + int(request.POST.get('veracity', 0))
+            integrity_object.loyalty = integrity_object.loyalty + int(request.POST.get('loyalty', 0))
+            integrity_object.intentionality = integrity_object.intentionality + int(request.POST.get('intentionality', 0))
+            integrity_object.ethic = integrity_object.ethic + int(request.POST.get('ethic', 0))
+            integrity_object.reliability = integrity_object.reliability + int(request.POST.get('reliability', 0))
+            # Update the form with the new sum of values
+            integrity_object.save()
+            # if final step return the finish template
+            if current_step == 20:
+                return render(
+                                request, 
+                                'finish.html', 
+                                dict(title = 'Integridad',name = integrity_object.name))            
+            
+            # Go to the next template
+            return render(request, next_test_template, {'step': current_step, 'integrity_object_id': integrity_object.id, 'seconds_integrity':seconds_integrity})
+    return redirect('login')
+
+def integrity_test_result(request, test_type, test_id):
+
+    integrity_object = get_object_or_404(ObjectIntegrity, pk=test_id)
+
+    # adictions Description
+    adictions_desc = {
+        "passed": "Es una persona que no muestra dependencia por el consumo, tanto de bebidas alcohólicas, drogas, psicofármacos, tabaco o alimentos en exceso. Señala interés en el cuidado de su salud física, psíquica y equilibrio emocional.",
+        "passed_cond": "Pudiera ser proclive ya sea a la ingesta de alcohol, fármacos, tabaco, o alimentos. Se puede reflejar ante situaciones de conflicto, presión o en fines de semana.",
+        "failed": "Elevada dependencia hacia alguna sustancia farmacológica o alcohol, lo mismo que hacia alguna actividad o relación, que le puede causar graves consecuencias en su vida, que la afectan negativamente en su salud (física-mental) y le impiden desempeñarse de un modo efectivo. El individuo puede no ser capaz de controlar su dependencia al juego, la pornografía, la comida, las drogas, la televisión o incluso a las nuevas tecnologías.",
+    }
+
+    # judgement Description
+    judgement_desc = {
+        "passed": "Muestra un razonamiento correcto para juzgar, responder y desempeñarse en las situaciones que se le presentan.",
+        "passed_cond": "Su sentido común puede ser incorrecto al responder o desenvolverse en situaciones difíciles, de conflicto o para su conveniencia.",
+        "failed": "Puede juzgar y comparar respecto de una circunstancia u otra y dar una opinión o proceder inadecuada y erradamente respecto a lo correcto.",
+    }
+
+    # discipline Description
+    discipline_desc = {
+        "passed": "Es una persona estructurada, sigue un orden, procesos y disciplinas estandarizadas en la Compañía, familiares y personales, señalando un amplio sentido, observancia y sujeción de su conducta a las reglas.",
+        "passed_cond": " No se acopla a ciertas reglas que estipule la Compañía, o en el entorno en el que se desenvuelve, sigue sus propias convicciones y cuando sea necesario para sus fines desdeñará disciplinas.",
+        "failed": "Realiza las actividades sin rumbo ni orden. Busca libertad para actuar y seguir sus propias iniciativas de acción sin considerar las políticas, reglamentos o reglas ya sean empresariales o familiares; incluso pudiera mostrar bajo compromiso para con el equipo de trabajo, supervisor o la Compañía.",
+    }
+
+    # veracity Description
+    veracity_desc = {
+        "passed": "Las respuestas que vierte en el cuestionario son congruentes y adecuadas entre lo que piensa y lo que dice, así como lo que hace.",
+        "passed_cond": "Trata de dar una buena imagen de sí, distorsionando algunas respuestas a los planteamientos del cuestionario.",
+        "failed": "Es baja la concordancia entre lo que piensa y dice o hace, a partir de las respuestas que ofrece a los planteamientos y situaciones del cuestionario.",
+    }
+
+    # loyalty Description
+    loyalty_desc = {
+        "passed": "La persona hace aquello con lo que se ha comprometido, incluso en circunstancias cambiantes o adversas. Está comprometida y defiende aquello en lo que cree y a quien le tiene confianza. Asume el deber de cumplir y mantiene las reglas que libremente ha decidido asumir.",
+        "passed_cond": "Eventualmente puede recurrir al engaño o bien no ser leal en circunstancias muy puntuales en las que pueda perder o ser vulnerable en asuntos que involucren su estabilidad.",
+        "failed": "Niega con sus actos aquello que había ofrecido realizar o cumplir. Es infiel a personas o incluso a su palabra, tratando de sacar provecho de las situaciones para sus propios fines ya sean personales o de trabajo y es capaz de engañar a otros.",
+    }
+
+    # intentionality Description
+    intentionality_desc = {
+        "passed": "Posee honradez e integridad de sus acciones y dichos. La persona se desempeña bajo el principio de “buena fe”, buscando impedir actuaciones abusivas, aplicando en cambio la rectitud y transparencia a su proceder.",
+        "passed_cond": "Puede descuidar cuestiones de honradez como modificar decisiones en situaciones que desde su propia perspectiva considera que no perjudica a terceros y le benefician ante una importante problemática. También puede reflejarse por apropiarse de ideas o materiales aunque estos sean pequeños como por ejemplo lápices.",
+        "failed": "Es capaz de alterar escritos, decisiones o dichos, buscar cohecho, adjudicarse ideas o materiales aunque estos sean pequeños como por ejemplo lápices. Es un individuo corrupto o fácilmente corruptible.",
+    }
+
+    # ethic Description
+    ethic_desc = {
+        "passed": "Muestra objetividad en el sentido valorativo de su ambiente personal, profesional y/ o laboral, procede con base en una adecuada percepción de lo correcto e incorrecto, bueno o malo, valioso o reprobable de su comportamiento.",
+        "passed_cond": "Puede llevar a cabo comportamientos errados respecto a lo valioso o reprobable, causados por una mala percepción ante ciertas circunstancias o por convicciones o aprendizajes pasados.",
+        "failed": "Desdeña lineamientos como legalidad y profesionalismo, pudiendo ir en contra de lo correcto, lo bueno y no aceptar valores.",
+    }
+
+    # reliability Description
+    reliability_desc = {
+        "passed": "Toma acciones o decisiones siendo consciente de las consecuencias que puedan generar tanto para su propia persona como para las personas involucradas y / o la Compañía. Muestra un amplio sentido de las reglas y la ley.",
+        "passed_cond": "Puede tomar acciones imprudentes e incluso brincarse reglas al tomar decisiones con cierta frecuencia, sin considerar en forma inmediata las consecuencias que ello pueda tener en su seguridad económica o física.",
+        "failed": " Generalmente se involucra en situaciones de incertidumbre, exponiéndose al peligro, lo que puede ocasionar un perjuicio o daño. Se deja llevar por la suerte, procede o toma decisiones de manera azarosa, de forma casual e imprevista, poniendo en riesgo su patrimonio, lo mismo que bienes o activos ajenos.",
+    }
+
+    # Addictions percentage
+    if integrity_object.adictions <= 67 : addiction_percentage = 99
+    if integrity_object.adictions <= 61 : addiction_percentage = 95
+    if integrity_object.adictions <= 58 : addiction_percentage = 90
+    if integrity_object.adictions <= 56 : addiction_percentage = 85
+    if integrity_object.adictions <= 54 : addiction_percentage = 80
+    if integrity_object.adictions <= 53 : addiction_percentage = 75
+    if integrity_object.adictions <= 51 : addiction_percentage = 70
+    if integrity_object.adictions <= 50 : addiction_percentage = 65
+    if integrity_object.adictions <= 49 : addiction_percentage = 60
+    if integrity_object.adictions <= 47 : addiction_percentage = 55
+    if integrity_object.adictions <= 46 : addiction_percentage = 50
+    if integrity_object.adictions <= 45 : addiction_percentage = 45
+    if integrity_object.adictions <= 44 : addiction_percentage = 40
+    if integrity_object.adictions <= 42 : addiction_percentage = 35
+    if integrity_object.adictions <= 41 : addiction_percentage = 30
+    if integrity_object.adictions <= 39 : addiction_percentage = 25
+    if integrity_object.adictions <= 36 : addiction_percentage = 20
+    if integrity_object.adictions <= 32 : addiction_percentage = 15
+    if integrity_object.adictions <= 29 : addiction_percentage = 10
+    if integrity_object.adictions <= 23 : addiction_percentage = 5
+    if integrity_object.adictions <= 7 : addiction_percentage = 1
+
+    if addiction_percentage >= 61:
+        adictions_desc_result = adictions_desc['passed']
+        adictions_score = "Aprobado"
+    elif addiction_percentage <= 50:
+        adictions_desc_result = adictions_desc['failed']
+        adictions_score = "Reprobado"
+    else:
+        adictions_desc_result = adictions_desc['passed_cond']
+        adictions_score = "Aprobado con Reservas"
+
+    # Judgement percentage
+    if integrity_object.judgement <= 71 : judgement_percentage = 99
+    if integrity_object.judgement <= 69 : judgement_percentage = 95
+    if integrity_object.judgement <= 66 : judgement_percentage = 90
+    if integrity_object.judgement <= 63 : judgement_percentage = 85
+    if integrity_object.judgement <= 62 : judgement_percentage = 80
+    if integrity_object.judgement <= 60 : judgement_percentage = 75
+    if integrity_object.judgement <= 59 : judgement_percentage = 70
+    if integrity_object.judgement <= 58 : judgement_percentage = 65
+    if integrity_object.judgement <= 56 : judgement_percentage = 60
+    if integrity_object.judgement <= 55 : judgement_percentage = 55
+    if integrity_object.judgement <= 54 : judgement_percentage = 50
+    if integrity_object.judgement <= 52 : judgement_percentage = 45
+    if integrity_object.judgement <= 50 : judgement_percentage = 40
+    if integrity_object.judgement <= 48 : judgement_percentage = 35
+    if integrity_object.judgement <= 46 : judgement_percentage = 30
+    if integrity_object.judgement <= 44 : judgement_percentage = 25
+    if integrity_object.judgement <= 42 : judgement_percentage = 20
+    if integrity_object.judgement <= 39 : judgement_percentage = 15
+    if integrity_object.judgement <= 34 : judgement_percentage = 10
+    if integrity_object.judgement <= 29 : judgement_percentage = 5
+    if integrity_object.judgement <= 6 : judgement_percentage = 1
+        
+    if judgement_percentage >= 61:
+        judgement_desc_result = judgement_desc['passed']
+        judgement_score = "Aprobado"
+    elif judgement_percentage <= 50:
+        judgement_desc_result = judgement_desc['failed']
+        judgement_score = "Reprobado"
+    else:
+        judgement_desc_result = judgement_desc['passed_cond']
+        judgement_score = "Aprobado con Reservas"
+
+    # Discipline percentage
+    if integrity_object.discipline <= 55 : discipline_percentage = 99
+    if integrity_object.discipline <= 52 : discipline_percentage = 95
+    if integrity_object.discipline <= 49 : discipline_percentage = 90
+    if integrity_object.discipline <= 47 : discipline_percentage = 85
+    if integrity_object.discipline <= 45 : discipline_percentage = 80
+    if integrity_object.discipline <= 42 : discipline_percentage = 75
+    if integrity_object.discipline <= 40 : discipline_percentage = 70
+    if integrity_object.discipline <= 39 : discipline_percentage = 65
+    if integrity_object.discipline <= 37 : discipline_percentage = 60
+    if integrity_object.discipline <= 35 : discipline_percentage = 55
+    if integrity_object.discipline <= 34 : discipline_percentage = 50
+    if integrity_object.discipline <= 33 : discipline_percentage = 45
+    if integrity_object.discipline <= 31 : discipline_percentage = 40
+    if integrity_object.discipline <= 29 : discipline_percentage = 35
+    if integrity_object.discipline <= 27 : discipline_percentage = 30
+    if integrity_object.discipline <= 24 : discipline_percentage = 25
+    if integrity_object.discipline <= 22 : discipline_percentage = 20
+    if integrity_object.discipline <= 20 : discipline_percentage = 15
+    if integrity_object.discipline <= 15 : discipline_percentage = 10
+    if integrity_object.discipline <= 11 : discipline_percentage = 5
+    if integrity_object.discipline <= 5 : discipline_percentage = 1
+
+    if discipline_percentage >= 61:
+        discipline_desc_result = discipline_desc['passed']
+        discipline_score = "Aprobado"
+    elif discipline_percentage <= 50:
+        discipline_desc_result = discipline_desc['failed']
+        discipline_score = "Reprobado"
+    else:
+        discipline_desc_result = discipline_desc['passed_cond']
+        discipline_score = "Aprobado con Reservas"
+
+    # Veracity percentage
+    if integrity_object.veracity <= 108 : veracity_percentage = 99
+    if integrity_object.veracity <= 93 : veracity_percentage = 95
+    if integrity_object.veracity <= 89 : veracity_percentage = 90
+    if integrity_object.veracity <= 87 : veracity_percentage = 85
+    if integrity_object.veracity <= 84 : veracity_percentage = 80
+    if integrity_object.veracity <= 82 : veracity_percentage = 75
+    if integrity_object.veracity <= 80 : veracity_percentage = 70
+    if integrity_object.veracity <= 79 : veracity_percentage = 65
+    if integrity_object.veracity <= 77 : veracity_percentage = 60
+    if integrity_object.veracity <= 76 : veracity_percentage = 55
+    if integrity_object.veracity <= 75 : veracity_percentage = 50
+    if integrity_object.veracity <= 73 : veracity_percentage = 45
+    if integrity_object.veracity <= 72 : veracity_percentage = 40
+    if integrity_object.veracity <= 70 : veracity_percentage = 35
+    if integrity_object.veracity <= 68 : veracity_percentage = 30
+    if integrity_object.veracity <= 65 : veracity_percentage = 25
+    if integrity_object.veracity <= 62 : veracity_percentage = 20
+    if integrity_object.veracity <= 57 : veracity_percentage = 15
+    if integrity_object.veracity <= 52 : veracity_percentage = 10
+    if integrity_object.veracity <= 42 : veracity_percentage = 5
+    if integrity_object.veracity <= 10 : veracity_percentage = 1
+
+    if veracity_percentage >= 61:
+        veracity_desc_result = veracity_desc['passed']
+        veracity_score = "Aprobado"
+    elif veracity_percentage <= 50:
+        veracity_desc_result = veracity_desc['failed']
+        veracity_score = "Reprobado"
+    else:
+        veracity_desc_result = veracity_desc['passed_cond']
+        veracity_score = "Aprobado con Reservas"
+
+    # Loyalty percentage
+    if integrity_object.loyalty <= 33 : loyalty_percentage = 99
+    if integrity_object.loyalty <= 32 : loyalty_percentage = 95
+    if integrity_object.loyalty <= 31 : loyalty_percentage = 90
+    if integrity_object.loyalty <= 30 : loyalty_percentage = 85
+    if integrity_object.loyalty <= 29 : loyalty_percentage = 75
+    if integrity_object.loyalty <= 28 : loyalty_percentage = 70
+    if integrity_object.loyalty <= 27 : loyalty_percentage = 60
+    if integrity_object.loyalty <= 26 : loyalty_percentage = 55
+    if integrity_object.loyalty <= 25 : loyalty_percentage = 45
+    if integrity_object.loyalty <= 24 : loyalty_percentage = 35
+    if integrity_object.loyalty <= 23 : loyalty_percentage = 30
+    if integrity_object.loyalty <= 22 : loyalty_percentage = 25
+    if integrity_object.loyalty <= 21 : loyalty_percentage = 20
+    if integrity_object.loyalty <= 19 : loyalty_percentage = 15
+    if integrity_object.loyalty <= 17 : loyalty_percentage = 10
+    if integrity_object.loyalty <= 13 : loyalty_percentage = 5
+    if integrity_object.loyalty <= 2 : loyalty_percentage = 1
+
+    if loyalty_percentage > 61:
+        loyalty_desc_result = loyalty_desc['passed']
+        loyalty_score = "Aprobado"
+    elif loyalty_percentage < 50:
+        loyalty_desc_result = loyalty_desc['failed']
+        loyalty_score = "Reprobado"
+    else:
+        loyalty_desc_result = loyalty_desc['passed_cond']
+        loyalty_score = "Aprobado con Reservas"
+
+    # Intentionality percentage
+    if integrity_object.intentionality <= 201 : intentionality_percentage = 99
+    if integrity_object.intentionality <= 190 : intentionality_percentage = 95
+    if integrity_object.intentionality <= 185 : intentionality_percentage = 90
+    if integrity_object.intentionality <= 180 : intentionality_percentage = 85
+    if integrity_object.intentionality <= 176 : intentionality_percentage = 80
+    if integrity_object.intentionality <= 172 : intentionality_percentage = 75
+    if integrity_object.intentionality <= 168 : intentionality_percentage = 70
+    if integrity_object.intentionality <= 166 : intentionality_percentage = 65
+    if integrity_object.intentionality <= 163 : intentionality_percentage = 60
+    if integrity_object.intentionality <= 160 : intentionality_percentage = 55
+    if integrity_object.intentionality <= 156 : intentionality_percentage = 50
+    if integrity_object.intentionality <= 152 : intentionality_percentage = 45
+    if integrity_object.intentionality <= 149 : intentionality_percentage = 40
+    if integrity_object.intentionality <= 146 : intentionality_percentage = 35
+    if integrity_object.intentionality <= 143 : intentionality_percentage = 30
+    if integrity_object.intentionality <= 139 : intentionality_percentage = 25
+    if integrity_object.intentionality <= 132 : intentionality_percentage = 20
+    if integrity_object.intentionality <= 124 : intentionality_percentage = 15
+    if integrity_object.intentionality <= 108 : intentionality_percentage = 10
+    if integrity_object.intentionality <= 68 : intentionality_percentage = 5
+    if integrity_object.intentionality <= 21 : intentionality_percentage = 1
+
+    if intentionality_percentage >= 61:
+        intentionality_desc_result = intentionality_desc['passed']
+        intentionality_score = "Aprobado"
+    elif intentionality_percentage <= 50:
+        intentionality_desc_result = intentionality_desc['failed']
+        intentionality_score = "Reprobado"
+    else:
+        intentionality_desc_result = intentionality_desc['passed_cond']
+        intentionality_score = "Aprobado con Reservas"
+
+    # Ethic percentage
+    if integrity_object.ethic <= 146 : ethic_percentage = 99
+    if integrity_object.ethic <= 134 : ethic_percentage = 95
+    if integrity_object.ethic <= 129 : ethic_percentage = 90
+    if integrity_object.ethic <= 126 : ethic_percentage = 85
+    if integrity_object.ethic <= 123 : ethic_percentage = 80
+    if integrity_object.ethic <= 120 : ethic_percentage = 75
+    if integrity_object.ethic <= 118 : ethic_percentage = 70
+    if integrity_object.ethic <= 115 : ethic_percentage = 65
+    if integrity_object.ethic <= 113 : ethic_percentage = 60
+    if integrity_object.ethic <= 111 : ethic_percentage = 55
+    if integrity_object.ethic <= 108 : ethic_percentage = 50
+    if integrity_object.ethic <= 105 : ethic_percentage = 45
+    if integrity_object.ethic <= 102 : ethic_percentage = 40
+    if integrity_object.ethic <= 98 : ethic_percentage = 35
+    if integrity_object.ethic <= 94 : ethic_percentage = 30
+    if integrity_object.ethic <= 89 : ethic_percentage = 25
+    if integrity_object.ethic <= 85 : ethic_percentage = 20
+    if integrity_object.ethic <= 79 : ethic_percentage = 15
+    if integrity_object.ethic <= 68 : ethic_percentage = 10
+    if integrity_object.ethic <= 53 : ethic_percentage = 5
+    if integrity_object.ethic <= 20 : ethic_percentage = 1
+
+    if ethic_percentage >= 61:
+        ethic_desc_result = ethic_desc['passed']
+        ethic_score = "Aprobado"
+    elif ethic_percentage <= 50:
+        ethic_desc_result = ethic_desc['failed']
+        ethic_score = "Reprobado"
+    else:
+        ethic_desc_result = ethic_desc['passed_cond']
+        ethic_score = "Aprobado con Reservas"
+
+    # Reliability percentage
+    if integrity_object.reliability  <= 41 : reliability_percentage = 99
+    if integrity_object.reliability  <= 40 : reliability_percentage = 95
+    if integrity_object.reliability  <= 39 : reliability_percentage = 90
+    if integrity_object.reliability  <= 37 : reliability_percentage = 85
+    if integrity_object.reliability  <= 35 : reliability_percentage = 80
+    if integrity_object.reliability  <= 34 : reliability_percentage = 75
+    if integrity_object.reliability  <= 33 : reliability_percentage = 70
+    if integrity_object.reliability  <= 32 : reliability_percentage = 65
+    if integrity_object.reliability  <= 31 : reliability_percentage = 60
+    if integrity_object.reliability  <= 29 : reliability_percentage = 55
+    if integrity_object.reliability  <= 28 : reliability_percentage = 50
+    if integrity_object.reliability  <= 26 : reliability_percentage = 45
+    if integrity_object.reliability  <= 25 : reliability_percentage = 40
+    if integrity_object.reliability  <= 23 : reliability_percentage = 35
+    if integrity_object.reliability  <= 22 : reliability_percentage = 30
+    if integrity_object.reliability  <= 21 : reliability_percentage = 25
+    if integrity_object.reliability  <= 18 : reliability_percentage = 20
+    if integrity_object.reliability  <= 15 : reliability_percentage = 15
+    if integrity_object.reliability  <= 12 : reliability_percentage = 10
+    if integrity_object.reliability  <= 9 : reliability_percentage = 5
+    if integrity_object.reliability  <= 3 : reliability_percentage = 1
+
+    if reliability_percentage >= 61:
+        reliability_desc_result = reliability_desc['passed']
+        reliability_score = "Aprobado"
+    elif reliability_percentage <= 50:
+        reliability_desc_result = reliability_desc['failed']
+        reliability_score = "Reprobado"
+    else:
+        reliability_desc_result = reliability_desc['passed_cond']
+        reliability_score = "Aprobado con Reservas"
+
+
+    result_descriptions = {
+        "adictions_desc_result" :adictions_desc_result,
+        "judgement_desc_result" :judgement_desc_result,
+        "discipline_desc_result" :discipline_desc_result,
+        "veracity_desc_result" :veracity_desc_result,
+        "loyalty_desc_result" :loyalty_desc_result,
+        "intentionality_desc_result" :intentionality_desc_result,
+        "ethic_desc_result" :ethic_desc_result,
+        "reliability_desc_result" :reliability_desc_result,
+    }  
+
+    scores = {
+        "adictions_score" :adictions_score,
+        "judgement_score" :judgement_score,
+        "discipline_score" :discipline_score,
+        "veracity_score" :veracity_score,
+        "loyalty_score" :loyalty_score,
+        "intentionality_score" :intentionality_score,
+        "ethic_score" :ethic_score,
+        "reliability_score" :reliability_score,
+    }
+
+    percentages = {
+        "adictions_percentage" :addiction_percentage,
+        "judgement_percentage" :judgement_percentage,
+        "discipline_percentage" :discipline_percentage,
+        "veracity_percentage" :veracity_percentage,
+        "loyalty_percentage" :loyalty_percentage,
+        "intentionality_percentage" :intentionality_percentage,
+        "ethic_percentage" :ethic_percentage,
+        "reliability_percentage" :reliability_percentage,
+    }
+
+    if 'export_button' in request.POST:
+
+        html_template = get_template('integrity/test_result_pdf.html')
+
+        # Render the context into the PDF/HTML template
+        context = {"results":integrity_object, "result_descriptions":result_descriptions, "scores": scores, "percentages": percentages}
+
+        html = html_template.render(context)
+        pdf_file = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'filename="PruebaIntegridad.pdf"'
+
+        # Return the response to preview the PDF in a new tab
+        return response
+
+    return render(request, 'integrity/test_result.html', {"results":integrity_object, "result_descriptions":result_descriptions, "scores": scores, "percentages": percentages})

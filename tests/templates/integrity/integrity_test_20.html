@@ -1,0 +1,138 @@
+{% extends "base_test.html" %}
+{% load i18n %}
+{% block page_title %}<title>Integridad</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
+
+{% block content %}
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <p>20 de 20</p>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">115. ¿Alguna vez informaste que realizaste una tarea sin haberla hecho? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_115_1">
+              <input type="radio" name="q_115" value="0" required="" id="id_115_1">
+              Sí
+            </label>
+          </li>
+          <li>
+            <label for="id_115_2">
+              <input type="radio" name="q_115" value="1" required="" id="id_115_2">
+              No
+            </label>
+          </li>
+          <li>
+            <label for="id_115_3">
+              <input type="radio" name="q_115" value="1" required="" id="id_115_3">
+              No recuerdo
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="question-block">
+      <div>
+        <p class="q-first">116. ¿Te parece a veces justificado robar de los ricos para ayudar a los pobres? </p>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_116_1">
+              <input type="radio" name="q_116" value="0" required="" id="id_116_1">
+              Sí
+            </label>
+          </li>
+          <li>
+            <label for="id_116_2">
+              <input type="radio" name="q_116" value="1" required="" id="id_116_2">
+              No
+            </label>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <form id="form-id" onsubmit="calculateIntegrityForm()" method="post">
+      {% csrf_token %}
+      <div class="form-buttons">
+        <input type="hidden" name="integrity_object_id" value="{{integrity_object_id}}"/>
+
+        <input id="id-adictions" type="hidden" name="adictions" value="0" />
+        <input id="id-judgement" type="hidden" name="judgement" value="0" />
+        <input id="id-discipline" type="hidden" name="discipline" value="0" />
+        <input id="id-veracity" type="hidden" name="veracity" value="0" />
+        <input id="id-loyalty" type="hidden" name="loyalty" value="0" />
+        <input id="id-intentionality" type="hidden" name="intentionality" value="0" />
+        <input id="id-ethic" type="hidden" name="ethic" value="0" />
+        <input id="id-reliability" type="hidden" name="reliability" value="0" />
+
+        <input type="hidden" name="step" value="20"/>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Update the values in the form according to the selected answers
+    function calculateIntegrityForm(){
+      let adictions = 0
+      let judgement = 0
+      let discipline = 0
+      let veracity = 0
+      let loyalty = 0
+      let intentionality = 0
+      let ethic = 0
+      let reliability = 0
+
+      // ********* ADICTIONS
+      
+      document.getElementById("id-adictions").value = adictions
+
+      // ********* JUDGEMENT
+
+      document.getElementById("id-judgement").value = judgement
+
+      // ********* DISCIPLINE
+
+      document.getElementById("id-discipline").value = discipline
+
+      // ********* VERACITY
+      if (document.getElementById("id_115_1").checked) veracity = veracity + 5
+      if (document.getElementById("id_115_2").checked) veracity = veracity + 5
+
+      document.getElementById("id-veracity").value = veracity
+
+      // ********* LOYALTY
+
+      document.getElementById("id-loyalty").value = loyalty
+
+      // ********* INTENTIONALITY
+      
+      document.getElementById("id-intentionality").value = intentionality
+      
+      // ********* ETHIC
+      if (document.getElementById("id_115_1").checked) ethic = ethic + 5
+      if (document.getElementById("id_115_2").checked) ethic = ethic + 5
+
+      if (document.getElementById("id_116_2").checked) ethic = ethic + 5
+
+      document.getElementById("id-ethic").value = ethic
+
+      // ********* RELIABILITY
+
+      document.getElementById("id-reliability").value = reliability
+
+    }
+
+
+    // TIMER
+    let miliseconds_integrity = parseInt('{{seconds_integrity}}', 10) * 1000
+    window.setTimeout(function () {
+      document.getElementById('form-id').submit();
+    }, miliseconds_integrity);
+    
+  </script>
+{% endblock %}
