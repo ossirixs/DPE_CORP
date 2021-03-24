@@ -36,6 +36,7 @@ class TestCatalog(models.Model):
     TEST_TYPE = [
         ('CIE', 'CIE'),
         ('Integridad' , 'Integridad'),
+        ('Max' , 'Max'),
     ]
 
     test_name = models.CharField( max_length=128, choices=TEST_TYPE, null=False, blank=False)

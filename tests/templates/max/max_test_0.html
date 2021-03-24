@@ -1,0 +1,54 @@
+{% extends "base_test.html" %}
+{% load i18n %}
+{% block page_title %}<title>Prueba Max</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
+
+{% block content %}
+  <div class="test-main__inner__patient__data" >
+    <div style="text-align: center;">
+      <p>Datos personales</p>
+    </div>
+    <form action="" method="post">
+      {% csrf_token %}
+        <div >
+          {{ form.non_field_errors }}
+            <div class="question-row">
+              <div>
+                <p class="q-first">{{ form.nombre.label  }}</p>
+              </div>
+              <div>
+                {{ form.nombre }}
+              </div>
+            </div>
+            <div class="question-row">
+              <div>
+                <p class="q-first">{{ form.edad.label  }}</p>
+              </div>
+              <div>
+                {{ form.edad }}
+              </div>
+            </div>
+            <div class="question-row">
+              <div>
+                <p class="q-first">{{ form.email.label  }}</p>
+              </div>
+              <div>
+                {{ form.email }}
+              </div>
+            </div>
+            <div class="question-row">
+              <div>
+                <p class="q-first">{{ form.sexo.label  }}</p>
+              </div>
+              <div>
+                {{ form.sexo }}
+              </div>
+            </div>
+        </div>
+      <div class="form-buttons">
+        <input type="hidden" name="step" value="0"/>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
+{% endblock %}

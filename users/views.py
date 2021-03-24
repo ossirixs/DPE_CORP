@@ -16,10 +16,8 @@ def login_view(request):
     """Login view."""
     print("login_view")
     if request.method == 'POST':
-        print('test_login',request.POST.get('test_login'))
         if request.POST.get('test_login', False):
             code = request.POST['test_code']
-            print("code", code)
             # Look for the code entered in the database
             if TestCode.objects.filter(code=code).exists():
                 test_code = TestCode.objects.get(code=code)
@@ -31,6 +29,9 @@ def login_view(request):
                         return redirect('cie_instructions',test_code=code)
                     if test_code.test.test_name == 'Integridad':
                         return redirect('integrity_instructions',test_code=code)
+                    if test_code.test.test_name == 'Max':
+                        return redirect('max_instructions',test_code=code)
+
                 else:
                     
                     return render(request,'login.html', {'error':code_errors})

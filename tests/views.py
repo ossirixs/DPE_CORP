@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render, redirect
 import tempfile
 # Models
-from tests.models import ObjectCIE, ObjectIntegrity
+from tests.models import ObjectCIE, ObjectIntegrity, ObjectMax
 from company.models import TestCode
 # Libraries
 from formtools.wizard.views import SessionWizardView
@@ -1601,3 +1601,105 @@ def integrity_test_result(request, test_type, test_id):
         return response
 
     return render(request, 'integrity/test_result.html', {"results":integrity_object, "result_descriptions":result_descriptions, "scores": scores, "percentages": percentages})
+
+
+def max_instructions(request, test_code):
+    if request.method == 'GET':
+        if TestCode.objects.filter(code=test_code).exists():
+            test_code_object = TestCode.objects.get(code=test_code)
+            # Check if code is valid
+            code_errors = check_code(test_code_object)
+            if code_errors == None:
+                return render(request,'max/max_instructions.html',{'test_code_object':test_code_object})
+        return redirect('login')
+
+    else:
+        start_test = request.POST.get('start_test', False)
+        if start_test:
+            return redirect('max_test',test_code=test_code)
+    return redirect('login')
+
+def max_test(request, test_code):
+
+    # Dictionary with all forms
+    test_steps = {
+        0: 'max_test_0.html',
+        1: 'max_test_1.html',
+        2: 'max_test_2.html',
+        3: 'max_test_3.html',
+        4: 'max_test_4.html',
+        5: 'max_test_5.html',
+        6: 'max_test_6.html',
+        7: 'max_test_7.html',
+        8: 'max_test_8.html',
+        9: 'max_test_9.html',
+        10: 'max_test_10.html',
+    }
+
+    # Display the candidate's info form
+    if request.method == 'GET':
+        test_template = 'max/'+str(test_steps.get(0))
+        return render(request, test_template, {'form': candidato})
+
+    # Start saving all the forms
+    elif request.method == 'POST':
+        current_step = int(request.POST.get('step'))
+        next_step = int(current_step) + 1
+        # Get the next form template to display
+        next_test_template = 'max/'+str(test_steps.get(next_step))
+        # Get the text_code to obtain the time assigned por each page
+        test_code_object = TestCode.objects.get(code=test_code)
+        # If current step is 0, save the ObjectIntegrity object with the candidate's info
+        if current_step == 0:
+            test_form = candidato(request.POST)
+            if test_form.is_valid():
+                max_object = ObjectMax()
+                test_code_object = TestCode.objects.get(code=test_code)
+                max_object.code = test_code_object
+                max_object.name = test_form.cleaned_data['nombre']
+                max_object.age = test_form.cleaned_data['edad']
+                max_object.email = test_form.cleaned_data['email']
+                max_object.sex = test_form.cleaned_data['sexo']
+                max_object.save()
+            else:
+                # Display errors
+                return render(request, 'max/'+str(test_steps.get(current_step)), {'form': candidato})
+            # Go to the next template, for this case the next template is integrity_test_1.html
+            return render(request, next_test_template, {'max_object_id': max_object.id,})
+        else:
+            # Get the saved integrity_object to update
+            max_object_id = int(request.POST.get('max_object_id'))
+            max_object = ObjectMax.objects.get(id=max_object_id)
+            # Sum the values from the form to the saved values
+            max_object.T = max_object.T + int(request.POST.get('T', 0))
+            max_object.V = max_object.V + int(request.POST.get('V', 0))
+            max_object.X = max_object.X + int(request.POST.get('X', 0))
+            max_object.S = max_object.S + int(request.POST.get('S', 0))
+            max_object.B = max_object.B + int(request.POST.get('B', 0))
+            max_object.O = max_object.O + int(request.POST.get('O', 0))
+            max_object.R = max_object.R + int(request.POST.get('R', 0))
+            max_object.D = max_object.D + int(request.POST.get('D', 0))
+            max_object.C = max_object.C + int(request.POST.get('C', 0))
+            max_object.Z = max_object.Z + int(request.POST.get('Z', 0))
+            max_object.E = max_object.E + int(request.POST.get('E', 0))
+            max_object.K = max_object.K + int(request.POST.get('K', 0))
+            max_object.F = max_object.F + int(request.POST.get('F', 0))
+            max_object.W = max_object.W + int(request.POST.get('W', 0))
+            max_object.N = max_object.N + int(request.POST.get('N', 0))
+            max_object.G = max_object.G + int(request.POST.get('G', 0))
+            max_object.A = max_object.A + int(request.POST.get('A', 0))
+            max_object.L = max_object.L + int(request.POST.get('L', 0))
+            max_object.P = max_object.P + int(request.POST.get('P', 0))
+            max_object.I = max_object.I + int(request.POST.get('I', 0))
+            # Update the form with the new sum of values
+            max_object.save()
+            # if final step return the finish template
+            if current_step == 20:
+                return render(
+                                request, 
+                                'finish.html', 
+                                dict(title = 'Max',name = max_object.name))            
+            
+            # Go to the next template
+            return render(request, next_test_template, {'step': current_step, 'max_object_id': max_object.id,})
+    return redirect('login')

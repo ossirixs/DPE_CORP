@@ -16,6 +16,11 @@ urlpatterns = [
         name='cie_test'
     ),
     path(
+        route='results/<test_type>/<test_id>',
+        view=views.test_result,
+        name='test_result'
+    ),
+    path(
         route='integrity_instructions/<test_code>',
         view=views.integrity_instructions,
         name='integrity_instructions'
@@ -26,13 +31,23 @@ urlpatterns = [
         name='integrity_test'
     ),
     path(
-        route='results/<test_type>/<test_id>',
-        view=views.test_result,
-        name='test_result'
-    ),
-    path(
         route='integrity_results/<test_type>/<test_id>',
         view=views.integrity_test_result,
         name='integrity_test_result'
     ),
+    path(
+        route='max_instructions/<test_code>',
+        view=views.max_instructions,
+        name='max_instructions'
+    ),
+    path(
+        route='max/<test_code>',
+        view=views.max_test,
+        name='max_test'
+    ),
+    # path(
+    #     route='integrity_results/<test_type>/<test_id>',
+    #     view=views.integrity_test_result,
+    #     name='integrity_test_result'
+    # ),
 ]

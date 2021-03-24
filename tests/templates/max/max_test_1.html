@@ -1,0 +1,273 @@
+{% extends "base_test.html" %}
+{% load i18n %}
+{% block page_title %}<title>Max</title>{% endblock %}
+{% block header_title %}Integridad{% endblock %}
+
+{% block content %}
+  <div class="test-main__inner" >
+    <div style="text-align: center;">
+      <p>1 de 10</p>
+    </div>
+    <div class="question-block">
+      <div>
+      </div>
+      <div>
+        <ul>
+          <li>
+            <label for="id_1_a">
+              <input class="option" type="radio" data-score="G" name="1" value="1" required="" id="id_1_a">
+              Me considero una persona que trabaja tenazmente.
+            </label>
+          </li>
+          <li>
+            <label for="id_1_b">
+              <input class="option" type="radio" data-score="Z" name="1" value="1" required="" id="id_1_b">
+              Mi carácter no es variable.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_2_a">
+              <input class="option" type="radio" data-score="A" name="2" value="1" required="" id="id_2_a">
+              Hago el trabajo mejor que los demás.
+            </label>
+          </li>
+          <li>
+            <label for="id_2_b">
+              <input class="option" type="radio" data-score="N" name="2" value="1" required="" id="id_2_b">
+              Cuando empiezo algo me gusta seguir con ello hasta terminarlo.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_3_a">
+              <input class="option" type="radio" data-score="P" name="3" value="1" required="" id="id_3_a">
+              Disfruto enseñando a las personas cómo hacer las cosas.
+            </label>
+          </li>
+          <li>
+            <label for="id_3_b">
+              <input class="option" type="radio" data-score="A" name="3" value="1" required="" id="id_3_b">
+              Siempre procuro hacer las cosas lo mejor posible.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_4_a">
+              <input class="option" type="radio" data-score="X" name="4" value="1" required="" id="id_4_a">
+              Disfruto haciendo cosas graciosas.
+            </label>
+          </li>
+          <li>
+            <label for="id_4_b">
+              <input class="option" type="radio" data-score="P" name="4" value="1" required="" id="id_4_b">
+              Decir a la gente lo que tiene que hacer me hace sentir bien.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_5_a">
+              <input class="option" type="radio" data-score="B" name="5" value="1" required="" id="id_5_a">
+              Busco pertenecer a un grupo porque disfruto hacerlo.
+            </label>
+          </li>
+          <li>
+            <label for="id_5_b">
+              <input class="option" type="radio" data-score="X" name="5" value="1" required="" id="id_5_b">
+              Cuando participo en un grupo me gusta ser tomado en cuenta.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_6_a">
+              <input class="option" type="radio" data-score="O" name="6" value="1" required="" id="id_6_a">
+              Prefiero cultivar una amistad más íntima con una sola persona.
+            </label>
+          </li>
+          <li>
+            <label for="id_6_b">
+              <input class="option" type="radio" data-score="B" name="6" value="1" required="" id="id_6_b">
+              Me gusta más tener amistad con todas las personas de un grupo.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_7_a">
+              <input class="option" type="radio" data-score="E" name="7" value="1" required="" id="id_7_a">
+              Me adapto rápidamente a un cambio cuando lo creo necesario.
+            </label>
+          </li>
+          <li>
+            <label for="id_7_b">
+              <input class="option" type="radio" data-score="O" name="7" value="1" required="" id="id_7_b">
+              Intento cultivar una amistad más cercana con muchas personas.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_8_a">
+              <input class="option" type="radio" data-score="K" name="8" value="1" required="" id="id_8_a">
+              Cuando siento que alguien me ofende me gusta tratarlo de la misma forma.
+            </label>
+          </li>
+          <li>
+            <label for="id_8_b">
+              <input class="option" type="radio" data-score="E" name="8" value="1" required="" id="id_8_b">
+              Me gusta hacer cosas nuevas o diferentes.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_9_a">
+              <input class="option" type="radio" data-score="F" name="9" value="1" required="" id="id_9_a">
+              Busco la estimación de mi jefe.
+            </label>
+          </li>
+          <li>
+            <label for="id_9_b">
+              <input class="option" type="radio" data-score="K" name="9" value="1" required="" id="id_9_b">
+              Cuando los demás están equivocados disfruto hacérselos notar.
+            </label>
+          </li>
+        </ul>
+        <hr>
+        <ul>
+          <li>
+            <label for="id_10_a">
+              <input class="option" type="radio" data-score="W" name="10" value="1" required="" id="id_10_a">
+              Cuando me dan una instrucción me gusta seguirla.
+            </label>
+          </li>
+          <li>
+            <label for="id_10_b">
+              <input class="option" type="radio" data-score="F" name="10" value="1" required="" id="id_10_b">
+              Me siento bien tratando de agradar a mis superiores.
+            </label>
+          </li>
+        </ul>
+        <hr>
+      </div>
+    </div>
+    
+    <form id="form-id" onsubmit="calculateMaxForm()" method="post">
+      {% csrf_token %}
+      <div class="form-buttons">
+        <input type="hidden" name="max_object_id" value="{{max_object_id}}"/>
+
+        <input id="id-T" type="hidden" name="T" value="0" />
+        <input id="id-V" type="hidden" name="V" value="0" />
+        <input id="id-X" type="hidden" name="X" value="0" />
+        <input id="id-S" type="hidden" name="S" value="0" />
+        <input id="id-B" type="hidden" name="B" value="0" />
+        <input id="id-O" type="hidden" name="O" value="0" />
+        <input id="id-R" type="hidden" name="R" value="0" />
+        <input id="id-D" type="hidden" name="D" value="0" />
+        <input id="id-C" type="hidden" name="C" value="0" />
+        <input id="id-Z" type="hidden" name="Z" value="0" />
+        <input id="id-E" type="hidden" name="E" value="0" />
+        <input id="id-K" type="hidden" name="K" value="0" />
+        <input id="id-F" type="hidden" name="F" value="0" />
+        <input id="id-W" type="hidden" name="W" value="0" />
+        <input id="id-N" type="hidden" name="N" value="0" />
+        <input id="id-G" type="hidden" name="G" value="0" />
+        <input id="id-A" type="hidden" name="A" value="0" />
+        <input id="id-L" type="hidden" name="L" value="0" />
+        <input id="id-P" type="hidden" name="P" value="0" />
+        <input id="id-I" type="hidden" name="I" value="0" />
+
+        <input type="hidden" name="step" value="1"/>
+        <input type="submit" class="btn btn-primary" value="{% trans 'Enviar' %}"/>
+      </div>
+    </form>
+  </div>
+  <script>
+    // Update the values in the form according to the selected answers
+    function calculateMaxForm(){
+      let T = 0
+      let V = 0
+      let X = 0
+      let S = 0
+      let B = 0
+      let O = 0
+      let R = 0
+      let D = 0
+      let C = 0
+      let Z = 0
+      let E = 0
+      let K = 0
+      let F = 0
+      let W = 0
+      let N = 0
+      let G = 0
+      let A = 0
+      let L = 0
+      let P = 0
+      let I = 0
+
+      // loop all inputs, get the data-score to determine to which score add points
+      const inputs = document.getElementsByClassName('option');
+      for (var i = 0; i < inputs.length; i++) {
+        if ( inputs[i].checked && inputs[i].dataset.score == 'T' ) T = T + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'V' ) V = V + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'X' ) X = X + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'S' ) S = S + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'B' ) B = B + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'O' ) O = O + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'R' ) R = R + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'D' ) D = D + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'C' ) C = C + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'Z' ) Z = Z + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'E' ) E = E + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'K' ) K = K + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'F' ) F = F + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'W' ) W = W + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'N' ) N = N + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'G' ) G = G + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'A' ) A = A + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'L' ) L = L + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'P' ) P = P + 1;
+        if ( inputs[i].checked && inputs[i].dataset.score == 'I' ) I = I + 1;
+      }
+
+      // Assign the total points for this page to the form inputs
+      document.getElementById("id-T").value = T;
+      document.getElementById("id-V").value = V;
+      document.getElementById("id-X").value = X;
+      document.getElementById("id-S").value = S;
+      document.getElementById("id-B").value = B;
+      document.getElementById("id-O").value = O;
+      document.getElementById("id-R").value = R;
+      document.getElementById("id-D").value = D;
+      document.getElementById("id-C").value = C;
+      document.getElementById("id-Z").value = Z;
+      document.getElementById("id-E").value = E;
+      document.getElementById("id-K").value = K;
+      document.getElementById("id-F").value = F;
+      document.getElementById("id-W").value = W;
+      document.getElementById("id-N").value = N;
+      document.getElementById("id-G").value = G;
+      document.getElementById("id-A").value = A;
+      document.getElementById("id-L").value = L;
+      document.getElementById("id-P").value = P;
+      document.getElementById("id-I").value = I;
+
+    }
+
+  </script>
+{% endblock %}
