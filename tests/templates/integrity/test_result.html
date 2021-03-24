@@ -105,7 +105,7 @@
       <div class="">
         <div class="box">
           <div>
-            <h1>Resultados  {{ results.name }}</h1>
+            <h1>Integridad - Resultados  {{ results.name }}</h1>
           </div>
           <div>
             <form method="POST" target="_blank">
@@ -304,11 +304,11 @@
     data: {
       
       datasets: [{
-        data: [{{ results.adictions }}, 67 -  parseInt("{{results.adictions}}",10)],
+        data: [parseInt("{{percentages.adictions_percentage}}",10), 100 - parseInt("{{percentages.adictions_percentage}}",10)],
       backgroundColor: [
-        {% if scores.adictions_percentage == 'Aprobado' %}
+        {% if scores.adictions_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.adictions_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.adictions_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -335,11 +335,11 @@ var myjudgementChart = new Chart(ctx, {
   data: {
     
     datasets: [{
-      data: [{{ results.judgement }}, 71 -  parseInt("{{results.judgement}}",10)],
+      data: [parseInt("{{percentages.judgement_percentage}}",10), 100 - parseInt("{{percentages.judgement_percentage}}",10)],
     backgroundColor: [
-        {% if scores.judgement_percentage == 'Aprobado' %}
+        {% if scores.judgement_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.judgement_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.judgement_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -367,11 +367,11 @@ var mydisciplineChart = new Chart(ctx, {
   data: {
     
     datasets: [{
-      data: [{{ results.discipline }}, 55 -  parseInt("{{results.discipline}}",10)],
+      data: [parseInt("{{percentages.discipline_percentage}}",10), 100 - parseInt("{{percentages.discipline_percentage}}",10)],
     backgroundColor: [
-        {% if scores.discipline_percentage == 'Aprobado' %}
+        {% if scores.discipline_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.discipline_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.discipline_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -399,11 +399,11 @@ var myveracityChart = new Chart(ctx, {
   data: {
     
     datasets: [{
-      data: [{{ results.veracity }}, 108 -  parseInt("{{results.veracity}}",10)],
+      data: [parseInt("{{percentages.veracity_percentage}}",10), 100 - parseInt("{{percentages.veracity_percentage}}",10)],
     backgroundColor: [
-        {% if scores.veracity_percentage == 'Aprobado' %}
+        {% if scores.veracity_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.veracity_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.veracity_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -431,11 +431,11 @@ var myloyaltyChart = new Chart(ctx, {
   data: {
     
     datasets: [{
-      data: [{{ results.loyalty }}, 33 -  parseInt("{{results.loyalty}}",10)],
+      data: [parseInt("{{percentages.loyalty_percentage}}",10), 100 - parseInt("{{percentages.loyalty_percentage}}",10)],
     backgroundColor: [
-        {% if scores.loyalty_percentage == 'Aprobado' %}
+        {% if scores.loyalty_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.loyalty_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.loyalty_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -463,11 +463,11 @@ var myintentionalityChart = new Chart(ctx, {
   data: {
     
     datasets: [{
-      data: [{{ results.intentionality }}, 201 -  parseInt("{{results.intentionality}}",10)],
+      data: [parseInt("{{percentages.intentionality_percentage}}",10), 100 - parseInt("{{percentages.intentionality_percentage}}",10)],
     backgroundColor: [
-        {% if scores.intentionality_percentage == 'Aprobado' %}
+        {% if scores.intentionality_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.intentionality_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.intentionality_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -495,11 +495,11 @@ var myethicChart = new Chart(ctx, {
   data: {
     
     datasets: [{
-      data: [{{ results.ethic }}, 146 -  parseInt("{{results.ethic}}",10)],
+      data: [parseInt("{{percentages.ethic_percentage}}",10), 100 - parseInt("{{percentages.ethic_percentage}}",10)],
     backgroundColor: [
-        {% if scores.ethic_percentage == 'Aprobado' %}
+        {% if scores.ethic_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.ethic_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.ethic_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
@@ -527,11 +527,11 @@ var myreliabilityChart = new Chart(ctx, {
   data: {
     
     datasets: [{
-      data: [{{ results.reliability }}, 41 -  parseInt("{{results.reliability}}",10)],
+      data: [parseInt("{{percentages.reliability_percentage}}",10), 100 - parseInt("{{percentages.reliability_percentage}}",10)],
     backgroundColor: [
-        {% if scores.reliability_percentage == 'Aprobado' %}
+        {% if scores.reliability_score == 'Aprobado' %}
           'rgb(10, 211, 134)',
-        {% elif scores.reliability_percentage == 'Aprobado con Reservas' %}
+        {% elif scores.reliability_score == 'Aprobado con Reservas' %}
           'rgb(237, 179, 2)',
         {% else %}
           'rgb(219, 48, 22)', 
