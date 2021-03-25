@@ -3,7 +3,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, render, redirect
 import tempfile
 # Models
-from tests.models import ObjectCIE, ObjectIntegrity, ObjectMax
+from tests.models import ObjectCIE, ObjectIntegrity, ObjectMax, MaxPositions
 from company.models import TestCode
 # Libraries
 from formtools.wizard.views import SessionWizardView
@@ -1709,6 +1709,15 @@ def max_test_result(request, test_type, test_id):
 
     # calculate descriptions
     result_descriptions = get_result_descriptions(max_object)
+
+    if 'select_position' in request.POST:
+
+        # TODO: Get the position id from the front input and get the proper position from the db
+        # Using the first element just for testing
+        selected_position_object = MaxPositions.objects.get(id=1)
+
+        return render(request, 'max/test_result.html', {"results":max_object, "result_descriptions":result_descriptions,"selected_position_object":selected_position_object,})
+
     if 'export_button' in request.POST:
 
         html_template = get_template('max/test_result_pdf.html')
@@ -1726,5 +1735,5 @@ def max_test_result(request, test_type, test_id):
 
     
     print(result_descriptions["T"])
-
-    return render(request, 'max/test_result.html', {"results":max_object, "result_descriptions":result_descriptions,})
+    selected_position_object = MaxPositions.objects.get(id=1)
+    return render(request, 'max/test_result.html', {"results":max_object, "result_descriptions":result_descriptions,"selected_position_object":selected_position_object})

@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 from django.db.models import Q
 from datetime import datetime, date
-
+from django.http import HttpResponseRedirect
 #Models.
 from company.models import Company, TestCode, CompanyTest, TestCatalog
 from users.models import User
@@ -415,6 +415,7 @@ def test_results_list(request, company_name):
                                                                 "test_date":test_date,
                                                                 "applicant_name":applicant_name,
                                                                 })
+    return HttpResponseRedirect(request.path_info)
         
 
 

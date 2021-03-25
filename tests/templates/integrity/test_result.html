@@ -105,7 +105,7 @@
       <div class="">
         <div class="box">
           <div>
-            <h1>Max - Resultados  {{ results.name }}</h1>
+            <h1>Integridad - Resultados  {{ results.name }}</h1>
           </div>
           <div>
             <form method="POST" target="_blank">
@@ -115,7 +115,168 @@
           </div>
         </div>
         <div style="max-height: 80vh; overflow: auto ;padding: 1px 25px;">
-          {{result_descriptions}}
+          <table>
+            <tr>
+              <td style="vertical-align: baseline; width: 50%;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(18, 118, 161, 0.3)">ADICCIONES</td>
+                    <td class="result-p">{{ percentages.adictions_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="addictions_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.adictions_percentage }}</h4>
+                      <p>{{ result_descriptions.adictions_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(45, 145, 62, 0.3)">JUICIO</td>
+                    <td class="result-p">{{ percentages.judgement_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="judgement_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.judgement_percentage }}</h4>
+                      <p>{{ result_descriptions.judgement_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(205, 92, 62, 0.3)">DISCIPLINA</td>
+                    <td class="result-p">{{ percentages.discipline_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="discipline_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.discipline_percentage }}</h4>
+                      <p>{{ result_descriptions.discipline_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(123, 145, 43, 0.3)">VERACIDAD</td>
+                    <td class="result-p">{{ percentages.veracity_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="veracity_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.veracity_percentage }}</h4>
+                      <p>{{ result_descriptions.veracity_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(36, 23, 62, 0.3)">LEALTAD</td>
+                    <td class="result-p">{{ percentages.loyalty_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="loyalty_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.loyalty_percentage }}</h4>
+                      <p>{{ result_descriptions.loyalty_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(124, 36, 62, 0.3)">INTENCIONALIDAD</td>
+                    <td class="result-p">{{ percentages.intentionality_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="intentionality_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.intentionality_percentage }}</h4>
+                      <p>{{ result_descriptions.intentionality_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(45, 86, 23, 0.3)">ETICA</td>
+                    <td class="result-p">{{ percentages.ethic_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="ethic_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.ethic_percentage }}</h4>
+                      <p>{{ result_descriptions.ethic_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+              <td style="vertical-align: baseline;">
+                <table class="scale-table">
+                  <tr class="scale-table">
+                    <td style="background: rgba(15, 144, 23, 0.3)">SEGURIDAD</td>
+                    <td class="result-p">{{ percentages.reliability_percentage }}%</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div style="height: 150px; width: 250px;">
+                        <canvas id="reliability_chart"></canvas>
+                      </div>
+                    </td>
+                    <td>
+                      <h4>{{ scores.reliability_percentage }}</h4>
+                      <p>{{ result_descriptions.reliability_desc_result }}</p>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div>
@@ -128,6 +289,261 @@
 
 <script type="text/javascript">
 
-  
+  // Addictions
+
+  var ctx = document.getElementById('addictions_chart').getContext('2d');
+
+  var myAddictionsChart = new Chart(ctx, {
+    plugins: [{
+      beforeInit: function (myAddictionsChart, options) {
+        myAddictionsChart.legend.afterFit = function () {
+        };
+      }
+    }],
+    type: 'doughnut',
+    data: {
+      
+      datasets: [{
+        data: [parseInt("{{percentages.adictions_percentage}}",10), 100 - parseInt("{{percentages.adictions_percentage}}",10)],
+      backgroundColor: [
+        {% if scores.adictions_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.adictions_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+        'rgb(204, 242, 255)',
+      ],
+      borderWidth: 3
+    }]
+  },
+});
+
+// judgement
+
+ctx = document.getElementById('judgement_chart').getContext('2d');
+
+var myjudgementChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myjudgementChart, options) {
+      myjudgementChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [parseInt("{{percentages.judgement_percentage}}",10), 100 - parseInt("{{percentages.judgement_percentage}}",10)],
+    backgroundColor: [
+        {% if scores.judgement_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.judgement_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// discipline
+
+ ctx = document.getElementById('discipline_chart').getContext('2d');
+
+var mydisciplineChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (mydisciplineChart, options) {
+      mydisciplineChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [parseInt("{{percentages.discipline_percentage}}",10), 100 - parseInt("{{percentages.discipline_percentage}}",10)],
+    backgroundColor: [
+        {% if scores.discipline_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.discipline_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// veracity
+
+ ctx = document.getElementById('veracity_chart').getContext('2d');
+
+var myveracityChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myveracityChart, options) {
+      myveracityChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [parseInt("{{percentages.veracity_percentage}}",10), 100 - parseInt("{{percentages.veracity_percentage}}",10)],
+    backgroundColor: [
+        {% if scores.veracity_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.veracity_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// loyalty
+
+ ctx = document.getElementById('loyalty_chart').getContext('2d');
+
+var myloyaltyChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myloyaltyChart, options) {
+      myloyaltyChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [parseInt("{{percentages.loyalty_percentage}}",10), 100 - parseInt("{{percentages.loyalty_percentage}}",10)],
+    backgroundColor: [
+        {% if scores.loyalty_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.loyalty_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// intentionality
+
+ ctx = document.getElementById('intentionality_chart').getContext('2d');
+
+var myintentionalityChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myintentionalityChart, options) {
+      myintentionalityChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [parseInt("{{percentages.intentionality_percentage}}",10), 100 - parseInt("{{percentages.intentionality_percentage}}",10)],
+    backgroundColor: [
+        {% if scores.intentionality_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.intentionality_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// ethic
+
+ ctx = document.getElementById('ethic_chart').getContext('2d');
+
+var myethicChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myethicChart, options) {
+      myethicChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [parseInt("{{percentages.ethic_percentage}}",10), 100 - parseInt("{{percentages.ethic_percentage}}",10)],
+    backgroundColor: [
+        {% if scores.ethic_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.ethic_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+// reliability
+
+ctx = document.getElementById('reliability_chart').getContext('2d');
+
+var myreliabilityChart = new Chart(ctx, {
+  plugins: [{
+    beforeInit: function (myreliabilityChart, options) {
+      myreliabilityChart.legend.afterFit = function () {
+      };
+    }
+  }],
+  type: 'doughnut',
+  data: {
+    
+    datasets: [{
+      data: [parseInt("{{percentages.reliability_percentage}}",10), 100 - parseInt("{{percentages.reliability_percentage}}",10)],
+    backgroundColor: [
+        {% if scores.reliability_score == 'Aprobado' %}
+          'rgb(10, 211, 134)',
+        {% elif scores.reliability_score == 'Aprobado con Reservas' %}
+          'rgb(237, 179, 2)',
+        {% else %}
+          'rgb(219, 48, 22)', 
+        {% endif %}
+      'rgb(204, 242, 255)',
+    ],
+    
+    borderWidth: 3
+  }]
+},
+});
+
+
 
 </script>

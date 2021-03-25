@@ -310,3 +310,33 @@ class ObjectMax(models.Model):
     @property
     def get_formated_created(self):
         return self.created.strftime('%d/%m/%Y')
+
+class MaxPositions(models.Model):
+    # Info
+    created = models.DateTimeField(auto_now_add=True, blank=True,)
+    position_name = models.CharField(max_length=50, default='', help_text='Nombre completo del candidato')
+    # Scales
+    T = models.IntegerField(default=0, help_text='Tipo siempre activo')
+    V = models.IntegerField(default=0, help_text='Tipo vigoroso')
+    X = models.IntegerField(default=0, help_text='Requiere ser notificado')
+    S = models.IntegerField(default=0, help_text='Extensión social (ser sociable)')
+    B = models.IntegerField(default=0, help_text='Requiere pertenecer al grupo')
+    O = models.IntegerField(default=0, help_text='Requiere acercamiento y afecto (afinidad)')
+    R = models.IntegerField(default=0, help_text='Tipo teórico (pensador)')
+    D = models.IntegerField(default=0, help_text='Interés en el trabajo con detalles (de forma individual o personal)')
+    C = models.IntegerField(default=0, help_text='Tipo organizado (sistemático y estructurado)')
+    Z = models.IntegerField(default=0, help_text='Necesidad de cambio (necesidad de cambiar o de no modificar)')
+    E = models.IntegerField(default=0, help_text='Tipo emocional, mente rígida (introvertido emocionalmente)')
+    K = models.IntegerField(default=0, help_text='Estado defensivo/agresividad/pasividad')
+    F = models.IntegerField(default=0, help_text='Necesidad de apoyo del supervisor (proveer autoridad)')
+    W = models.IntegerField(default=0, help_text='Necesidad de reglas y supervisión')
+    N = models.IntegerField(default=0, help_text='Necesidad de terminar una tarea')
+    G = models.IntegerField(default=0, help_text='Desempeñar una intensa actividad')
+    A = models.IntegerField(default=0, help_text='Necesidad de logro')
+    L = models.IntegerField(default=0, help_text='Actividad de liderazgo')
+    P = models.IntegerField(default=0, help_text='Requiere controlar a otros')
+    I = models.IntegerField(default=0, help_text='Facilidad de tomar decisiones (impulso)')
+
+    @property
+    def get_formated_created(self):
+        return self.created.strftime('%d/%m/%Y')
