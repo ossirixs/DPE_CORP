@@ -45,9 +45,9 @@ urlpatterns = [
         view=views.max_test,
         name='max_test'
     ),
-    # path(
-    #     route='integrity_results/<test_type>/<test_id>',
-    #     view=views.integrity_test_result,
-    #     name='integrity_test_result'
-    # ),
+        path(
+            route='max_results/<test_type>/<test_id>',
+            view=views.max_test_result,
+            name='max_test_result'
+        ),
 ]

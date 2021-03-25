@@ -113,6 +113,26 @@
                                             </td>
                                         </tr>    
                                     {% endfor %}
+                            {% elif test == 'Max' %}
+                                {% for max_object in max_objects %}
+                                    <tr>
+                                        <td>
+                                            {{max_object.name}}
+                                        </td>
+                                        <td>
+                                            {{max_object.code.test.test_name}}
+                                        </td>
+                                        <td>
+                                            {{max_object.get_formated_created}}
+                                        </td>
+                                        <td>
+                                            <form method="POST" class="" action="{% url 'max_test_result' max_object.code.test.test_name max_object.id %}" target="_blank">
+                                                {% csrf_token %} 
+                                                    <button type="submit" class="btn btn-primary">  Ir  </button>
+                                            </form>
+                                        </td>
+                                    </tr>    
+                                {% endfor %}
                             {% else %}
                                 <tr>
                                     <td>

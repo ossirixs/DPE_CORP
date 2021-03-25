@@ -8,7 +8,7 @@ from datetime import datetime, date
 #Models.
 from company.models import Company, TestCode, CompanyTest, TestCatalog
 from users.models import User
-from tests.models import ObjectCIE, ObjectIntegrity
+from tests.models import ObjectCIE, ObjectIntegrity, ObjectMax
 
 #Forms
 from company.forms import NewCompanyForm, TestCodeForm, CompanyTestForm
@@ -344,7 +344,6 @@ def test_results_list(request, company_name):
     if request.method == 'POST':
         if request.POST.get('select_test'):
             test = request.POST.get('test', False)
-            print("TEST", test)
             company_id = request.POST.get('company', False)
             selected_company = Company.objects.get(id=company_id)
             if test and company_id:
@@ -366,6 +365,15 @@ def test_results_list(request, company_name):
                                                                 "company_main":selected_company.company_main,
                                                                 "test":'Integridad',
                                                                 "integrity_objects":integrity_objects,
+                                                                })
+                if test == "Max":
+                    max_objects = ObjectMax.objects.filter(code__company=selected_company)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'Max',
+                                                                "max_objects":max_objects,
                                                                 })
         if request.POST.get('filter_results'):
             test = request.POST.get('test', False)

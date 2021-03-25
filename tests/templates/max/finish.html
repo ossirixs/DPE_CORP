@@ -1,0 +1,42 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{title}}</title>
+    <meta charset="UTF-8">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/main_test.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+
+
+</head>
+<body class="finish-background">
+  <div class="header-container">
+    <div class="overlay">
+      <img src="https://www.dpecorp.com.mx/images/DPECorp/logo-boutique-100.png" alt="DPE COPR" width="100" height="100"
+    style="position: absolute; left: 0; -webkit-transform: translate(25%, -20%);">
+    <div>
+        <h5>Prueba tipo</h5>
+        <h2>Max</h2>
+      </div>
+    </div>
+  </div>
+  <div class="test_container">
+    <div class="test-main__inner" >
+        <div class="finish-div">
+            <H1 style="color:#1e7a96">¡Felicidades!</H1>
+            <hr>
+            <br>
+            <h4>{{name}}</h4>
+            <h5>
+                Has completado el test Max.
+                Tus respuestas serán enviadas para su evaluación <br> y la empresa solicitante se pondrá en contacto contigo.
+            </h5>
+            <br>
+            <a href="https://www.dpecorp.com.mx"  class="mb-2 mr-2 btn btn-success"> Salir </a>
+        </div>
+    </div>
+  </div>
+</body>
+</html>

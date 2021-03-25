@@ -1694,12 +1694,37 @@ def max_test(request, test_code):
             # Update the form with the new sum of values
             max_object.save()
             # if final step return the finish template
-            if current_step == 20:
+            if current_step == 9:
                 return render(
                                 request, 
-                                'finish.html', 
+                                'max/finish.html', 
                                 dict(title = 'Max',name = max_object.name))            
             
             # Go to the next template
             return render(request, next_test_template, {'step': current_step, 'max_object_id': max_object.id,})
     return redirect('login')
+
+def max_test_result(request, test_type, test_id):
+    max_object = get_object_or_404(ObjectMax, pk=test_id)
+
+    # calculate descriptions
+    result_descriptions = get_result_descriptions(max_object)
+    if 'export_button' in request.POST:
+
+        html_template = get_template('max/test_result_pdf.html')
+
+        # Render the context into the PDF/HTML template
+        context = {"results":max_object, "result_descriptions":result_descriptions,}
+
+        html = html_template.render(context)
+        pdf_file = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'filename="PruebaIntegridad.pdf"'
+
+        # Return the response to preview the PDF in a new tab
+        return response
+
+    
+    print(result_descriptions["T"])
+
+    return render(request, 'max/test_result.html', {"results":max_object, "result_descriptions":result_descriptions,})
