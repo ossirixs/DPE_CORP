@@ -2,7 +2,7 @@
 from django.db import models
 from datetime import datetime
 # Models
-from company.models import TestCode
+from company.models import TestCode, Company
 
 
 class ObjectCIE(models.Model):
@@ -315,6 +315,7 @@ class MaxPositions(models.Model):
     # Info
     created = models.DateTimeField(auto_now_add=True, blank=True,)
     position_name = models.CharField(max_length=50, default='', help_text='Nombre completo del candidato')
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     # Scales
     T = models.IntegerField(default=0, help_text='Tipo siempre activo')
     V = models.IntegerField(default=0, help_text='Tipo vigoroso')

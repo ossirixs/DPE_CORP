@@ -43,6 +43,7 @@
                             <a id="create" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Crear Usuarios</a>
                         {% endif %}
                             <a id="results" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Resultados</a>
+                            <a id="positions" href="javascript:void(0);" class="border-0 btn-pill btn-wide btn-transition btn btn-outline-alternate" onclick="toogleForm(this.id)">Posiciones</a>
                     </div>
                 </div>
             </div>
@@ -512,6 +513,43 @@
                             <button type="submit" class="btn btn-primary">Seleccionar</button>
                         </div>
                     </form>
+                </div>
+                {% comment %} MANAGE MAX POSITIONS{% endcomment %}
+                <div id="positions-id" class="card-section d-none">
+                    <h5 class="card-title">Crear nuevo puesto para prueba Max:</h5>
+                    <form method="GET" action="{% url 'company:position_detail' company.id %}">
+                        {% csrf_token %} 
+                            <button type="submit" class="btn btn-primary btn-sm"> Crear Nuevo </button>
+                            <input type="hidden" name="create_template" value=1>
+                            <input type="hidden" name="company_user_id" value={{company_user.id}}>
+                    </form>
+                    <br/>
+                    <h5 class="card-title">Puestos disponibles esta compania:</h5>
+                    <table class="mb-0 table">
+                        <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Fecha</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for position in max_positions %}
+                            <tr>
+                                <td>{{ position.position_name }}</td>
+                                <td>{{ position.get_formated_created }}</td>
+                                <td>
+                                    <form method="POST" action="{% url 'company:position_detail' company.id %}">
+                                        {% csrf_token %} 
+                                            <button type="submit" class="btn btn-primary btn-sm">  Ir  </button>
+                                            <input type="hidden" name="position_id" value={{position.id}}>
+                                            <input type="hidden" name="company_user_id" value={{company_user.id}}>
+                                    </form>
+                                </td>
+                            </tr>    
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

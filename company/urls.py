@@ -8,6 +8,11 @@ urlpatterns = [
         name='user_detail'
     ),
     path(
+        route='position/<company_id>', 
+        view=views.modify_position, 
+        name='position_detail'
+    ),
+    path(
         route='rslts/<company_name>', 
         view=views.test_results_list, 
         name='test_results_list'

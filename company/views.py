@@ -8,7 +8,7 @@ from django.http import HttpResponseRedirect
 #Models.
 from company.models import Company, TestCode, CompanyTest, TestCatalog
 from users.models import User
-from tests.models import ObjectCIE, ObjectIntegrity, ObjectMax
+from tests.models import ObjectCIE, ObjectIntegrity, ObjectMax, MaxPositions
 
 #Forms
 from company.forms import NewCompanyForm, TestCodeForm, CompanyTestForm
@@ -78,7 +78,7 @@ def company_list(request):
 
 @login_required
 @never_cache
-def company_detail(request,company_id):
+def company_detail(request,company_id,tab='tests'):
     """ Company detail and actions."""
 
     user = request.user
@@ -135,6 +135,11 @@ def company_detail(request,company_id):
     assigned_tests = CompanyTest.objects.filter(company=selected_company)
     # GET AVAILABLE TEST (EXCLUDING THE TEST THAT ARE ALREADY ASSIGNED TO THIS COMPANY)
     available_tests = TestCatalog.objects.exclude(test_name__in=[test.test.test_name for test in assigned_tests])
+    # Get the max positions for this company
+    max_positions = MaxPositions.objects.filter(company=selected_company)
+    # Get optional return tab from POST or GET.
+    if request.POST.get('tab'):
+        tab = request.POST.get('tab')
 
     if request.method == 'POST':
         # UPDATE COMPANY 
@@ -154,6 +159,7 @@ def company_detail(request,company_id):
                                                                 'user': user,
                                                                 'assigned_tests':assigned_tests,
                                                                 'available_tests':available_tests,
+                                                                'max_positions':max_positions,
                                                                 'tab':'company',
                                                                 })
 
@@ -175,6 +181,7 @@ def company_detail(request,company_id):
                                                                 'assigned_tests':assigned_tests,
                                                                 'available_tests':available_tests,
                                                                 'form_errors':form.errors,
+                                                                'max_positions':max_positions,
                                                                 })
 
         # ASSIGN SELECTED TEST TO THIS COMPANY
@@ -194,6 +201,7 @@ def company_detail(request,company_id):
                                                             'user': user,
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
+                                                            'max_positions':max_positions,
                                                             })
             # IF NOT EXISTS, EVALUATE AND SAVE NEW COMPANYTEST OBJECT
             new_companytest = CompanyTestForm({'company':selected_company,'test':selected_test})
@@ -214,6 +222,7 @@ def company_detail(request,company_id):
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
                                                             'saved_companytest':new_companytest,
+                                                            'max_positions':max_positions,
                                                             })
 
         # DELETE TEST ASSIGNED (COMPANYTEST TABLE)
@@ -240,6 +249,7 @@ def company_detail(request,company_id):
                                                             'user': user,
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
+                                                            'max_positions':max_positions,
                                                             'tab':'codes',
                                                             })
 
@@ -277,6 +287,7 @@ def company_detail(request,company_id):
                                                             'user': user,
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
+                                                            'max_positions':max_positions,
                                                             'tab':'codes',
                                                             })
 
@@ -303,13 +314,13 @@ def company_detail(request,company_id):
                                                                 'user': user,
                                                                 'assigned_tests':assigned_tests,
                                                                 'available_tests':available_tests,
+                                                                'max_positions':max_positions,
                                                                 'tab':'codes',
                                                                 })
         
         # DELETE CODE
         elif request.POST.get('delete_code'):
             print('Delete code')
-            # Concat strings to create the code
             code_id = request.POST.get('code_id')
             code = TestCode.objects.get(id=code_id)
             code.delete()
@@ -323,6 +334,7 @@ def company_detail(request,company_id):
                                                                 'user': user,
                                                                 'assigned_tests':assigned_tests,
                                                                 'available_tests':available_tests,
+                                                                'max_positions':max_positions,
                                                                 'tab':'codes',
                                                                 })
 
@@ -335,6 +347,8 @@ def company_detail(request,company_id):
                                                             'user': user,
                                                             'assigned_tests':assigned_tests,
                                                             'available_tests':available_tests,
+                                                            'max_positions':max_positions,
+                                                            'tab':tab,
                                                             })
 
 @login_required
@@ -418,8 +432,6 @@ def test_results_list(request, company_name):
     return HttpResponseRedirect(request.path_info)
         
 
-
-
 @login_required
 def modify_user(request, company_id):
     """Modify a company user."""
@@ -457,6 +469,100 @@ def modify_user(request, company_id):
             }
 
             return render(request, "company/user_detail.html", args)
+
+@login_required
+def modify_position(request, company_id):
+    """Modify a company user."""
+    print('modify_position')
+    company = Company.objects.get(id=company_id)
+    if request.method == 'POST':
+        # Update position.
+        if request.POST.get('update_position'):
+            position_id = request.POST.get('position_id')
+            selected_position = MaxPositions.objects.get(id=position_id)
+            selected_position.T = request.POST.get('T',0)
+            selected_position.V = request.POST.get('V',0)
+            selected_position.X = request.POST.get('X',0)
+            selected_position.S = request.POST.get('S',0)
+            selected_position.B = request.POST.get('B',0)
+            selected_position.O = request.POST.get('O',0)
+            selected_position.R = request.POST.get('R',0)
+            selected_position.D = request.POST.get('D',0)
+            selected_position.C = request.POST.get('C',0)
+            selected_position.Z = request.POST.get('Z',0)
+            selected_position.E = request.POST.get('E',0)
+            selected_position.K = request.POST.get('K',0)
+            selected_position.F = request.POST.get('F',0)
+            selected_position.W = request.POST.get('W',0)
+            selected_position.N = request.POST.get('N',0)
+            selected_position.G = request.POST.get('G',0)
+            selected_position.A = request.POST.get('A',0)
+            selected_position.L = request.POST.get('L',0)
+            selected_position.P = request.POST.get('P',0)
+            selected_position.I = request.POST.get('I',0)
+            selected_position.save()
+
+            return redirect('company_detail' , company_id=company.id, tab='positions')
+
+        # Create new Max position
+        elif request.POST.get('create_position'):
+            new_position = MaxPositions(
+                company=company,
+                position_name=request.POST.get('name',''),
+                T = request.POST.get('T',0),
+                V = request.POST.get('V',0),
+                X = request.POST.get('X',0),
+                S = request.POST.get('S',0),
+                B = request.POST.get('B',0),
+                O = request.POST.get('O',0),
+                R = request.POST.get('R',0),
+                D = request.POST.get('D',0),
+                C = request.POST.get('C',0),
+                Z = request.POST.get('Z',0),
+                E = request.POST.get('E',0),
+                K = request.POST.get('K',0),
+                F = request.POST.get('F',0),
+                W = request.POST.get('W',0),
+                N = request.POST.get('N',0),
+                G = request.POST.get('G',0),
+                A = request.POST.get('A',0),
+                L = request.POST.get('L',0),
+                P = request.POST.get('P',0),
+                I = request.POST.get('I',0),
+            )
+            new_position.save()
+            return redirect('company_detail' , company_id=company.id)
+        
+        # Delete selected position.
+        elif request.POST.get('delete_position'):
+            position_id = request.POST.get('position_id')
+            selected_position = MaxPositions.objects.get(id=position_id)
+            selected_position.delete()
+            return redirect('company_detail' , company_id=company.id)
+        # Show position.
+        else:
+            position_id = request.POST.get('position_id')
+            selected_position = MaxPositions.objects.get(id=position_id)
+
+            args = {
+                "user":request.user,
+                "selected_position":selected_position,
+                "company":company,
+                "create":0,
+            }
+
+            return render(request, "company/position_detail.html", args)
+    # Create mode
+    else:
+        args = {
+            "user":request.user,
+            "selected_position":{},
+            "company":company,
+            "create":1,
+        }
+
+        return render(request, "company/position_detail.html", args)
+            
 
 @login_required
 def list_results(request, company_id):
