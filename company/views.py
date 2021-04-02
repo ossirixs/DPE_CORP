@@ -459,7 +459,7 @@ def test_results_list(request, company_id):
             result_ids.remove('')
             wb = Workbook()
             ws = wb.active
-            ws.title = "New Title"
+            ws.title = "Resultados"
             ws.append(['Nombre' , 'Fecha', 'Adicciones', 'Adicciones', 'Lealtad', 'Lealtad', 'Intencionalidad', 'Intencionalidad', 'Seguridad', 'Seguridad', 'Disciplina', 'Disciplina', 'Etica', 'Etica', 'Veracidad', 'Veracidad', 'Juicio', 'Juicio', 'Codigo'])
             if result_ids:
                 for result_id in result_ids:
@@ -479,7 +479,7 @@ def test_results_list(request, company_id):
 
 
             response = HttpResponse(content=save_virtual_workbook(wb), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-            response['Content-Disposition'] = 'attachment; filename=myexport.xlsx'
+            response['Content-Disposition'] = 'attachment; filename=reporteIntegridad.xlsx'
             return response
 
     return redirect('dashboard')
