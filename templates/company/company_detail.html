@@ -497,7 +497,7 @@
                 {% comment %} SEARCH RESULTS {% endcomment %}
                 <div id="results-form-id" class="card-section d-none">
                     <h5 class="card-title">Buscar por Tipo de Prueba:</h5>
-                    <form method="POST" action="{% url 'company:test_results_list' company.company_name %}"   class="">
+                    <form method="POST" action="{% url 'company:test_results_list' company.id %}"   class="">
                         {% csrf_token %}
                         <div class="form-row">
                             <div class="col-md-4">

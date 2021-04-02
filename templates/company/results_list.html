@@ -34,6 +34,7 @@
                     {% csrf_token %} 
                     <button class="mb-2 mr-2 btn btn-success">&#8592; &nbsp; Volver</button>
                     <input type="hidden" name="action" value="select">
+                    <input type="hidden" name="tab" value="results">
                     <input type="hidden" name="company" value={{company.id}}>
                 </form>
                 <form method="POST"  class="">
@@ -60,12 +61,30 @@
                     <input type="hidden" name="test" value={{test}}>
                     <input type="hidden" name="filter_results" value=1>                        
                 </form>
+                {% if test == 'Integridad'%}
+                    <form method="POST"  class="">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            
+                            <div class="col-md-10">
+                                <div class="position-relative form-group">
+                                    <button name="filter" class="mt-2 btn btn-primary">Exportar</button>
+                                </div>
+                            </div>
+                        </div>
 
+                        <input type="hidden" name="company_id" value={{company.id}}>
+                        <input type="hidden" name="test" value={{test}}>
+                        <input type="hidden" name="export_xlsx" value=1>                    
+                        <input name="result_ids" id="result_ids" type="hidden" value=''>                    
+                    </form>
+                {% endif %}
 
                 <h5 class="card-title">Lista de resultados:</h5>
                     <table class="mb-0 table">
                         <thead>
                         <tr>
+                            <th></th>
                             <th>Candidato</th>
                             <th>Tipo prueba</th>
                             <th>Fecha</th>
@@ -76,6 +95,9 @@
                             {% if test == 'CIE'%}
                                 {% for cie_object in cie_objects %}
                                     <tr>
+                                        <td>
+
+                                        </td>
                                         <td>
                                             {{cie_object.nombre}}
                                         </td>
@@ -97,6 +119,9 @@
                                 {% for integrity_object in integrity_objects %}
                                         <tr>
                                             <td>
+                                                <input id='{{ integrity_object.id }}' type='checkbox' onclick='addId(this);'>
+                                            </td>
+                                            <td>
                                                 {{integrity_object.name}}
                                             </td>
                                             <td>
@@ -116,6 +141,9 @@
                             {% elif test == 'Max' %}
                                 {% for max_object in max_objects %}
                                     <tr>
+                                        <td>
+
+                                        </td>
                                         <td>
                                             {{max_object.name}}
                                         </td>
@@ -147,6 +175,9 @@
                                     <td>
                                         -
                                     </td>
+                                    <td>
+                                        -
+                                    </td>
                                 </tr>  
                             {% endif %}
                         </tbody>
@@ -156,7 +187,20 @@
     </div>
 </div>
 <script>
+    function addId(result_input) {
+        let result_ids_input = document.getElementById('result_ids').value;
 
+        if (result_input.checked){
+            result_ids_input = `${result_ids_input},${result_input.id}`
+        } else {
+            let id_to_remove = `,${result_input.id}`;
+            result_ids_input = result_ids_input.replace(id_to_remove,'');
+        }
+
+        document.getElementById('result_ids').value = result_ids_input;
+        
+        console.log(document.getElementById('result_ids').value);
+    }
 
 </script>
 {% endblock%}

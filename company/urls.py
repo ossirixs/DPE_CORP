@@ -13,7 +13,7 @@ urlpatterns = [
         name='position_detail'
     ),
     path(
-        route='rslts/<company_name>', 
+        route='rslts/<company_id>', 
         view=views.test_results_list, 
         name='test_results_list'
     ),

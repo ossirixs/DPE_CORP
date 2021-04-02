@@ -5,15 +5,20 @@ from django.views.decorators.cache import never_cache
 from django.db.models import Q
 from datetime import datetime, date
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
 #Models.
 from company.models import Company, TestCode, CompanyTest, TestCatalog
 from users.models import User
 from tests.models import ObjectCIE, ObjectIntegrity, ObjectMax, MaxPositions
-
 #Forms
 from company.forms import NewCompanyForm, TestCodeForm, CompanyTestForm
 from users.forms import SignUpForm
 from users.models import User
+#Utils
+from company.utils import get_integrity_export_data
+#Libraries
+from openpyxl import Workbook
+from openpyxl.writer.excel import save_virtual_workbook
 
 @login_required
 @never_cache
@@ -352,7 +357,7 @@ def company_detail(request,company_id,tab='tests'):
                                                             })
 
 @login_required
-def test_results_list(request, company_name):
+def test_results_list(request, company_id):
     """List all test results from the selected company."""
     #Select a test type.
     if request.method == 'POST':
@@ -411,7 +416,7 @@ def test_results_list(request, company_name):
                                                                 "test_date":test_date,
                                                                 "applicant_name":applicant_name,
                                                                 })
-            if test and company_id:
+
                 if test == "Integridad":
                     integrity_objects = ObjectIntegrity.objects.filter(code__company=selected_company)
                     applicant_name = request.POST.get('applicant_name', '')
@@ -429,7 +434,55 @@ def test_results_list(request, company_name):
                                                                 "test_date":test_date,
                                                                 "applicant_name":applicant_name,
                                                                 })
-    return HttpResponseRedirect(request.path_info)
+
+                if test == "Max":
+                    max_objects = ObjectMax.objects.filter(code__company=selected_company)
+                    applicant_name = request.POST.get('applicant_name', '')
+                    test_date = request.POST.get('test_date', '')
+                    if applicant_name:
+                        max_objects = max_objects.filter(name__contains=applicant_name)
+                    if test_date:                        
+                        max_objects = max_objects.filter(created__date=test_date)
+
+                    return render(request,'company/results_list.html', {
+                                                                "company":selected_company,
+                                                                "company_main":selected_company.company_main,
+                                                                "test":'Max',
+                                                                "max_objects":max_objects,
+                                                                "test_date":test_date,
+                                                                "applicant_name":applicant_name,
+                                                                })
+        if request.POST.get('export_xlsx'):
+            result_ids = request.POST.get('result_ids', '')
+            result_ids = result_ids.split(',')
+            print('test results to export ',result_ids)
+            result_ids.remove('')
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "New Title"
+            ws.append(['Nombre' , 'Fecha', 'Adicciones', 'Adicciones', 'Lealtad', 'Lealtad', 'Intencionalidad', 'Intencionalidad', 'Seguridad', 'Seguridad', 'Disciplina', 'Disciplina', 'Etica', 'Etica', 'Veracidad', 'Veracidad', 'Juicio', 'Juicio', 'Codigo'])
+            if result_ids:
+                for result_id in result_ids:
+                    test_result = ObjectIntegrity.objects.get(id=int(result_id))
+                    integrity_export_data = get_integrity_export_data(test_result)
+                    ws.append([test_result.name, test_result.get_formated_created, 
+                                integrity_export_data['scores']['addictions_score'], integrity_export_data['percentages']['addictions_percentage'], 
+                                integrity_export_data['scores']['judgement_score'], integrity_export_data['percentages']['judgement_percentage'] ,
+                                integrity_export_data['scores']['discipline_score'], integrity_export_data['percentages']['discipline_percentage'] ,
+                                integrity_export_data['scores']['veracity_score'], integrity_export_data['percentages']['veracity_percentage'] ,
+                                integrity_export_data['scores']['loyalty_score'], integrity_export_data['percentages']['loyalty_percentage'],
+                                integrity_export_data['scores']['intentionality_score'], integrity_export_data['percentages']['intentionality_percentage'] ,
+                                integrity_export_data['scores']['ethic_score'], integrity_export_data['percentages']['ethic_percentage'],
+                                integrity_export_data['scores']['reliability_score'], integrity_export_data['percentages']['reliability_percentage'],
+                                test_result.code.code])
+
+
+
+            response = HttpResponse(content=save_virtual_workbook(wb), content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+            response['Content-Disposition'] = 'attachment; filename=myexport.xlsx'
+            return response
+
+    return redirect('dashboard')
         
 
 @login_required
