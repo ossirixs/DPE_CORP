@@ -1733,7 +1733,50 @@ def max_test_result(request, test_type, test_id):
         # Return the response to preview the PDF in a new tab
         return response
 
-    
-    print(result_descriptions["T"])
+    T = result_descriptions.get("T")
+    V = result_descriptions.get("V")
+    X = result_descriptions.get("X")
+    S = result_descriptions.get("S")
+    B = result_descriptions.get("B")
+    O = result_descriptions.get("O")
+    R = result_descriptions.get("R")
+    D = result_descriptions.get("D")
+    C = result_descriptions.get("C")
+    Z = result_descriptions.get("Z")
+    E = result_descriptions.get("E")
+    K = result_descriptions.get("K")
+    F = result_descriptions.get("F")
+    W = result_descriptions.get("W")
+    N = result_descriptions.get("N")
+    G = result_descriptions.get("G")
+    A = result_descriptions.get("A")
+    L = result_descriptions.get("L")
+    P = result_descriptions.get("P")
+    I = result_descriptions.get("I")
+
     selected_position_object = MaxPositions.objects.get(id=1)
-    return render(request, 'max/test_result.html', {"results":max_object, "result_descriptions":result_descriptions,"selected_position_object":selected_position_object})
+
+    return render(request, 'max/test_result.html', {"results":max_object,
+                                                    "result_descriptions":result_descriptions,
+                                                    "selected_position_object":selected_position_object,
+                                                    'T': T,
+                                                    'V': V,
+                                                    'X': X,
+                                                    'S': S,
+                                                    'B': B,
+                                                    'O': O,
+                                                    'R': R,
+                                                    'D': D,
+                                                    'C': C,
+                                                    'Z': Z,
+                                                    'E': E,
+                                                    'K': K,
+                                                    'F': F,
+                                                    'W': W,
+                                                    'N': N,
+                                                    'G': G,
+                                                    'A': A,
+                                                    'L': L,
+                                                    'P': P,
+                                                    'I': I,
+                                                    })

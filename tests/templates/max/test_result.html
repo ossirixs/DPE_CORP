@@ -1,134 +1,725 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <title>Integridad</title>
-  {% block content_title %}{% endblock %}
-  {% load static %}
-  <link rel="stylesheet" href="{% static 'css/main.css' %}" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
-  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-  <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
-
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <title>AGSGS</title>
+    {% block content_title %}{% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <meta charset="UTF-8">
 </head>
 <style>
-  .body {
-    font-family: Helvetica, sans-serif;
-  }
 
-  .h1 {
-    font-family: Helvetica, sans-serif;
-  }
+/* PDF style */
+@page {
+    @bottom-right {
+    position: absolute;
+    z-index: -1;
+    content: "Página " counter(page) " | " counter(pages);
+    padding: 0px 25px 25px 0px;
+    font-family: Helvetica, Sans-Serif;
+    font-size: 8pt;
+    color: #192F55;
+    }
+    size: A4; /* Change from the default size of A4 */
+    margin: 160px 30px 100px 30px; /* Set margin on each page */
+}
+.header {
+    font-family: Helvetica, Sans-Serif;
+    position: fixed;
+    top: 0px ;
+    left: 0px;
+    margin-top: -120px;
+    height: 100px;
+    width: 100%;
+}
+.footer {
+    position: fixed;
+    bottom: 0px ;
+    left: 0px;
+    margin-bottom: -100px;
+    height: 100px;
+    width: 100%;
+}
 
-  .div-t {
+/* Web version style */
+
+.body {
+    font-family: Helvetica, sans-serif;
+}
+
+.h1 {
+    font-family: Helvetica, sans-serif;
+}
+
+.div-t {
     display: table;
     width: 100%;
-  }
+    color: #495057;
+}
 
-  .div-50 {
+.div-50 {
     width: 50%;
     display: inline-block;
     vertical-align: top;
-  }
+}
 
-  .div-70 {
-    width: 60%;
+.div-70 {
+    width: 65%;
     display: inline-block;
     vertical-align: top;
-  }
+}
 
-  .div-30 {
+.div-30 {
     width: 30%;
     display: inline-block;
     vertical-align: top;
-  }
+}
 
-  .section {
+.cell {
+    font-family: Helvetica, Sans-Serif;
+    font-size: 10pt;
+    text-align: left;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 33%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cell-l {
+    font-family: Helvetica, Sans-Serif;
+    font-size: 10pt;
+    text-align: left;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cell-p {
+    font-family: Helvetica, Sans-Serif;
+    font-size: 10pt;
+    text-align: left;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 34%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.section {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
-  }
+}
 
-  .box {
+.box {
     padding: 25px;
-  }
+}
 
-  table,
-  td,
-  th {
-    text-align: left;
-  }
+table, td, th {
+  border: 1px solid #ddd;
+  text-align: left;
+}
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
 
-  th,
-  td {
-    padding: 10px;
-  }
+th, td {
+  padding: 10px;
+}
 
-  .space {
+.space {
     padding-top: 25px;
-  }
+}
 
-  .Alto {
-    background: #C2FFE7
-  }
+.Alto { background: #C2FFE7 }
+.Medio { background: #DFF4FF }
+.Bajo { background: #EFDFFF }
+.Description { background: #f6f7ff }
 
-  .Medio {
-    background: #DFF4FF
-  }
 
-  .Bajo {
-    background: #EFDFFF
-  }
+.grid-container {
+  display: grid;
+  grid-template-columns: 30% 70%;
+}
 
-  .Description {
-    background: #f6f7ff
-  }
-  .result-p {
+.grid-container > div {
     text-align: center;
-    font-weight: 700;
-    font-size: 1.1rem;
-  }
-  .scale-table {
-    border: #ddd solid 1px;
-  }
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.item-d {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.score {
+    padding: 0!important;
+}
+
+.bar {
+    background: #D0F1DD;
+    height: 100%;
+}
+
+.bar-position {
+    background: #D0F1F0;
+    height: 100%;
+}
+
+.percentage {
+    text-align: center;
+    padding: 10px;
+}
+
+
 </style>
 
-<body>
-  <div class="div-t">
+{% if pdf %}
 
-    <div class="">
-      <div class="">
-        <div class="box">
-          <div>
-            <h1>Max - Resultados  {{ results.name }}</h1>
-          </div>
-          <div>
-            <form method="POST" target="_blank">
-              {% csrf_token %}
-              <button name="export_button" class="btn btn-primary" style="position: relative">Descargar Reporte</button>
-            </form>
-          </div>
+<div class="header">
+    <div class="div-70">
+        <div class="div-t">
+            <div style="width: 20%; display: table-cell; vertical-align: top;">
+                <img src="http://www.dpe-corp.com/static/images/logo_color.jpeg"
+                style="float:left; padding-left: 10px; width:75px; height:75px;">
+             </div>
+            <div style="width: 70%; border-left: 1px solid #ddd; display: table-cell; vertical-align: top;">
+                <h1 style="color: #192F55; font-size: 18pt; display:table-cell; padding-left: 20px; padding-top: 10px;">RESULTADOS CIE</h1>
+                <h3 style="font-size: 12pt; padding-left: 20px;">Candidato: {{ cuestionario.nombre }}</h3>
+            </div>
         </div>
-        <div style="max-height: 80vh; overflow: auto ;padding: 1px 25px;">
-          {{ result_descriptions }}
-          <br>
-          {{ selected_position_object.T}}
-        </div>
-      </div>
+    </div><div class="div-30">
+        <span style="float:right;">
+            <span style="float:right; font-size: 10pt;  padding-top: 10px; line-height: 2;">
+                <strong>EMPRESA: </strong>SONY
+            </span>
+            <span style="float:right; font-size: 10pt; padding-top: 5px; line-height: 2;">
+                <strong>FECHA: </strong>16-12-21
+            </span>
+        </span>
     </div>
-  </div>
-  </div>
-  <div class="space"></div>
+</div>
+
+<body>
+
 </body>
 
+{% else %}
+<body>
+    <div class="div-t">
+        <div class="div-50">
+            <div class="section">
+                <div class="box">
+                    <h1>{{ cuestionario.nombre }}</h1>
+                </div>
+                <div style="padding: 25px; max-height: 80vh; overflow: auto ">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                    <canvas id="myChart2" width="400" height="400"></canvas>
+                    <canvas id="myChart3" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="div-50">
+            <div class="section">
+                <div class="box">
+                    <div>
+                        <h1>RESULTADOS MAX</h1>
+                    </div>
+                    <div>
+                        <form method="POST" target="_blank">
+                            {% csrf_token %}
+                            <button name="export_button"  style="position: relative">Descargar Reporte</button>
+                        </form>
+                    </div>
+                </div>
+                    <div style="max-height: 80vh; overflow: auto ;padding: 1px 25px;">
+
+                        <div class="grid-container">
+                            <div class="item-d bold" style="background: #016840; color: white">MODO DE VIDA</div>
+                            <div class="item bold">FACTOR</div>
+                            <div class="item bold">SCORE</div>
+                            <div class="item" style="background: rgba(208, 255, 204, 0.7)">Activo - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ T.percentage }}%">
+                                  <div class="percentage">{{ T.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(208, 255, 204, 0.3)">Activo - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.T }}%">
+                                  <div class="percentage">{{ selected_position_object.T }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ T.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Vigoroso - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ V.percentage }}%">
+                                  <div class="percentage">{{ V.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Vigoroso - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.V }}%">
+                                  <div class="percentage">{{ selected_position_object.V }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ V.description }}</div>
+                        </div>
+
+                        <div class="space"></div>
+                        <div class="space"></div>
+
+                        <div class="grid-container">
+                                <div class="item-d bold" style="background: #199093; color: white">NATURALEZA SOCIAL</div>
+                            <div class="item bold">FACTOR</div>
+                            <div class="item bold">SCORE</div>
+                            <div class="item" style="background: rgba(255, 208, 249, 0.7)">Ser Notado - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ X.percentage }}%">
+                                  <div class="percentage">{{ X.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 208, 249, 0.3)">Ser Notado - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.X }}%">
+                                  <div class="percentage">{{ selected_position_object.X }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ X.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Sociabilidad - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ S.percentage }}%">
+                                  <div class="percentage">{{ S.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Sociabilidad - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.S }}%">
+                                  <div class="percentage">{{ selected_position_object.S }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ S.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Pertenencia - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ B.percentage }}%">
+                                  <div class="percentage">{{ B.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Pertenencia - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.B }}%">
+                                  <div class="percentage">{{ selected_position_object.B }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ B.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Cercania - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ O.percentage }}%">
+                                  <div class="percentage">{{ O.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Cercania - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.O }}%">
+                                  <div class="percentage">{{ selected_position_object.O }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ O.description }}</div>
+                        </div>
+
+                        <div class="space"></div>
+                        <div class="space"></div>
+
+                        <div class="grid-container">
+                                <div class="item-d bold" style="background: #574473; color: white ">ADAPTACIÓN AL TRABAJO</div>
+                            <div class="item bold">FACTOR</div>
+                            <div class="item bold">SCORE</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Teórico - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ R.percentage }}%">
+                                  <div class="percentage">{{ R.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Teórico - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.R }}%">
+                                  <div class="percentage">{{ selected_position_object.R }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ R.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Detallista - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ D.percentage }}%">
+                                  <div class="percentage">{{ D.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Detallista - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.D }}%">
+                                  <div class="percentage">{{ selected_position_object.D }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ D.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Organizado - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ C.percentage }}%">
+                                  <div class="percentage">{{ C.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Organizado - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.C }}%">
+                                  <div class="percentage">{{ selected_position_object.C }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ C.description }}</div>
+                        </div>
+
+                        <div class="space"></div>
+                        <div class="space"></div>
+
+                        <div class="grid-container">
+                                <div class="item-d bold" style="background: #904473; color: white ">NATURALEZA EMOCIONAL</div>
+                            <div class="item bold">FACTOR</div>
+                            <div class="item bold">SCORE</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">N. Cambiador - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ Z.percentage }}%">
+                                  <div class="percentage">{{ Z.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">N. Cambiador - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.Z }}%">
+                                  <div class="percentage">{{ selected_position_object.Z }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ Z.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Emocional - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ E.percentage }}%">
+                                  <div class="percentage">{{ E.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Emocional - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.E }}%">
+                                  <div class="percentage">{{ selected_position_object.E }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ E.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Defensiva - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ K.percentage }}%">
+                                  <div class="percentage">{{ K.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Defensiva - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.K }}%">
+                                  <div class="percentage">{{ selected_position_object.K }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ K.description }}</div>
+                        </div>
+
+                        <div class="space"></div>
+                        <div class="space"></div>
+
+                        <div class="grid-container">
+                                <div class="item-d bold" style="background: #294473; color: white ">SUBORDINACIÓN</div>
+                            <div class="item bold">FACTOR</div>
+                            <div class="item bold">SCORE</div>
+
+                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">N. Apoyo - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ F.percentage }}%">
+                                  <div class="percentage">{{ F.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">N. Apoyo - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.F }}%">
+                                  <div class="percentage">{{ selected_position_object.F }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ F.description }}</div>
+
+                            <div class="item" style="background: rgba(204, 252, 255, 0.7)">N. Reglas - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ W.percentage }}%">
+                                  <div class="percentage">{{ W.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(204, 252, 255, 0.3)">N. Reglas - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.W }}%">
+                                  <div class="percentage">{{ selected_position_object.W }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ W.description }}</div>
+                        </div>
+
+                        <div class="space"></div>
+                        <div class="space"></div>
+
+                        <div class="grid-container">
+                                <div class="item-d bold" style="background: #771413; color: white ">GRADO DE ENERGÍA</div>
+                            <div class="item bold">FACTOR</div>
+                            <div class="item bold">SCORE</div>
+
+                            <div class="item" style="background: rgba(238, 168, 168, 0.7)">N. Terminar</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ N.percentage }}%">
+                                  <div class="percentage">{{ N.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(238, 168, 168, 0.3)">N. Terminar - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.N }}%">
+                                  <div class="percentage">{{ selected_position_object.N }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ N.description }}</div>
+
+                            <div class="item" style="background: rgba(185, 187, 230, 0.7)">Intensidad - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ G.percentage }}%">
+                                  <div class="percentage">{{ G.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(185, 187, 230, 0.3)">Intensidad - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.G }}%">
+                                  <div class="percentage">{{ selected_position_object.G }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ G.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 196, 157, 0.7)">N. Logro - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ A.percentage }}%">
+                                  <div class="percentage">{{ A.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 196, 157, 0.3)">N. Logro - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.A }}%">
+                                  <div class="percentage">{{ selected_position_object.A }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ A.description }}</div>
+                        </div>
+
+                        <div class="space"></div>
+                        <div class="space"></div>
+
+                        <div class="grid-container">
+                                <div class="item-d bold" style="background: #891291; color: white ">LIDERAZGO</div>
+                            <div class="item bold">FACTOR</div>
+                            <div class="item bold">SCORE</div>
+
+                            <div class="item" style="background: rgba(255, 214, 204, 0.7)">Liderazgo - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ L.percentage }}%">
+                                  <div class="percentage">{{ L.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 214, 204, 0.3)">Liderazgo - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.L }}%">
+                                  <div class="percentage">{{ selected_position_object.L }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ L.description }}</div>
+
+                            <div class="item" style="background: rgba(129, 244, 204, 0.7)">Control - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ P.percentage }}%">
+                                  <div class="percentage">{{ P.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(129, 244, 204, 0.3)">Control - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.P }}%">
+                                  <div class="percentage">{{ selected_position_object.P }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ P.description }}</div>
+
+                            <div class="item" style="background: rgba(255, 244, 89, 0.7)">T. Decisiones - C</div>
+                            <div class="item score">
+                              <div class="bar" style="width: {{ I.percentage }}%">
+                                  <div class="percentage">{{ I.percentage }}%</div>
+                              </div>
+                            </div>
+                            <div class="item" style="background: rgba(255, 244, 89, 0.3)">T. Decisiones - P</div>
+                            <div class="item score">
+                              <div class="bar-position" style="width: {{ selected_position_object.I }}%">
+                                  <div class="percentage">{{ selected_position_object.I }}%</div>
+                              </div>
+                            </div>
+                            <div class="item-d bold">DESCRIPCIÓN</div>
+                            <div class="item-d">{{ I.description }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space"></div>
+</body>
+{% endif %}
 </html>
 
 <script type="text/javascript">
 
- 
+var ctx = document.getElementById('myChart').getContext('2d');
+
+var myChart = new Chart(ctx, {
+    plugins: [{
+        beforeInit: function(myChart, options) {
+          myChart.legend.afterFit = function() {
+            this.height = this.height + 50;
+          };
+        }
+      }],
+    type: 'horizontalBar',
+    data: {
+        labels: ['Activo', 'Vigoroso'],
+        datasets: [{
+            label: 'NATURALEZA SOCIAL',
+            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
+            backgroundColor: [
+                'rgba(18, 118, 161, 0.7)',
+                'rgba(118, 29, 161, 0.7)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'NATURALEZA SOCIAL',
+            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
+            backgroundColor: [
+                'rgba(118, 29, 161, 0.7)',
+
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        },
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+
+var ctx = document.getElementById('myChart2').getContext('2d');
+
+var myChart2 = new Chart(ctx, {
+    plugins: [{
+        beforeInit: function(myChart, options) {
+          myChart.legend.afterFit = function() {
+            this.height = this.height + 50;
+          };
+        }
+      }],
+    type: 'horizontalBar',
+    data: {
+        labels: ['X', 'S', 'B', 'O'],
+        datasets: [{
+            label: 'NATURALEZA SOCIAL',
+            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
+            backgroundColor: [
+                'rgba(18, 118, 161, 0.7)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        },
+        {
+            label: 'NATURALEZA SOCIAL',
+            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
+            backgroundColor: [
+                'rgba(18, 118, 161, 0.7)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        },
+        ]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
 </script>
