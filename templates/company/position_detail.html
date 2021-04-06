@@ -1,0 +1,428 @@
+{% extends "common/base.html" %}
+
+{% block content_title %}
+    <title>DPE - Detalle Usuario</title>
+{% endblock%}
+
+{% block content_subtitle %}
+    <div class="app-page-title">
+        <div class="page-title-wrapper">
+            <div class="page-title-heading">
+                <div class="page-title-icon">
+                    <i class="fas fa-building icon-gradient bg-night-fade">
+                    </i>
+                </div>
+                <div>
+                    {{ company.company_name }}
+                    <div class="page-title-subheading">
+                        Detalle Posición - {{selected_position.T}}
+                    </div>
+                </div>
+            </div>   
+        </div>
+    </div> 
+{% endblock%}
+
+{% block content_container %}
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div class="main-card mb-3 card">
+            <div class="card-body">
+
+                {% comment %} MODIFY COMPANY POSITION {% endcomment %}
+                <div id="create-form-id" class="card-section">
+                    <form method="POST" action="{% url 'company:position_detail' company.id %}" class="">
+                        {% csrf_token %}
+                        {% if create == 1 %}
+                            <h5 class="card-title">Nueva Posición</h5>
+                            <div class="form-row">
+                                <div class="col-md-3">
+                                    <div class="position-relative form-group">
+                                        <label for="name-id" class="">Nombre</label>
+                                        <input name="name" id="T-id" type="text" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        <h5 class="card-title">Modo de Vida</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="T-id" class="">Tipo siempre activo</label>
+                                    <select name="T" id="T-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.T == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.T == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.T == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.T == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.T == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.T == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.T == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.T == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.T == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="V-id" class="">Tipo vigoroso</label>
+                                    <select name="V" id="V-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.V == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.V == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.V == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.V == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.V == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.V == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.V == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.V == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.V == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <h5 class="card-title">Naturaleza Social</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="X-id" class="">Requiere ser notificado</label>
+                                    <select name="X" id="X-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.X == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.X == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.X == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.X == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.X == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.X == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.X == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.X == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.X == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="S-id" class="">Extensión social (ser sociable)</label>
+                                    <select name="S" id="S-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.S == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.S == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.S == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.S == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.S == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.S == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.S == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.S == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.S == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="B-id" class="">Requiere pertenecer al grupo</label>
+                                    <select name="B" id="B-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.B == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.B == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.B == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.B == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.B == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.B == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.B == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.B == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.B == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="O-id" class="">Requiere acercamiento y afecto (afinidad)</label>
+                                    <select name="O" id="O-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.O == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.O == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.O == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.O == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.O == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.O == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.O == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.O == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.O == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Adaptación al Trabajo</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="R-id" class="">Tipo teórico (pensador)</label>
+                                    <select name="R" id="R-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.R == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.R == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.R == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.R == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.R == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.R == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.R == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.R == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.R == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="D-id" class="">Interés en el trabajo con detalles (de forma individual o personal)</label>
+                                    <select name="D" id="D-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.D == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.D == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.D == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.D == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.D == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.D == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.D == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.D == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.D == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="C-id" class="">Tipo organizado (sistemático y estructurado)</label>
+                                    <select name="C" id="C-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.C == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.C == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.C == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.C == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.C == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.C == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.C == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.C == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.C == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Naturaleza Emocional</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="Z-id" class="">Necesidad de cambio (necesidad de cambiar o de no modificar)</label>
+                                    <select name="Z" id="Z-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.Z == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.Z == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.Z == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.Z == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.Z == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.Z == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.Z == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.Z == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.Z == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="E-id" class="">Tipo emocional, mente rígida (introvertido emocionalmente)</label>
+                                    <select name="E" id="E-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.E == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.E == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.E == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.E == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.E == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.E == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.E == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.E == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.E == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="K-id" class="">Estado defensivo/agresividad/pasividad</label>
+                                    <select name="K" id="K-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.K == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.K == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.K == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.K == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.K == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.K == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.K == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.K == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.K == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Subordinación</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="F-id" class="">Necesidad de apoyo del supervisor (proveer autoridad)</label>
+                                    <select name="F" id="F-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.F == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.F == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.F == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.F == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.F == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.F == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.F == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.F == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.F == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="W-id" class="">Necesidad de reglas y supervisión</label>
+                                    <select name="W" id="W-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.W == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.W == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.W == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.W == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.W == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.W == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.W == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.W == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.W == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Grado de Energia</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="N-id" class="">Necesidad de terminar una tarea</label>
+                                    <select name="N" id="N-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.N == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.N == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.N == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.N == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.N == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.N == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.N == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.N == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.N == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="G-id" class="">Desempeñar una intensa actividad</label>
+                                    <select name="G" id="G-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.G == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.G == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.G == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.G == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.G == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.G == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.G == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.G == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.G == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="A-id" class="">Necesidad de logro</label>
+                                    <select name="A" id="A-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.A == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.A == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.A == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.A == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.A == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.A == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.A == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.A == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.A == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <h5 class="card-title">Liderazgo</h5>
+                        <div class="form-row">
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="L-id" class="">Actividad de liderazgo</label>
+                                    <select name="L" id="L-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.L == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.L == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.L == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.L == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.L == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.L == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.L == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.L == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.L == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="P-id" class="">Requiere controlar a otros</label>
+                                    <select name="P" id="P-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.P == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.P == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.P == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.P == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.P == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.P == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.P == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.P == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.P == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="position-relative form-group">
+                                    <label for="I-id" class="">Facilidad de tomar decisiones (impulso)</label>
+                                    <select name="I" id="I-id" type="text" class="form-control">
+                                        <option value=11 {% if selected_position.I == 11 %} selected {% endif %}>11</option>
+                                        <option value=22 {% if selected_position.I == 22 %} selected {% endif %}>22</option>
+                                        <option value=33 {% if selected_position.I == 33 %} selected {% endif %}>33</option>
+                                        <option value=44 {% if selected_position.I == 44 %} selected {% endif %}>44</option>
+                                        <option value=55 {% if selected_position.I == 55 %} selected {% endif %}>55</option>
+                                        <option value=66 {% if selected_position.I == 66 %} selected {% endif %}>66</option>
+                                        <option value=77 {% if selected_position.I == 77 %} selected {% endif %}>77</option>
+                                        <option value=88 {% if selected_position.I == 88 %} selected {% endif %}>88</option>
+                                        <option value=99 {% if selected_position.I == 99 %} selected {% endif %}>99</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <input type="hidden" name="position_id" value={{selected_position.id}}>
+                        {% if create == 1 %}
+                            <input type="hidden" name="create_position" value=1>
+                            <button class="mt-2 btn btn-primary">Crear Posición</button>
+                        {% else %}
+                            <input type="hidden" name="update_position" value=1>
+                            <button class="mt-2 btn btn-primary">Actualizar Posición</button>
+                        {% endif %}
+                    </form>
+                        {% if create == 0 %}
+                        <br><br>
+                            <form method="POST" action="{% url 'company:position_detail' company.id %}">
+                                {% csrf_token %} 
+                                    <input type="hidden" name="delete_position" value="1">
+                                    <input type="hidden" name="position_id" value={{selected_position.id}}>
+                                    <button type="submit" class="btn btn-danger">  Borrar  </button>
+                            </form>
+                        {% endif %}
+                </div>
+
+                <form method="POST" action="{% url 'company_detail' company.id %}" style="position: absolute; right: 0; top: 10px;">
+                    {% csrf_token %} 
+                    <button class="mb-2 mr-2 btn btn-success">&#8592; &nbsp; Volver</button>
+                    <input type="hidden" name="action" value="select">
+                    <input type="hidden" name="tab" value="positions">
+                    <input type="hidden" name="company" value={{company.id}}>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+
+</script>
+{% endblock%}

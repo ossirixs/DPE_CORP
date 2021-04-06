@@ -31,6 +31,11 @@ urlpatterns = [
         name='company_detail'
     ),
     path(
+        route='cmp/dtl/<company_id>/<tab>', 
+        view=company_views.company_detail, 
+        name='company_detail'
+    ),
+    path(
         route='pstn',
         view=dpe_views.position_list,
         name='positions'

@@ -1224,7 +1224,7 @@ def integrity_test(request, test_code):
             if current_step == 20:
                 return render(
                                 request, 
-                                'finish.html', 
+                                'integrity/finish.html', 
                                 dict(title = 'Integridad',name = integrity_object.name))            
             
             # Go to the next template
