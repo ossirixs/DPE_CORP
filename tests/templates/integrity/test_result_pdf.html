@@ -1,6 +1,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  {% load static %}
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Resultados Integridad</title>
@@ -512,22 +513,12 @@ body {
 
 </style>
 <body>
-<!-- change the per90 class -->
-<!-- <div class='progress per95'>
-  <span class='progress-val'>
-    2%
-  </span>
-  <div class='pie'>
-    <div class='first'></div>
-    <div class='last'></div>
-  </div>
-</div> -->
-{% load static %}
+
 <div class="header-pdf">
-  <img class="logo-header" src='{% static "images/logo_color.jpeg" %}' alt="" >
+  <img src='{% static "images/logo_color.jpeg" %}' alt="dpe_logo_color" srcset="" class="logo-header">
   <div class="test-title  border-bottom-purple">
     <h2>Psicometría DPE</h2>
-    <h2>Integridad</h2>
+    <h2>Prueba Integridad</h2>
   </div>
   <div class="name">
     <p>{{results.get_formated_created}} | {{ results.name }}</p>
