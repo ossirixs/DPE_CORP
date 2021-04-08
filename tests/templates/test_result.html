@@ -146,7 +146,7 @@ th, td {
 
 .Alto { background: #C2FFE7 }
 .Medio { background: #DFF4FF }
-.Bajo { background: #EFDFFF }
+.Bajo { background: #F5D2CE }
 .Description { background: #f6f7ff }
 
 
@@ -176,7 +176,7 @@ th, td {
 }
 
 .bar {
-    background: #f95a60ad;
+    background: #CEEDF5;
     height: 100%;
 }
 
@@ -205,10 +205,10 @@ th, td {
     </div><div class="div-30">
         <span style="float:right;">
             <span style="float:right; font-size: 10pt;  padding-top: 10px; line-height: 2;">
-                <strong>EMPRESA: </strong>SONY
+                <strong>EMPRESA: </strong> {{ cuestionario.codigo.company }}
             </span>
             <span style="float:right; font-size: 10pt; padding-top: 5px; line-height: 2;">
-                <strong>FECHA: </strong>16-12-21
+                <strong>FECHA: </strong> {{ cuestionario.created }}
             </span>
         </span>
     </div>
@@ -462,7 +462,10 @@ th, td {
         <div class="div-50">
             <div class="section">
                 <div class="box">
-                    <h1>{{ cuestionario.nombre }}</h1>
+                    <h1>
+                        <span style="color: #b9b9b9">CANDIDATO:</span>
+                        <span style="letter-spacing: 3px; text-transform: uppercase; font-weight: bold">{{ cuestionario.nombre }}</span>
+                    </h1>
                 </div>
                 <div style="padding: 25px; max-height: 80vh; overflow: auto ">
                     <canvas id="myChart" width="400" height="400"></canvas>
@@ -479,7 +482,7 @@ th, td {
                     <div>
                         <form method="POST" target="_blank">
                             {% csrf_token %}
-                            <button name="export_button"  style="position: relative">Descargar Reporte</button>
+                            <button name="export_button" class="btn btn-primary" style="position: relative">Descargar Reporte</button>
                         </form>
                     </div>
                 </div>
