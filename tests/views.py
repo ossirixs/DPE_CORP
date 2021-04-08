@@ -47,7 +47,6 @@ class CIE(SessionWizardView):
             form_data = form.cleaned_data
             for key, value in form_data.items():
                 setattr(cuestionario, key, value)
-                # print(key, value)
         cuestionario.codigo = test_code
         cuestionario.save()
         return render(self.request, 'finish.html', dict(form_data = [form.cleaned_data for form in form_list],
@@ -1074,9 +1073,6 @@ def test_result(request, test_type, test_id):
     description = CONG_DICT.get(f'{result}')
     CONG = {'score': score, 'result': result, 'description': description}
 
-
-    print(CONG)
-
     context = dict(cuestionario=cuestionario,
                    pdf='',
                    EST=EST,
@@ -1102,7 +1098,6 @@ def test_result(request, test_type, test_id):
 
         html_template = get_template('test_result.html')
         context['pdf'] = True
-        print(context)
         html = html_template.render(context)
         pdf_file = HTML(string=html).write_pdf()
         response = HttpResponse(pdf_file, content_type='application/pdf')
@@ -1705,6 +1700,7 @@ def max_test(request, test_code):
     return redirect('login')
 
 def max_test_result(request, test_type, test_id):
+
     max_object = get_object_or_404(ObjectMax, pk=test_id)
 
     # calculate descriptions
@@ -1718,20 +1714,15 @@ def max_test_result(request, test_type, test_id):
 
         return render(request, 'max/test_result.html', {"results":max_object, "result_descriptions":result_descriptions,"selected_position_object":selected_position_object,})
 
-    if 'export_button' in request.POST:
 
-        html_template = get_template('max/test_result_pdf.html')
+    if request.POST.get('position'):
 
-        # Render the context into the PDF/HTML template
-        context = {"results":max_object, "result_descriptions":result_descriptions,}
+        # Look for the selected position and get the object
+        selected_position = request.POST.get('position')
+        selected_position = MaxPositions.objects.get(id=selected_position)
 
-        html = html_template.render(context)
-        pdf_file = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
-        response = HttpResponse(pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = 'filename="PruebaIntegridad.pdf"'
-
-        # Return the response to preview the PDF in a new tab
-        return response
+    else:
+        selected_position = False
 
     T = result_descriptions.get("T")
     V = result_descriptions.get("V")
@@ -1754,11 +1745,57 @@ def max_test_result(request, test_type, test_id):
     P = result_descriptions.get("P")
     I = result_descriptions.get("I")
 
-    selected_position_object = MaxPositions.objects.get(id=1)
+    if 'export_button' in request.POST:
+
+        if request.POST.get('position'):
+
+            # Look for the selected position and get the object
+            selected_position = request.POST.get('position')
+            selected_position = MaxPositions.objects.get(id=selected_position)
+
+        else:
+            selected_position = False
+
+        html_template = get_template('max/test_result_pdf.html')
+
+        # Render the context into the PDF/HTML template
+        context = { "results":max_object,
+                    "result_descriptions":result_descriptions,
+                    "selected_position_object":selected_position,
+                    'positions': MaxPositions.objects.all(),
+                    'T': T,
+                    'V': V,
+                    'X': X,
+                    'S': S,
+                    'B': B,
+                    'O': O,
+                    'R': R,
+                    'D': D,
+                    'C': C,
+                    'Z': Z,
+                    'E': E,
+                    'K': K,
+                    'F': F,
+                    'W': W,
+                    'N': N,
+                    'G': G,
+                    'A': A,
+                    'L': L,
+                    'P': P,
+                    'I': I }
+
+        html = html_template.render(context)
+        pdf_file = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
+        response = HttpResponse(pdf_file, content_type='application/pdf')
+        response['Content-Disposition'] = 'filename="PruebaMax.pdf"'
+
+        # Return the response to preview the PDF in a new tab
+        return response
 
     return render(request, 'max/test_result.html', {"results":max_object,
                                                     "result_descriptions":result_descriptions,
-                                                    "selected_position_object":selected_position_object,
+                                                    "selected_position_object":selected_position,
+                                                    'positions': MaxPositions.objects.all(),
                                                     'T': T,
                                                     'V': V,
                                                     'X': X,

@@ -7,7 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/main.css' %}" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <meta charset="UTF-8">
@@ -181,7 +181,7 @@ th, td {
 }
 
 .bar-position {
-    background: #D0F1F0;
+    background: #fffabc;
     height: 100%;
 }
 
@@ -190,51 +190,20 @@ th, td {
     padding: 10px;
 }
 
-
 </style>
 
-{% if pdf %}
-
-<div class="header">
-    <div class="div-70">
-        <div class="div-t">
-            <div style="width: 20%; display: table-cell; vertical-align: top;">
-                <img src="http://www.dpe-corp.com/static/images/logo_color.jpeg"
-                style="float:left; padding-left: 10px; width:75px; height:75px;">
-             </div>
-            <div style="width: 70%; border-left: 1px solid #ddd; display: table-cell; vertical-align: top;">
-                <h1 style="color: #192F55; font-size: 18pt; display:table-cell; padding-left: 20px; padding-top: 10px;">RESULTADOS CIE</h1>
-                <h3 style="font-size: 12pt; padding-left: 20px;">Candidato: {{ cuestionario.nombre }}</h3>
-            </div>
-        </div>
-    </div><div class="div-30">
-        <span style="float:right;">
-            <span style="float:right; font-size: 10pt;  padding-top: 10px; line-height: 2;">
-                <strong>EMPRESA: </strong>SONY
-            </span>
-            <span style="float:right; font-size: 10pt; padding-top: 5px; line-height: 2;">
-                <strong>FECHA: </strong>16-12-21
-            </span>
-        </span>
-    </div>
-</div>
-
-<body>
-
-</body>
-
-{% else %}
 <body>
     <div class="div-t">
         <div class="div-50">
             <div class="section">
                 <div class="box">
-                    <h1>{{ cuestionario.nombre }}</h1>
+                    <h1>
+                        <span style="color: #b9b9b9">CANDIDATO:</span>
+                        <span style="letter-spacing: 3px; text-transform: uppercase; font-weight: bold">{{ results.name }}</span>
+                    </h1>
                 </div>
                 <div style="padding: 25px; max-height: 80vh; overflow: auto ">
                     <canvas id="myChart" width="400" height="400"></canvas>
-                    <canvas id="myChart2" width="400" height="400"></canvas>
-                    <canvas id="myChart3" width="400" height="400"></canvas>
                 </div>
             </div>
         </div>
@@ -245,10 +214,23 @@ th, td {
                     <div>
                         <h1>RESULTADOS MAX</h1>
                     </div>
-                    <div>
-                        <form method="POST" target="_blank">
+                    <div style="margin-top: 20px;">
+                        <form method="POST">
                             {% csrf_token %}
-                            <button name="export_button"  style="position: relative">Descargar Reporte</button>
+                            <select name= "position" class="form-control">
+                                <option value="" selected>Seleccione un puesto</option>
+                                {% for position in positions %}
+                                <option value="{{ position.id }}">{{ position.position_name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div style="margin-top: 25px;">
+                                <div style="display: inline-flex">
+                                    <button type="submit" style="">Comparar</button>
+                                </div>
+                                <div style="display: inline-flex; margin-left: 20px;">
+                                    <button name="export_button" formtarget="_blank" style="position: relative">Descargar Reporte</button>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -264,12 +246,14 @@ th, td {
                                   <div class="percentage">{{ T.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(208, 255, 204, 0.3)">Activo - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.T }}%">
                                   <div class="percentage">{{ selected_position_object.T }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ T.description }}</div>
 
@@ -279,12 +263,14 @@ th, td {
                                   <div class="percentage">{{ V.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(255, 244, 204, 0.3)">Vigoroso - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.V }}%">
                                   <div class="percentage">{{ selected_position_object.V }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ V.description }}</div>
                         </div>
@@ -293,7 +279,7 @@ th, td {
                         <div class="space"></div>
 
                         <div class="grid-container">
-                                <div class="item-d bold" style="background: #199093; color: white">NATURALEZA SOCIAL</div>
+                            <div class="item-d bold" style="background: #199093; color: white">NATURALEZA SOCIAL</div>
                             <div class="item bold">FACTOR</div>
                             <div class="item bold">SCORE</div>
                             <div class="item" style="background: rgba(255, 208, 249, 0.7)">Ser Notado - C</div>
@@ -302,57 +288,65 @@ th, td {
                                   <div class="percentage">{{ X.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(255, 208, 249, 0.3)">Ser Notado - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.X }}%">
                                   <div class="percentage">{{ selected_position_object.X }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ X.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Sociabilidad - C</div>
+                            <div class="item" style="background: rgba(180, 255, 249 , 0.7)">Sociabilidad - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ S.percentage }}%">
                                   <div class="percentage">{{ S.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Sociabilidad - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(180, 255, 249, 0.3)">Sociabilidad - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.S }}%">
                                   <div class="percentage">{{ selected_position_object.S }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ S.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Pertenencia - C</div>
+                            <div class="item" style="background: rgba(255, 182, 182, 0.7)">Pertenencia - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ B.percentage }}%">
                                   <div class="percentage">{{ B.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Pertenencia - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(255, 182, 182, 0.3)">Pertenencia - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.B }}%">
                                   <div class="percentage">{{ selected_position_object.B }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ B.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Cercania - C</div>
+                            <div class="item" style="background: rgba(193 191 255 / 0.7)">Cercania - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ O.percentage }}%">
                                   <div class="percentage">{{ O.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Cercania - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(193 191 255 / 0.3)">Cercania - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.O }}%">
                                   <div class="percentage">{{ selected_position_object.O }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ O.description }}</div>
                         </div>
@@ -365,48 +359,54 @@ th, td {
                             <div class="item bold">FACTOR</div>
                             <div class="item bold">SCORE</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Teórico - C</div>
+                            <div class="item" style="background: rgba(255 214 67 / 0.7)">Teórico - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ R.percentage }}%">
                                   <div class="percentage">{{ R.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Teórico - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(255 214 67 / 0.3)">Teórico - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.R }}%">
                                   <div class="percentage">{{ selected_position_object.R }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ R.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Detallista - C</div>
+                            <div class="item" style="background: rgba(173 255 67 / 0.7)">Detallista - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ D.percentage }}%">
                                   <div class="percentage">{{ D.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Detallista - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(173 255 67 / 0.3)">Detallista - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.D }}%">
                                   <div class="percentage">{{ selected_position_object.D }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ D.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Organizado - C</div>
+                            <div class="item" style="background: rgba(67 255 195 / 0.7)">Organizado - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ C.percentage }}%">
                                   <div class="percentage">{{ C.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Organizado - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(67 255 195 / 0.3)">Organizado - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.C }}%">
                                   <div class="percentage">{{ selected_position_object.C }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ C.description }}</div>
                         </div>
@@ -419,48 +419,54 @@ th, td {
                             <div class="item bold">FACTOR</div>
                             <div class="item bold">SCORE</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">N. Cambiador - C</div>
+                            <div class="item" style="background: rgba(154 208 255 / 0.7)">N. Cambiador - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ Z.percentage }}%">
                                   <div class="percentage">{{ Z.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">N. Cambiador - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(154 208 255 / 0.3)">N. Cambiador - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.Z }}%">
                                   <div class="percentage">{{ selected_position_object.Z }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ Z.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Emocional - C</div>
+                            <div class="item" style="background: rgba(184 154 255 / 0.7)">Emocional - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ E.percentage }}%">
                                   <div class="percentage">{{ E.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Emocional - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(184 154 255 / 0.3)">Emocional - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.E }}%">
                                   <div class="percentage">{{ selected_position_object.E }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ E.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 244, 204, 0.7)">Defensiva - C</div>
+                            <div class="item" style="background: rgba(249 154 255 / 0.7)">Defensiva - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ K.percentage }}%">
                                   <div class="percentage">{{ K.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 244, 204, 0.3)">Defensiva - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(249 154 255 / 0.3)">Defensiva - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.K }}%">
                                   <div class="percentage">{{ selected_position_object.K }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ K.description }}</div>
                         </div>
@@ -479,12 +485,14 @@ th, td {
                                   <div class="percentage">{{ F.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(255, 244, 204, 0.3)">N. Apoyo - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.F }}%">
                                   <div class="percentage">{{ selected_position_object.F }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ F.description }}</div>
 
@@ -494,12 +502,14 @@ th, td {
                                   <div class="percentage">{{ W.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(204, 252, 255, 0.3)">N. Reglas - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.W }}%">
                                   <div class="percentage">{{ selected_position_object.W }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ W.description }}</div>
                         </div>
@@ -518,12 +528,14 @@ th, td {
                                   <div class="percentage">{{ N.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(238, 168, 168, 0.3)">N. Terminar - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.N }}%">
                                   <div class="percentage">{{ selected_position_object.N }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ N.description }}</div>
 
@@ -533,27 +545,31 @@ th, td {
                                   <div class="percentage">{{ G.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(185, 187, 230, 0.3)">Intensidad - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.G }}%">
                                   <div class="percentage">{{ selected_position_object.G }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ G.description }}</div>
 
-                            <div class="item" style="background: rgba(255, 196, 157, 0.7)">N. Logro - C</div>
+                            <div class="item" style="background: rgba(158 255 141 / 0.7)">N. Logro - C</div>
                             <div class="item score">
                               <div class="bar" style="width: {{ A.percentage }}%">
                                   <div class="percentage">{{ A.percentage }}%</div>
                               </div>
                             </div>
-                            <div class="item" style="background: rgba(255, 196, 157, 0.3)">N. Logro - P</div>
+                            {% if selected_position_object %}
+                            <div class="item" style="background: rgba(158 255 141 / 0.3)">N. Logro - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.A }}%">
                                   <div class="percentage">{{ selected_position_object.A }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ A.description }}</div>
                         </div>
@@ -572,12 +588,14 @@ th, td {
                                   <div class="percentage">{{ L.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(255, 214, 204, 0.3)">Liderazgo - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.L }}%">
                                   <div class="percentage">{{ selected_position_object.L }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ L.description }}</div>
 
@@ -587,12 +605,14 @@ th, td {
                                   <div class="percentage">{{ P.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(129, 244, 204, 0.3)">Control - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.P }}%">
                                   <div class="percentage">{{ selected_position_object.P }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ P.description }}</div>
 
@@ -602,12 +622,14 @@ th, td {
                                   <div class="percentage">{{ I.percentage }}%</div>
                               </div>
                             </div>
+                            {% if selected_position_object %}
                             <div class="item" style="background: rgba(255, 244, 89, 0.3)">T. Decisiones - P</div>
                             <div class="item score">
                               <div class="bar-position" style="width: {{ selected_position_object.I }}%">
                                   <div class="percentage">{{ selected_position_object.I }}%</div>
                               </div>
                             </div>
+                            {% endif %}
                             <div class="item-d bold">DESCRIPCIÓN</div>
                             <div class="item-d">{{ I.description }}</div>
                         </div>
@@ -618,108 +640,165 @@ th, td {
     </div>
     <div class="space"></div>
 </body>
-{% endif %}
 </html>
 
 <script type="text/javascript">
 
-var ctx = document.getElementById('myChart').getContext('2d');
+var ctx = document.getElementById('myChart');
+ctx.height = 1000;
 
 var myChart = new Chart(ctx, {
-    plugins: [{
-        beforeInit: function(myChart, options) {
-          myChart.legend.afterFit = function() {
-            this.height = this.height + 50;
-          };
-        }
-      }],
-    type: 'horizontalBar',
+
+    type: 'bar',
     data: {
-        labels: ['Activo', 'Vigoroso'],
+        labels: ['Activo', 'Vigoroso', 'Ser Notado', 'Sociabilidad', 'Pertenencia', 'Cercania', 'Teórico', 'Detallista',
+        'Organizado', 'N. Cambiador', 'Emocional', 'Defensiva', 'N. Apoyo', 'N. Reglas', 'N. Terminar', 'Intesidad',
+        'N. Logro', 'Liderazgo', 'Control', 'T. Decisiones'],
         datasets: [{
-            label: 'NATURALEZA SOCIAL',
-            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
+            label: 'Candidato',
+            data: [ {{ T.percentage }},
+                    {{ V.percentage }},
+                    {{ X.percentage }},
+                    {{ S.percentage }},
+                    {{ B.percentage }},
+                    {{ O.percentage }},
+                    {{ R.percentage }},
+                    {{ D.percentage }},
+                    {{ C.percentage }},
+                    {{ Z.percentage }},
+                    {{ E.percentage }},
+                    {{ K.percentage }},
+                    {{ F.percentage }},
+                    {{ W.percentage }},
+                    {{ N.percentage }},
+                    {{ G.percentage }},
+                    {{ A.percentage }},
+                    {{ L.percentage }},
+                    {{ P.percentage }},
+                    {{ I.percentage }} ],
             backgroundColor: [
-                'rgba(18, 118, 161, 0.7)',
-                'rgba(118, 29, 161, 0.7)',
+                'rgba(208, 255, 204, 0.7)',
+                'rgba(255, 244, 204, 0.7)',
+                'rgba(255, 208, 249, 0.7)',
+                'rgba(180, 255, 249, 0.7)',
+                'rgba(255, 182, 182, 0.7)',
+                'rgba(193, 191, 255, 0.7)',
+                'rgba(255, 214, 67, 0.7)',
+                'rgba(173, 255, 67, 0.7)',
+                'rgba(67, 255, 195, 0.7)',
+                'rgba(154, 208, 255, 0.7)',
+                'rgba(184, 154, 255, 0.7)',
+                'rgba(249, 154, 255, 0.7)',
+                'rgba(255, 244, 204, 0.7)',
+                'rgba(204, 252, 255, 0.7)',
+                'rgba(238, 168, 168, 0.7)',
+                'rgba(185, 187, 230, 0.7)',
+                'rgba(158, 255, 141, 0.7)',
+                'rgba(255, 214, 204, 0.7)',
+                'rgba(129, 244, 204, 0.7)',
+                'rgba(255, 244, 89, 0.7)',
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
+                'rgba(200, 200, 200, 1)',
             ],
             borderWidth: 1
         },
         {
-            label: 'NATURALEZA SOCIAL',
-            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
+            label: 'Puesto',
+            data: [ {{ selected_position_object.T }},
+                    {{ selected_position_object.V }},
+                    {{ selected_position_object.X }},
+                    {{ selected_position_object.S }},
+                    {{ selected_position_object.B }},
+                    {{ selected_position_object.O }},
+                    {{ selected_position_object.R }},
+                    {{ selected_position_object.D }},
+                    {{ selected_position_object.C }},
+                    {{ selected_position_object.Z }},
+                    {{ selected_position_object.E }},
+                    {{ selected_position_object.K }},
+                    {{ selected_position_object.F }},
+                    {{ selected_position_object.W }},
+                    {{ selected_position_object.N }},
+                    {{ selected_position_object.G }},
+                    {{ selected_position_object.A }},
+                    {{ selected_position_object.L }},
+                    {{ selected_position_object.P }},
+                    {{ selected_position_object.I }} ],
             backgroundColor: [
-                'rgba(118, 29, 161, 0.7)',
-
+                'rgba(208, 255, 204, 0.3)',
+                'rgba(255, 244, 204, 0.3)',
+                'rgba(255, 208, 249, 0.3)',
+                'rgba(180, 255, 249, 0.3)',
+                'rgba(255, 182, 182, 0.3)',
+                'rgba(193, 191, 255, 0.3)',
+                'rgba(255, 214, 67, 0.3)',
+                'rgba(173, 255, 67, 0.3)',
+                'rgba(67, 255, 195, 0.3)',
+                'rgba(154, 208, 255, 0.3)',
+                'rgba(184, 154, 255, 0.3)',
+                'rgba(249, 154, 255, 0.3)',
+                'rgba(255, 244, 204, 0.3)',
+                'rgba(204, 252, 255, 0.3)',
+                'rgba(238, 168, 168, 0.3)',
+                'rgba(185, 187, 230, 0.3)',
+                'rgba(158, 255, 141, 0.3)',
+                'rgba(255, 214, 204, 0.3)',
+                'rgba(129, 244, 204, 0.3)',
+                'rgba(255, 244, 89, 0.3)',
             ],
             borderColor: [
-                'rgba(255, 99, 132, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
+                'rgba(80, 80, 80, 1)',
             ],
             borderWidth: 1
-        },
+        }
         ]
     },
     options: {
+        indexAxis: 'y',
         scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
+            y: {
+                beginAtZero: true
+            }
         }
     }
 });
-
-
-var ctx = document.getElementById('myChart2').getContext('2d');
-
-var myChart2 = new Chart(ctx, {
-    plugins: [{
-        beforeInit: function(myChart, options) {
-          myChart.legend.afterFit = function() {
-            this.height = this.height + 50;
-          };
-        }
-      }],
-    type: 'horizontalBar',
-    data: {
-        labels: ['X', 'S', 'B', 'O'],
-        datasets: [{
-            label: 'NATURALEZA SOCIAL',
-            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
-            backgroundColor: [
-                'rgba(18, 118, 161, 0.7)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1
-        },
-        {
-            label: 'NATURALEZA SOCIAL',
-            data: [{{ X.percentage }}, {{ S.percentage }}, {{ B.percentage }}, {{ O.percentage }}],
-            backgroundColor: [
-                'rgba(18, 118, 161, 0.7)',
-            ],
-            borderColor: [
-                'rgba(255, 99, 132, 1)',
-            ],
-            borderWidth: 1
-        },
-        ]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
-        }
-    }
-});
-
 </script>
