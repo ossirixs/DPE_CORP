@@ -547,7 +547,7 @@ class CIE_form_9(forms.Form):
         label='167. Me emociono fácilmente.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_168 = forms.ChoiceField(
-        label='168. Me emociono fácilmente.',
+        label='168. Admiro a quienes saben aprovecharse de los demás.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_169 = forms.ChoiceField(
         label='169. A veces tengo la impresión de que no sirvo para muchas cosas.',
@@ -620,7 +620,7 @@ class CIE_form_10(forms.Form):
         label='190. A menudo dejo que los sentimientos se impongan en mis acciones.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_191 = forms.ChoiceField(
-        label='191. A menudo dejo que los sentimientos se impongan en mis acciones.',
+        label='191. Algunas veces siento una gran tensión interna.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_192 = forms.ChoiceField(
         label='192. Acepto con gusto las críticas de los demás.',
@@ -632,7 +632,7 @@ class CIE_form_10(forms.Form):
         label='194. Me importa mucho la opinión de los demás.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_195 = forms.ChoiceField(
-        label='195. Me importa mucho la opinión de los demás.',
+        label='195. Cuando alguien está en contra de mis opiniones, lo ignoro.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_196 = forms.ChoiceField(
         label='196. Fácilmente tomo parte en las discusiones o pláticas de grupo.',
@@ -724,7 +724,7 @@ class CIE_form_12(forms.Form):
         label='222. A veces experimento períodos de soledad.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_223 = forms.ChoiceField(
-        label='223. SSiento que los demás deberían aprender de todo lo que se.',
+        label='223. Siento que los demás deberían aprender de todo lo que se.',
         required=True, widget=forms.RadioSelect, choices=OPCIONES)
     q_224 = forms.ChoiceField(
         label='224. Cuando alguien intenta imponerme sus gustos, elijo o decido lo contrario.',
