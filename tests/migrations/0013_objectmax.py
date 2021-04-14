@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('sex', models.CharField(default='', help_text='Sexo del candidato', max_length=50)),
                 ('T', models.IntegerField(default=0, help_text='Tipo siempre activo')),
                 ('V', models.IntegerField(default=0, help_text='Tipo vigoroso')),
-                ('X', models.IntegerField(default=0, help_text='Requiere ser notificado')),
+                ('X', models.IntegerField(default=0, help_text='Requiere ser notado')),
                 ('S', models.IntegerField(default=0, help_text='Extensión social (ser sociable)')),
                 ('B', models.IntegerField(default=0, help_text='Requiere pertenecer al grupo')),
                 ('O', models.IntegerField(default=0, help_text='Requiere acercamiento y afecto (afinidad)')),
