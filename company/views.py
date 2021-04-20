@@ -377,7 +377,7 @@ def test_results_list(request, company_id):
                                                                 "cie_objects":cie_objects,
                                                                 })
                 if test == "Integridad":
-                    integrity_objects = ObjectIntegrity.objects.filter(code__company=selected_company)
+                    integrity_objects = ObjectIntegrity.objects.filter(code__company=selected_company, finish=True)
 
                     return render(request,'company/results_list.html', {
                                                                 "company":selected_company,

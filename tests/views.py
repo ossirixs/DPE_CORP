@@ -1217,6 +1217,8 @@ def integrity_test(request, test_code):
             integrity_object.save()
             # if final step return the finish template
             if current_step == 20:
+                integrity_object.finish = True
+                integrity_object.save()
                 return render(
                                 request, 
                                 'integrity/finish.html', 

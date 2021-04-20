@@ -271,6 +271,8 @@ class ObjectIntegrity(models.Model):
     intentionality = models.IntegerField(default=0, help_text='intencionalidad')
     ethic = models.IntegerField(default=0, help_text='etica')
     reliability = models.IntegerField(default=0, help_text='seguridad')
+    # Test finished
+    finish = models.BooleanField(default=False, help_text='if the applicant finished the test')
 
     @property
     def get_formated_created(self):
