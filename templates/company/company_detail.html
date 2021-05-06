@@ -256,7 +256,7 @@
                                 <div class="form-row">
                                     <div class="col-md-4">
                                         <label for="test-id" class="">Prueba</label>
-                                        <select name="test_id" id="test-id" class="form-control" required>
+                                        <select name="test_id" id="test-id" class="form-control" onchange="showMinutes(this)"  required>
                                             <option value="">--</option>
                                                 {% for test in assigned_tests %}
                                                     <option value={{test.test.id}}>{{test.test.test_name}}</option>                                                                                
@@ -276,6 +276,16 @@
                                         <div class="position-relative form-group">
                                             <label for="expiration-id" class="">Fecha de Expiración</label>
                                             <input name="expiration" id="expiration-id" type="date" class="form-control" value="" required>
+                                        </div>
+                                    </div>
+                                    <div id="minutes_div" class="col-md-3 d-none" >
+                                        <div class="position-relative form-group">
+                                            <label for="seconds-id" class="">Minutos disponibles por hoja</label>
+                                            <select name="seconds_integrity" id="seconds-id" class="form-control" required>
+                                                <option value=60>1</option>                                                                                
+                                                <option value=90>1:30</option>                                                                                
+                                                <option value=140>2:20</option>                                                                                
+                                            </select>   
                                         </div>
                                     </div>
                                 </div>
@@ -299,6 +309,7 @@
                                     <th>Codigo de acceso</th>
                                     <th>Creador</th>
                                     <th>Expiracion</th>
+                                    <th>Tiempo</th>
                                     <th>Estatus</th>
                                     <th>Activación</th>
                                     <th>Borrar</th>
@@ -311,6 +322,7 @@
                                             <td>{{ code.code }}</td>
                                             <td>{{ code.user.username }}</td>
                                             <td>{{ code.get_formated_exp }}</td>
+                                            <td>{{ code.get_minutes }}</td>
                                             <td>
                                                 {% if code.activate == True%}
                                                     <div class="badge badge-success">Activa</div>
