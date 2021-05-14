@@ -511,19 +511,53 @@ body {
   color: rgb(20, 150, 224);
 }
 
-</style>
-<body>
+.div-30 {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
 
-<div class="header-pdf">
-  <img src='{% static "images/logo_a.png" %}' alt="dpe_logo_color" srcset="" class="logo-header">
-  <div class="test-title  border-bottom-purple">
-    <h2>Psicometría DPE</h2>
-    <h2>Prueba Integridad</h2>
-  </div>
-  <div class="name">
-    <p>{{results.get_formated_created}} | {{ results.name }}</p>
-  </div>
+.div-70 {
+    width: 65%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.div-t {
+    display: table;
+    width: 100%;
+    color: #495057;
+}
+
+.h1 {
+    font-family: Helvetica, sans-serif;
+}
+
+</style>
+<div class="">
+    <div class="div-70">
+        <div class="div-t">
+            <div style="width: 20%; display: table-cell; vertical-align: top;">
+                <img src='{% static "images/logo_a.png" %}' alt="dpe_logo_color" srcset="" style="float:left; padding-left: 10px; height:75px;">
+             </div>
+            <div style="width: 70%; border-left: 1px solid #ddd; display: table-cell; vertical-align: top;">
+                <h1 style="color: #192F55; font-size: 16pt; font-weight: 500; display:table-cell; padding-left: 20px; padding-top: 10px;">RESULTADOS INTEGRIDAD</h1>
+                <h3 style="font-size: 12pt; font-weight: 500; padding-left: 20px; color: #495057;">Candidato: {{ results.name }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="div-30">
+        <span style="float:right;">
+            <span style="float:right; font-size: 10pt;  padding-top: 10px;color: #495057 ;">
+                <strong>EMPRESA: </strong> {{ results.code.company.company_name }}
+            </span>
+            <span style="float:right; font-size: 10pt; padding-top: 5px; line-height: 2; color: #495057;">
+                <strong>FECHA: </strong> {{ results.get_formated_created }}
+            </span>
+        </span>
+    </div>
 </div>
+<body>
     <div class='description-wrapper margin-top-10  flex '>
       <div class="">
         <div class="progress per{{ percentages.adictions_percentage }} {% if scores.adictions_score == 'Aprobado' %}progress-background-green{% elif scores.adictions_score == 'Aprobado con Reservas' %}progress-background-yellow{% else %}progress-background-red{% endif %} ">
