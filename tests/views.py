@@ -1099,7 +1099,7 @@ def test_result(request, test_type, test_id):
         html_template = get_template('test_result.html')
         context['pdf'] = True
         html = html_template.render(context)
-        pdf_file = HTML(string=html).write_pdf()
+        pdf_file = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
         response = HttpResponse(pdf_file, content_type='application/pdf')
         response['Content-Disposition'] = 'filename="TEST"'
 

@@ -185,6 +185,10 @@ th, td {
     padding: 10px;
 }
 
+.logo-header {
+  height: 100px;
+  position: absolute;
+}
 
 </style>
 
@@ -194,7 +198,7 @@ th, td {
     <div class="div-70">
         <div class="div-t">
             <div style="width: 20%; display: table-cell; vertical-align: top;">
-                <img src='{% static "images/logo_a.png" %}' alt="dpe_logo_color" srcset="" style="float:left; padding-left: 10px; width:75px; height:75px;">
+                  <img src='{% static "images/logo_a.png" %}' alt="dpe_logo_color" srcset="" style="float:left; padding-left: 10px; height:75px;">
              </div>
             <div style="width: 70%; border-left: 1px solid #ddd; display: table-cell; vertical-align: top;">
                 <h1 style="color: #192F55; font-size: 18pt; display:table-cell; padding-left: 20px; padding-top: 10px;">RESULTADOS CIE</h1>
@@ -204,7 +208,7 @@ th, td {
     </div><div class="div-30">
         <span style="float:right;">
             <span style="float:right; font-size: 10pt;  padding-top: 10px; line-height: 2;">
-                <strong>EMPRESA: </strong> {{ cuestionario.codigo.company }}
+                <strong>EMPRESA: </strong> {{ cuestionario.codigo.company.company_name }}
             </span>
             <span style="float:right; font-size: 10pt; padding-top: 5px; line-height: 2;">
                 <strong>FECHA: </strong> {{ cuestionario.created }}
@@ -226,7 +230,7 @@ th, td {
             </div><div class="cell {{ EST.result }}">{{ EST.result }}</div>
         </div>
          <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Estabilidad Emocional</b>
         </div>
         <div class="div-t cell-l">
              {{ EST.description }}
@@ -239,7 +243,7 @@ th, td {
             </div><div class="cell {{ ANS.result }}">{{ ANS.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Ansiedad</b>
         </div>
         <div class="div-t cell-l">
              {{ ANS.description }}
@@ -252,7 +256,7 @@ th, td {
             </div><div class="cell {{ AUC.result }}">{{ AUC.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Autoconcepto</b>
         </div>
         <div class="div-t cell-l">
              {{ AUC.description }}
@@ -265,7 +269,7 @@ th, td {
             </div><div class="cell {{ EFI.result }}">{{ EFI.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Eficiencia</b>
         </div>
         <div class="div-t cell-l">
              {{ EFI.description }}
@@ -278,7 +282,7 @@ th, td {
             </div><div class="cell {{ SEG.result }}">{{ SEG.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Seguridad</b>
         </div>
         <div class="div-t cell-l">
              {{ SEG.description }}
@@ -291,7 +295,7 @@ th, td {
             </div><div class="cell {{ IND.result }}">{{ IND.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Independencia</b>
         </div>
         <div class="div-t cell-l">
              {{ IND.description }}
@@ -304,7 +308,7 @@ th, td {
             </div><div class="cell {{ DOM.result }}">{{ DOM.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Dominancia</b>
         </div>
         <div class="div-t cell-l">
              {{ DOM.description }}
@@ -317,7 +321,7 @@ th, td {
             </div><div class="cell {{ COG.result }}">{{ COG.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Control Cognitivo</b>
         </div>
         <div class="div-t cell-l">
              {{ COG.description }}
@@ -330,7 +334,7 @@ th, td {
             </div><div class="cell {{ SOC.result }}">{{ SOC.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Sociabilidad</b>
         </div>
         <div class="div-t cell-l">
              {{ SOC.description }}
@@ -343,7 +347,7 @@ th, td {
             </div><div class="cell {{ AJS.result }}">{{ AJS.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Ajuste Social</b>
         </div>
         <div class="div-t cell-l">
              {{ AJS.description }}
@@ -356,7 +360,7 @@ th, td {
             </div><div class="cell {{ AGR.result }}">{{ AGR.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Agresividad</b>
         </div>
         <div class="div-t cell-l">
              {{ AGR.description }}
@@ -369,7 +373,7 @@ th, td {
             </div><div class="cell {{ TOL.result }}">{{ TOL.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Tolerancia</b>
         </div>
         <div class="div-t cell-l">
              {{ TOL.description }}
@@ -382,7 +386,7 @@ th, td {
             </div><div class="cell {{ HAB.result }}">{{ HAB.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Habilidad Social</b>
         </div>
         <div class="div-t cell-l">
              {{ HAB.description }}
@@ -395,7 +399,7 @@ th, td {
             </div><div class="cell {{ DISC.result }}">{{ DISC.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Disciplina</b>
         </div>
         <div class="div-t cell-l">
              {{ DISC.description }}
@@ -408,7 +412,7 @@ th, td {
             </div><div class="cell {{ LID.result }}">{{ LID.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Liderazgo</b>
         </div>
         <div class="div-t cell-l">
              {{ LID.description }}
@@ -421,7 +425,7 @@ th, td {
             </div><div class="cell {{ VER.result }}">{{ VER.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Veracidad</b>
         </div>
         <div class="div-t cell-l">
              {{ VER.description }}
@@ -434,23 +438,10 @@ th, td {
             </div><div class="cell {{ IMG.result }}">{{ IMG.result }}</div>
         </div>
         <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
+             <b>Imagen Social</b>
         </div>
         <div class="div-t cell-l">
              {{ IMG.description }}
-        </div>
-        <div class="div-t">
-            <div class="cell" style="background: rgba(123, 145, 122, 0.3)">CONG</div><div class="cell-p score">
-                <div class="bar" style="width: {{ CONG.score }}%;">
-                    <div class="percentage">{{ CONG.score }}%</div>
-                </div>
-            </div><div class="cell {{ CONG.result }}">{{ CONG.result }}</div>
-        </div>
-        <div class="div-t cell-l">
-             <b>DESCRIPCIÓN</b>
-        </div>
-        <div class="div-t cell-l">
-             {{ CONG.description }}
         </div>
     </div>
 </body>
@@ -498,7 +489,7 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ EST.result }}">{{ EST.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Estabilidad</div>
                               <div class="item-d">{{ EST.description }}</div>
                         </div>
                         <div class="grid-container">
@@ -509,7 +500,7 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ ANS.result }}">{{ ANS.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Ansiedad</div>
                               <div class="item-d">{{ ANS.description }}</div>
                         </div>
                         <div class="grid-container">
@@ -520,7 +511,7 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ AUC.result }}">{{ AUC.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Autoconcepto</div>
                               <div class="item-d">{{ AUC.description }}</div>
                         </div>
                         <div class="grid-container">
@@ -531,7 +522,7 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ EFI.result }}">{{ EFI.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Eficacia</div>
                               <div class="item-d">{{ EFI.description }}</div>
                         </div>
                         <div class="grid-container">
@@ -542,7 +533,7 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ SEG.result }}">{{ SEG.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Seguridad</div>
                               <div class="item-d">{{ SEG.description }}</div>
                         </div>
                         <div class="grid-container">
@@ -553,7 +544,7 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ IND.result }}">{{ IND.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Independencia</div>
                               <div class="item-d">{{ IND.description }}</div>
                         </div>
                         <div class="grid-container">
@@ -564,7 +555,7 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ DOM.result }}">{{ DOM.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Dominancia</div>
                               <div class="item-d">{{ DOM.description }}</div>
                         </div>
                         <div class="grid-container">
@@ -575,118 +566,107 @@ th, td {
                                   </div>
                               </div>
                               <div class="item {{ COG.result }}">{{ COG.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Control Cognitivo</div>
                               <div class="item-d">{{ COG.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">SOC</div>
+                              <div class="item" style="background: rgba(123, 145, 43, 0.3)">SOC</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ SOC.score }}%">
                                       <div class="percentage">{{ SOC.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ SOC.result }}">{{ SOC.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Sociabilidad</div>
                               <div class="item-d">{{ SOC.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">AJS</div>
+                              <div class="item" style="background: rgba(53, 234, 12, 0.3)">AJS</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ AJS.score }}%">
                                       <div class="percentage">{{ AJS.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ AJS.result }}">{{ AJS.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Ajuste Social</div>
                               <div class="item-d">{{ AJS.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">AGR</div>
+                              <div class="item" style="background: rgba(76, 16, 233, 0.3)">AGR</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ AGR.score }}%">
                                       <div class="percentage">{{ AGR.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ AGR.result }}">{{ AGR.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Agresividad</div>
                               <div class="item-d">{{ AGR.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">TOL</div>
+                              <div class="item" style="background: rgba(63, 136, 73, 0.3)">TOL</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ TOL.score }}%">
                                       <div class="percentage">{{ TOL.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ TOL.result }}">{{ TOL.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Tolerancia</div>
                               <div class="item-d">{{ TOL.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">HAB</div>
+                              <div class="item" style="background: rgba(34, 87, 176, 0.3)">HAB</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ HAB.score }}%">
                                       <div class="percentage">{{ HAB.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ HAB.result }}">{{ HAB.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Habilidad Social</div>
                               <div class="item-d">{{ HAB.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">DISC</div>
+                              <div class="item" style="background: rgba(45, 163, 12, 0.3)">DISC</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ DISC.score }}%">
                                       <div class="percentage">{{ DISC.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ DISC.result }}">{{ DISC.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Disciplina</div>
                               <div class="item-d">{{ DISC.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">LID</div>
+                              <div class="item" style="background: rgba(73, 13, 62, 0.3)">LID</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ LID.score }}%">
                                       <div class="percentage">{{ LID.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ LID.result }}">{{ LID.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Liderazgo</div>
                               <div class="item-d">{{ LID.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">VER</div>
+                              <div class="item" style="background: rgba(36, 142, 123, 0.3)">VER</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ VER.score }}%">
                                       <div class="percentage">{{ VER.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ VER.result }}">{{ VER.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Veracidad</div>
                               <div class="item-d">{{ VER.description }}</div>
                         </div>
                         <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">IMG</div>
+                              <div class="item" style="background: rgba(216, 145, 24, 0.3)">IMG</div>
                                <div class="item score">
                                   <div class="bar" style="width: {{ IMG.score }}%">
                                       <div class="percentage">{{ IMG.score }}%</div>
                                   </div>
                               </div>
                               <div class="item {{ IMG.result }}">{{ IMG.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
+                              <div class="item-d bold">Imagen Social</div>
                               <div class="item-d">{{ IMG.description }}</div>
-                        </div>
-                        <div class="grid-container">
-                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">CONG</div>
-                               <div class="item score">
-                                  <div class="bar" style="width: {{ CONG.score }}%">
-                                      <div class="percentage">{{ CONG.score }}%</div>
-                                  </div>
-                              </div>
-                              <div class="item {{ CONG.result }}">{{ CONG.result }}</div>
-                              <div class="item-d bold">DESCRIPCIÓN</div>
-                              <div class="item-d">{{ CONG.description }}</div>
                         </div>
                     </div>
                 </div>
@@ -713,12 +693,12 @@ var myChart = new Chart(ctx, {
     type: 'polarArea',
     data: {
         labels: ['EST', 'ANS', 'AUC', 'EFI', 'SEG', 'IND', 'DOM', 'COG', 'SOC', 'AJS', 'AGR', 'TOL', 'HAB', 'DISC',
-                    'LID', 'VER', 'IMG', 'CONG'],
+                    'LID', 'VER', 'IMG'],
         datasets: [{
             label: '# of Votes',
             data: [{{ EST.score }}, {{ ANS.score }}, {{ AUC.score }}, {{ EFI.score }}, {{ SEG.score }}, {{ IND.score}},
                     {{ DOM.score }}, {{ COG.score }}, {{ SOC.score }}, {{ AJS.score }},{{ AGR.score }}, {{ TOL.score }},
-                    {{ HAB.score }}, {{ DISC.score }}, {{ LID.score }}, {{ VER.score }}, {{ IMG.score }}, {{ CONG.score }}],
+                    {{ HAB.score }}, {{ DISC.score }}, {{ LID.score }}, {{ VER.score }}, {{ IMG.score }}],
             backgroundColor: [
                 'rgba(18, 118, 161, 0.7)',
                 'rgba(205, 92, 92, 0.7)',
