@@ -460,7 +460,7 @@ def test_results_list(request, company_id):
             wb = Workbook()
             ws = wb.active
             ws.title = "Resultados"
-            ws.append(['Nombre' , 'Fecha', 'Adicciones', 'Adicciones', 'Lealtad', 'Lealtad', 'Intencionalidad', 'Intencionalidad', 'Seguridad', 'Seguridad', 'Disciplina', 'Disciplina', 'Etica', 'Etica', 'Veracidad', 'Veracidad', 'Juicio', 'Juicio', 'Codigo'])
+            ws.append(['Nombre' , 'Fecha', 'Adicciones', 'Adicciones', 'Jucio', 'Jucio', 'Disciplina', 'Disciplina', 'Veracidad', 'Veracidad', 'Lealtad', 'Lealtad', 'Intencionalidad', 'Intencionalidad', 'Etica', 'Etica', 'Seguridad', 'Seguridad', 'Codigo'])
             if result_ids:
                 for result_id in result_ids:
                     test_result = ObjectIntegrity.objects.get(id=int(result_id))
