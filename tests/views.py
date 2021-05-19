@@ -1311,10 +1311,10 @@ def integrity_test_result(request, test_type, test_id):
     if integrity_object.adictions <= 23 : addiction_percentage = 5
     if integrity_object.adictions <= 7 : addiction_percentage = 1
 
-    if addiction_percentage >= 61:
+    if addiction_percentage >= 51:
         adictions_desc_result = adictions_desc['passed']
         adictions_score = "Aprobado"
-    elif addiction_percentage <= 50:
+    elif addiction_percentage <= 30:
         adictions_desc_result = adictions_desc['failed']
         adictions_score = "Reprobado"
     else:
@@ -1344,10 +1344,10 @@ def integrity_test_result(request, test_type, test_id):
     if integrity_object.judgement <= 29 : judgement_percentage = 5
     if integrity_object.judgement <= 6 : judgement_percentage = 1
         
-    if judgement_percentage >= 61:
+    if judgement_percentage >= 51:
         judgement_desc_result = judgement_desc['passed']
         judgement_score = "Aprobado"
-    elif judgement_percentage <= 50:
+    elif judgement_percentage <= 30:
         judgement_desc_result = judgement_desc['failed']
         judgement_score = "Reprobado"
     else:
@@ -1538,10 +1538,10 @@ def integrity_test_result(request, test_type, test_id):
     if integrity_object.reliability  <= 9 : reliability_percentage = 5
     if integrity_object.reliability  <= 3 : reliability_percentage = 1
 
-    if reliability_percentage >= 61:
+    if reliability_percentage >= 51:
         reliability_desc_result = reliability_desc['passed']
         reliability_score = "Aprobado"
-    elif reliability_percentage <= 50:
+    elif reliability_percentage <= 30:
         reliability_desc_result = reliability_desc['failed']
         reliability_score = "Reprobado"
     else:
