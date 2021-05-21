@@ -28,9 +28,9 @@ def get_integrity_export_data(test_result):
 	if test_result.adictions <= 23 : addiction_percentage = 5
 	if test_result.adictions <= 7 : addiction_percentage = 1
 
-	if addiction_percentage >= 61:
+	if addiction_percentage >= 51:
 		adictions_score = "Aprobado"
-	elif addiction_percentage <= 50:
+	elif addiction_percentage <= 30:
 		adictions_score = "Reprobado"
 	else:
 		adictions_score = "Aprobado con Reservas"
@@ -58,9 +58,9 @@ def get_integrity_export_data(test_result):
 	if test_result.judgement <= 29 : judgement_percentage = 5
 	if test_result.judgement <= 6 : judgement_percentage = 1
 		
-	if judgement_percentage >= 61:
+	if judgement_percentage >= 51:
 		judgement_score = "Aprobado"
-	elif judgement_percentage <= 50:
+	elif judgement_percentage <= 30:
 		judgement_score = "Reprobado"
 	else:
 		judgement_score = "Aprobado con Reservas"
@@ -234,9 +234,9 @@ def get_integrity_export_data(test_result):
 	if test_result.reliability  <= 9 : reliability_percentage = 5
 	if test_result.reliability  <= 3 : reliability_percentage = 1
 
-	if reliability_percentage >= 61:
+	if reliability_percentage >= 51:
 		reliability_score = "Aprobado"
-	elif reliability_percentage <= 50:
+	elif reliability_percentage <= 30:
 		reliability_score = "Reprobado"
 	else:
 		reliability_score = "Aprobado con Reservas"

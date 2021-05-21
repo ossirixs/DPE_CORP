@@ -121,7 +121,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(18, 118, 161, 0.3)">ADICCIONES</td>
-                    <td class="result-p">{{ percentages.adictions_percentage }}%</td>
+                    <td class="result-p"> {{scores.adictions_score}} {{ percentages.adictions_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -140,7 +140,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(45, 145, 62, 0.3)">JUICIO</td>
-                    <td class="result-p">{{ percentages.judgement_percentage }}%</td>
+                    <td class="result-p">{{scores.judgement_score }} {{ percentages.judgement_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -161,7 +161,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(205, 92, 62, 0.3)">DISCIPLINA</td>
-                    <td class="result-p">{{ percentages.discipline_percentage }}%</td>
+                    <td class="result-p"> {{scores.discipline_score}} {{ percentages.discipline_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -180,7 +180,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(123, 145, 43, 0.3)">VERACIDAD</td>
-                    <td class="result-p">{{ percentages.veracity_percentage }}%</td>
+                    <td class="result-p"> {{scores.veracity_score}} {{ percentages.veracity_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -201,7 +201,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(36, 23, 62, 0.3)">LEALTAD</td>
-                    <td class="result-p">{{ percentages.loyalty_percentage }}%</td>
+                    <td class="result-p">{{scores.loyalty_score}} {{ percentages.loyalty_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -220,7 +220,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(124, 36, 62, 0.3)">INTENCIONALIDAD</td>
-                    <td class="result-p">{{ percentages.intentionality_percentage }}%</td>
+                    <td class="result-p">{{scores.intentionality_score}} {{ percentages.intentionality_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -241,7 +241,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(45, 86, 23, 0.3)">ETICA</td>
-                    <td class="result-p">{{ percentages.ethic_percentage }}%</td>
+                    <td class="result-p">{{scores.ethic_score}} {{ percentages.ethic_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -260,7 +260,7 @@
                 <table class="scale-table">
                   <tr class="scale-table">
                     <td style="background: rgba(15, 144, 23, 0.3)">SEGURIDAD</td>
-                    <td class="result-p">{{ percentages.reliability_percentage }}%</td>
+                    <td class="result-p">{{scores.reliability_score}} {{ percentages.reliability_percentage }}%</td>
                   </tr>
                   <tr>
                     <td>
@@ -301,6 +301,10 @@
       }
     }],
     type: 'doughnut',
+    options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
     data: {
       
       datasets: [{
@@ -332,6 +336,10 @@ var myjudgementChart = new Chart(ctx, {
     }
   }],
   type: 'doughnut',
+  options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
   data: {
     
     datasets: [{
@@ -364,6 +372,10 @@ var mydisciplineChart = new Chart(ctx, {
     }
   }],
   type: 'doughnut',
+  options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
   data: {
     
     datasets: [{
@@ -396,6 +408,10 @@ var myveracityChart = new Chart(ctx, {
     }
   }],
   type: 'doughnut',
+  options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
   data: {
     
     datasets: [{
@@ -428,6 +444,10 @@ var myloyaltyChart = new Chart(ctx, {
     }
   }],
   type: 'doughnut',
+  options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
   data: {
     
     datasets: [{
@@ -460,6 +480,10 @@ var myintentionalityChart = new Chart(ctx, {
     }
   }],
   type: 'doughnut',
+  options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
   data: {
     
     datasets: [{
@@ -492,6 +516,10 @@ var myethicChart = new Chart(ctx, {
     }
   }],
   type: 'doughnut',
+  options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
   data: {
     
     datasets: [{
@@ -524,6 +552,10 @@ var myreliabilityChart = new Chart(ctx, {
     }
   }],
   type: 'doughnut',
+  options: {
+      tooltips: {enabled: false},
+      hover: {mode: null},
+    },
   data: {
     
     datasets: [{
