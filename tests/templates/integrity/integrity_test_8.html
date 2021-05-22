@@ -238,9 +238,9 @@
       let reliability = 0
 
       // ********* ADICTIONS
-      if (document.getElementById("id_48_1").checked) adictions = adictions + 3
-      if (document.getElementById("id_48_2").checked) adictions = adictions + 3
-      if (document.getElementById("id_48_3").checked) adictions = adictions + 3
+      if (document.getElementById("id_48_1").checked) adictions = adictions + 5
+      if (document.getElementById("id_48_2").checked) adictions = adictions + 5
+      if (document.getElementById("id_48_3").checked) adictions = adictions + 5
       
       document.getElementById("id-adictions").value = adictions
 
@@ -274,9 +274,6 @@
 
       // ********* INTENTIONALITY
       if (document.getElementById("id_44_3").checked) intentionality = intentionality + 5
-
-      if (document.getElementById("id_47_1").checked) intentionality = intentionality + 3
-      if (document.getElementById("id_47_4").checked) intentionality = intentionality + 5
       
       document.getElementById("id-intentionality").value = intentionality
       
@@ -292,6 +289,9 @@
       // ********* RELIABILITY
 
       document.getElementById("id-reliability").value = reliability
+
+      if (document.getElementById("id_47_1").checked) reliability = reliability + 3
+      if (document.getElementById("id_47_4").checked) reliability = reliability + 5
 
     }
 
