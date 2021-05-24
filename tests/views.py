@@ -1289,6 +1289,7 @@ def integrity_test_result(request, test_type, test_id):
     }
 
     # Addictions percentage
+    if integrity_object.adictions > 67 : addiction_percentage = 99
     if integrity_object.adictions <= 67 : addiction_percentage = 99
     if integrity_object.adictions <= 61 : addiction_percentage = 95
     if integrity_object.adictions <= 58 : addiction_percentage = 90
@@ -1322,6 +1323,7 @@ def integrity_test_result(request, test_type, test_id):
         adictions_score = "Aprobado con Reservas"
 
     # Judgement percentage
+    if integrity_object.judgement > 71: judgement_percentage = 99
     if integrity_object.judgement <= 71 : judgement_percentage = 99
     if integrity_object.judgement <= 69 : judgement_percentage = 95
     if integrity_object.judgement <= 66 : judgement_percentage = 90
@@ -1355,6 +1357,7 @@ def integrity_test_result(request, test_type, test_id):
         judgement_score = "Aprobado con Reservas"
 
     # Discipline percentage
+    if integrity_object.discipline > 55: discipline_percentage = 99
     if integrity_object.discipline <= 55 : discipline_percentage = 99
     if integrity_object.discipline <= 52 : discipline_percentage = 95
     if integrity_object.discipline <= 49 : discipline_percentage = 90
@@ -1388,6 +1391,7 @@ def integrity_test_result(request, test_type, test_id):
         discipline_score = "Aprobado con Reservas"
 
     # Veracity percentage
+    if integrity_object.veracity > 108: veracity_percentage = 99
     if integrity_object.veracity <= 108 : veracity_percentage = 99
     if integrity_object.veracity <= 93 : veracity_percentage = 95
     if integrity_object.veracity <= 89 : veracity_percentage = 90
@@ -1421,6 +1425,7 @@ def integrity_test_result(request, test_type, test_id):
         veracity_score = "Aprobado con Reservas"
 
     # Loyalty percentage
+    if integrity_object.loyalty > 33: loyalty_percentage = 99
     if integrity_object.loyalty <= 33 : loyalty_percentage = 99
     if integrity_object.loyalty <= 32 : loyalty_percentage = 95
     if integrity_object.loyalty <= 31 : loyalty_percentage = 90
@@ -1450,6 +1455,7 @@ def integrity_test_result(request, test_type, test_id):
         loyalty_score = "Aprobado con Reservas"
 
     # Intentionality percentage
+    if integrity_object.intentionality > 201: intentionality_percentage = 99
     if integrity_object.intentionality <= 201 : intentionality_percentage = 99
     if integrity_object.intentionality <= 190 : intentionality_percentage = 95
     if integrity_object.intentionality <= 185 : intentionality_percentage = 90
@@ -1483,6 +1489,7 @@ def integrity_test_result(request, test_type, test_id):
         intentionality_score = "Aprobado con Reservas"
 
     # Ethic percentage
+    if integrity_object.ethic > 146: ethic_percentage = 99
     if integrity_object.ethic <= 146 : ethic_percentage = 99
     if integrity_object.ethic <= 134 : ethic_percentage = 95
     if integrity_object.ethic <= 129 : ethic_percentage = 90
@@ -1516,6 +1523,7 @@ def integrity_test_result(request, test_type, test_id):
         ethic_score = "Aprobado con Reservas"
 
     # Reliability percentage
+    if integrity_object.reliability > 41: reliability_percentage = 99
     if integrity_object.reliability  <= 41 : reliability_percentage = 99
     if integrity_object.reliability  <= 40 : reliability_percentage = 95
     if integrity_object.reliability  <= 39 : reliability_percentage = 90
