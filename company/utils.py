@@ -6,6 +6,7 @@ def get_integrity_export_data(test_result):
 	"""
 
 	# Addictions percentage
+	if test_result.adictions > 67 : addiction_percentage = 99
 	if test_result.adictions <= 67 : addiction_percentage = 99
 	if test_result.adictions <= 61 : addiction_percentage = 95
 	if test_result.adictions <= 58 : addiction_percentage = 90
@@ -36,6 +37,7 @@ def get_integrity_export_data(test_result):
 		adictions_score = "Aprobado con Reservas"
 
 	# Judgement percentage
+	if test_result.judgement > 71 : judgement_percentage = 99
 	if test_result.judgement <= 71 : judgement_percentage = 99
 	if test_result.judgement <= 69 : judgement_percentage = 95
 	if test_result.judgement <= 66 : judgement_percentage = 90
@@ -66,6 +68,7 @@ def get_integrity_export_data(test_result):
 		judgement_score = "Aprobado con Reservas"
 
 	# Discipline percentage
+	if test_result.discipline > 55 : discipline_percentage = 99
 	if test_result.discipline <= 55 : discipline_percentage = 99
 	if test_result.discipline <= 52 : discipline_percentage = 95
 	if test_result.discipline <= 49 : discipline_percentage = 90
@@ -96,6 +99,7 @@ def get_integrity_export_data(test_result):
 		discipline_score = "Aprobado con Reservas"
 
 	# Veracity percentage
+	if test_result.veracity > 108 : veracity_percentage = 99
 	if test_result.veracity <= 108 : veracity_percentage = 99
 	if test_result.veracity <= 93 : veracity_percentage = 95
 	if test_result.veracity <= 89 : veracity_percentage = 90
@@ -126,6 +130,7 @@ def get_integrity_export_data(test_result):
 		veracity_score = "Aprobado con Reservas"
 
 	# Loyalty percentage
+	if test_result.loyalty > 33 : loyalty_percentage = 99
 	if test_result.loyalty <= 33 : loyalty_percentage = 99
 	if test_result.loyalty <= 32 : loyalty_percentage = 95
 	if test_result.loyalty <= 31 : loyalty_percentage = 90
@@ -152,6 +157,7 @@ def get_integrity_export_data(test_result):
 		loyalty_score = "Aprobado con Reservas"
 
 	# Intentionality percentage
+	if test_result.intentionality > 201 : intentionality_percentage = 99
 	if test_result.intentionality <= 201 : intentionality_percentage = 99
 	if test_result.intentionality <= 190 : intentionality_percentage = 95
 	if test_result.intentionality <= 185 : intentionality_percentage = 90
@@ -182,6 +188,7 @@ def get_integrity_export_data(test_result):
 		intentionality_score = "Aprobado con Reservas"
 
 	# Ethic percentage
+	if test_result.ethic > 146 : ethic_percentage = 99
 	if test_result.ethic <= 146 : ethic_percentage = 99
 	if test_result.ethic <= 134 : ethic_percentage = 95
 	if test_result.ethic <= 129 : ethic_percentage = 90
@@ -212,6 +219,7 @@ def get_integrity_export_data(test_result):
 		ethic_score = "Aprobado con Reservas"
 
 	# Reliability percentage
+	if test_result.reliability  > 41 : reliability_percentage = 99
 	if test_result.reliability  <= 41 : reliability_percentage = 99
 	if test_result.reliability  <= 40 : reliability_percentage = 95
 	if test_result.reliability  <= 39 : reliability_percentage = 90
