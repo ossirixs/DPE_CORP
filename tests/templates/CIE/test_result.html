@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultados CIE</title>
+    {% block content_title %}{% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" crossorigin="anonymous" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <meta charset="UTF-8">
+</head>
+<style>
+
+/* PDF style */
+@page {
+    @bottom-right {
+    position: absolute;
+    z-index: -1;
+    content: "Página " counter(page) " | " counter(pages);
+    padding: 0px 25px 25px 0px;
+    font-family: Helvetica, Sans-Serif;
+    font-size: 8pt;
+    color: #192F55;
+    }
+    size: A4; /* Change from the default size of A4 */
+    margin: 160px 30px 100px 30px; /* Set margin on each page */
+}
+.header {
+    font-family: Helvetica, Sans-Serif;
+    position: fixed;
+    top: 0px ;
+    left: 0px;
+    margin-top: -120px;
+    height: 100px;
+    width: 100%;
+}
+.footer {
+    position: fixed;
+    bottom: 0px ;
+    left: 0px;
+    margin-bottom: -100px;
+    height: 100px;
+    width: 100%;
+}
+
+/* Web version style */
+
+.body {
+    font-family: Helvetica, sans-serif;
+}
+
+.h1 {
+    font-family: Helvetica, sans-serif;
+}
+
+.div-t {
+    display: table;
+    width: 100%;
+    color: #495057;
+}
+
+.div-50 {
+    width: 50%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.div-70 {
+    width: 65%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.div-30 {
+    width: 30%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cell {
+    font-family: Helvetica, Sans-Serif;
+    font-size: 10pt;
+    text-align: left;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 33%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cell-l {
+    font-family: Helvetica, Sans-Serif;
+    font-size: 10pt;
+    text-align: left;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 100%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cell-p {
+    font-family: Helvetica, Sans-Serif;
+    font-size: 10pt;
+    text-align: left;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    padding: 10px;
+    width: 34%;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.section {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box {
+    padding: 25px;
+}
+
+table, td, th {
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 10px;
+}
+
+.space {
+    padding-top: 25px;
+}
+
+.Alto { background: #C2FFE7 }
+.Medio { background: #DFF4FF }
+.Bajo { background: #F5D2CE }
+.Description { background: #f6f7ff }
+
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 33% 33% 34%;
+}
+
+.grid-container > div {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.item-d {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.score {
+    padding: 0!important;
+}
+
+.bar {
+    background: #CEEDF5;
+    height: 100%;
+}
+
+.percentage {
+    text-align: center;
+    padding: 10px;
+}
+
+.logo-header {
+  height: 100px;
+  position: absolute;
+}
+
+</style>
+
+{% if pdf %}
+
+<div class="header">
+    <div class="div-70">
+        <div class="div-t">
+            <div style="width: 20%; display: table-cell; vertical-align: top;">
+                  <img src='{% static "images/logo_a.png" %}' alt="dpe_logo_color" srcset="" style="float:left; padding-left: 10px; height:75px;">
+             </div>
+            <div style="width: 70%; border-left: 1px solid #ddd; display: table-cell; vertical-align: top;">
+                <h1 style="color: #192F55; font-size: 18pt; display:table-cell; padding-left: 20px; padding-top: 10px;">RESULTADOS CIE</h1>
+                <h3 style="font-size: 12pt; padding-left: 20px;">Candidato: {{ cuestionario.nombre }}</h3>
+            </div>
+        </div>
+    </div><div class="div-30">
+        <span style="float:right;">
+            <span style="float:right; font-size: 10pt;  padding-top: 10px; line-height: 2;">
+                <strong>EMPRESA: </strong> {{ cuestionario.codigo.company.company_name }}
+            </span>
+            <span style="float:right; font-size: 10pt; padding-top: 5px; line-height: 2;">
+                <strong>FECHA: </strong> {{ cuestionario.created }}
+            </span>
+        </span>
+    </div>
+</div>
+
+<body>
+    <div class="section">
+         <div class="div-t">
+            <div class="cell"><b>ESCALA</b></div><div class="cell-p"><b>SCORE 0 - 100%</b></div><div class="cell"><b>RESULTADO</b></div>
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(18, 118, 161, 0.3)">EST</div><div class="cell-p score">
+                <div class="bar" style="width: {{ EST.score }}%;">
+                    <div class="percentage">{{ EST.score }}%</div>
+                </div>
+            </div><div class="cell {{ EST.result }}">{{ EST.result }}</div>
+        </div>
+         <div class="div-t cell-l">
+             <b>Estabilidad Emocional</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ EST.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(205, 92, 92, 0.3)">ANS</div><div class="cell-p score">
+                <div class="bar" style="width: {{ ANS.score }}%;">
+                    <div class="percentage">{{ ANS.score }}%</div>
+                </div>
+            </div><div class="cell {{ ANS.result }}">{{ ANS.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Ansiedad</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ ANS.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(205, 92, 62, 0.3)">AUC</div><div class="cell-p score">
+                <div class="bar" style="width: {{ AUC.score }}%;">
+                    <div class="percentage">{{ AUC.score }}%</div>
+                </div>
+            </div><div class="cell {{ AUC.result }}">{{ AUC.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Autoconcepto</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ AUC.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(45, 145, 62, 0.3)">EFI</div><div class="cell-p score">
+                <div class="bar" style="width: {{ EFI.score }}%;">
+                    <div class="percentage">{{ EFI.score }}%</div>
+                </div>
+            </div><div class="cell {{ EFI.result }}">{{ EFI.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Eficiencia</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ EFI.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(36, 23, 62, 0.3)">SEG</div><div class="cell-p score">
+                <div class="bar" style="width: {{ SEG.score }}%;">
+                    <div class="percentage">{{ SEG.score }}%</div>
+                </div>
+            </div><div class="cell {{ SEG.result }}">{{ SEG.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Seguridad</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ SEG.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(124, 36, 62, 0.3)">IND</div><div class="cell-p score">
+                <div class="bar" style="width: {{ IND.score }}%;">
+                    <div class="percentage">{{ IND.score }}%</div>
+                </div>
+            </div><div class="cell {{ IND.result }}">{{ IND.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Independencia</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ IND.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(45, 86, 23, 0.3)">DOM</div><div class="cell-p score">
+                <div class="bar" style="width: {{ DOM.score }}%;">
+                    <div class="percentage">{{ DOM.score }}%</div>
+                </div>
+            </div><div class="cell {{ DOM.result }}">{{ DOM.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Dominancia</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ DOM.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(15, 144, 23, 0.3)">COG</div><div class="cell-p score">
+                <div class="bar" style="width: {{ COG.score }}%;">
+                    <div class="percentage">{{ COG.score }}%</div>
+                </div>
+            </div><div class="cell {{ COG.result }}">{{ COG.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Control Cognitivo</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ COG.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(123, 145, 43, 0.3)">SOC</div><div class="cell-p score">
+                <div class="bar" style="width: {{ SOC.score }}%;">
+                    <div class="percentage">{{ SOC.score }}%</div>
+                </div>
+            </div><div class="cell {{ SOC.result }}">{{ SOC.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Sociabilidad</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ SOC.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(53, 234, 12, 0.3)">AJS</div><div class="cell-p score">
+                <div class="bar" style="width: {{ AJS.score }}%;">
+                    <div class="percentage">{{ AJS.score }}%</div>
+                </div>
+            </div><div class="cell {{ AJS.result }}">{{ AJS.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Ajuste Social</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ AJS.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(76, 16, 233, 0.3)">AGR</div><div class="cell-p score">
+                <div class="bar" style="width: {{ AGR.score }}%;">
+                    <div class="percentage">{{ AGR.score }}%</div>
+                </div>
+            </div><div class="cell {{ AGR.result }}">{{ AGR.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Agresividad</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ AGR.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(63, 136, 73, 0.3)">TOL</div><div class="cell-p score">
+                <div class="bar" style="width: {{ TOL.score }}%;">
+                    <div class="percentage">{{ TOL.score }}%</div>
+                </div>
+            </div><div class="cell {{ TOL.result }}">{{ TOL.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Tolerancia</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ TOL.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(34, 87, 176, 0.3)">HAB</div><div class="cell-p score">
+                <div class="bar" style="width: {{ HAB.score }}%;">
+                    <div class="percentage">{{ HAB.score }}%</div>
+                </div>
+            </div><div class="cell {{ HAB.result }}">{{ HAB.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Habilidad Social</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ HAB.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(45, 163, 12, 0.3)">DISC</div><div class="cell-p score">
+                <div class="bar" style="width: {{ DISC.score }}%;">
+                    <div class="percentage">{{ DISC.score }}%</div>
+                </div>
+            </div><div class="cell {{ DISC.result }}">{{ DISC.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Disciplina</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ DISC.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(73, 13, 62, 0.3)">LID</div><div class="cell-p score">
+                <div class="bar" style="width: {{ LID.score }}%;">
+                    <div class="percentage">{{ LID.score }}%</div>
+                </div>
+            </div><div class="cell {{ LID.result }}">{{ LID.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Liderazgo</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ LID.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(36, 142, 123, 0.3)">VER</div><div class="cell-p score">
+                <div class="bar" style="width: {{ VER.score }}%;">
+                    <div class="percentage">{{ VER.score }}%</div>
+                </div>
+            </div><div class="cell {{ VER.result }}">{{ VER.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Veracidad</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ VER.description }}
+        </div>
+        <div class="div-t">
+            <div class="cell" style="background: rgba(216, 145, 24, 0.3)">IMG</div><div class="cell-p score">
+                <div class="bar" style="width: {{ IMG.score }}%;">
+                    <div class="percentage">{{ IMG.score }}%</div>
+                </div>
+            </div><div class="cell {{ IMG.result }}">{{ IMG.result }}</div>
+        </div>
+        <div class="div-t cell-l">
+             <b>Imagen Social</b>
+        </div>
+        <div class="div-t cell-l">
+             {{ IMG.description }}
+        </div>
+    </div>
+</body>
+
+{% else %}
+<body>
+    <div class="div-t">
+        <div class="div-50">
+            <div class="section">
+                <div class="box">
+                    <h1>
+                        <span style="color: #b9b9b9">CANDIDATO:</span>
+                        <span style="letter-spacing: 3px; text-transform: uppercase; font-weight: bold">{{ cuestionario.nombre }}</span>
+                    </h1>
+                </div>
+                <div style="padding: 25px; max-height: 80vh; overflow: auto ">
+                    <canvas id="myChart" width="400" height="400"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="div-50">
+            <div class="section">
+                <div class="box">
+                    <div>
+                        <h1>RESULTADOS CIE</h1>
+                    </div>
+                    <div>
+                        <form method="POST" target="_blank">
+                            {% csrf_token %}
+                            <button name="export_button" class="btn btn-primary" style="position: relative">Descargar Reporte</button>
+                        </form>
+                    </div>
+                </div>
+                    <div style="max-height: 80vh; overflow: auto ;padding: 1px 25px;">
+
+                        <div class="grid-container">
+                              <div class="item bold">ESCALA</div>
+                              <div class="item bold">SCORE 0 - 100%</div>
+                              <div class="item bold">RESULTADO</div>
+                              <div class="item" style="background: rgba(18, 118, 161, 0.3)">EST</div>
+                              <div class="item score">
+                                  <div class="bar" style="width: {{ EST.score }}%">
+                                      <div class="percentage">{{ EST.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ EST.result }}">{{ EST.result }}</div>
+                              <div class="item-d bold">Estabilidad</div>
+                              <div class="item-d">{{ EST.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(205, 92, 92, 0.3)">ANS</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ ANS.score }}%">
+                                      <div class="percentage">{{ ANS.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ ANS.result }}">{{ ANS.result }}</div>
+                              <div class="item-d bold">Ansiedad</div>
+                              <div class="item-d">{{ ANS.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(205, 92, 62, 0.3">AUC</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ AUC.score }}%">
+                                      <div class="percentage">{{ AUC.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ AUC.result }}">{{ AUC.result }}</div>
+                              <div class="item-d bold">Autoconcepto</div>
+                              <div class="item-d">{{ AUC.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(45, 145, 62, 0.3)">EFI</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ EFI.score }}%">
+                                      <div class="percentage">{{ EFI.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ EFI.result }}">{{ EFI.result }}</div>
+                              <div class="item-d bold">Eficacia</div>
+                              <div class="item-d">{{ EFI.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(36, 23, 62, 0.3)">SEG</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ SEG.score }}%">
+                                      <div class="percentage">{{ SEG.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ SEG.result }}">{{ SEG.result }}</div>
+                              <div class="item-d bold">Seguridad</div>
+                              <div class="item-d">{{ SEG.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(124, 36, 62, 0.3)">IND</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ IND.score }}%">
+                                      <div class="percentage">{{ IND.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ IND.result }}">{{ IND.result }}</div>
+                              <div class="item-d bold">Independencia</div>
+                              <div class="item-d">{{ IND.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(45, 86, 23, 0.3)">DOM</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ DOM.score }}%">
+                                      <div class="percentage">{{ DOM.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ DOM.result }}">{{ DOM.result }}</div>
+                              <div class="item-d bold">Dominancia</div>
+                              <div class="item-d">{{ DOM.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(15, 144, 23, 0.3)">COG</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ COG.score }}%">
+                                      <div class="percentage">{{ COG.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ COG.result }}">{{ COG.result }}</div>
+                              <div class="item-d bold">Control Cognitivo</div>
+                              <div class="item-d">{{ COG.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(123, 145, 43, 0.3)">SOC</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ SOC.score }}%">
+                                      <div class="percentage">{{ SOC.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ SOC.result }}">{{ SOC.result }}</div>
+                              <div class="item-d bold">Sociabilidad</div>
+                              <div class="item-d">{{ SOC.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(53, 234, 12, 0.3)">AJS</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ AJS.score }}%">
+                                      <div class="percentage">{{ AJS.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ AJS.result }}">{{ AJS.result }}</div>
+                              <div class="item-d bold">Ajuste Social</div>
+                              <div class="item-d">{{ AJS.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(76, 16, 233, 0.3)">AGR</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ AGR.score }}%">
+                                      <div class="percentage">{{ AGR.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ AGR.result }}">{{ AGR.result }}</div>
+                              <div class="item-d bold">Agresividad</div>
+                              <div class="item-d">{{ AGR.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(63, 136, 73, 0.3)">TOL</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ TOL.score }}%">
+                                      <div class="percentage">{{ TOL.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ TOL.result }}">{{ TOL.result }}</div>
+                              <div class="item-d bold">Tolerancia</div>
+                              <div class="item-d">{{ TOL.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(34, 87, 176, 0.3)">HAB</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ HAB.score }}%">
+                                      <div class="percentage">{{ HAB.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ HAB.result }}">{{ HAB.result }}</div>
+                              <div class="item-d bold">Habilidad Social</div>
+                              <div class="item-d">{{ HAB.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(45, 163, 12, 0.3)">DISC</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ DISC.score }}%">
+                                      <div class="percentage">{{ DISC.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ DISC.result }}">{{ DISC.result }}</div>
+                              <div class="item-d bold">Disciplina</div>
+                              <div class="item-d">{{ DISC.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(73, 13, 62, 0.3)">LID</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ LID.score }}%">
+                                      <div class="percentage">{{ LID.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ LID.result }}">{{ LID.result }}</div>
+                              <div class="item-d bold">Liderazgo</div>
+                              <div class="item-d">{{ LID.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(36, 142, 123, 0.3)">VER</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ VER.score }}%">
+                                      <div class="percentage">{{ VER.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ VER.result }}">{{ VER.result }}</div>
+                              <div class="item-d bold">Veracidad</div>
+                              <div class="item-d">{{ VER.description }}</div>
+                        </div>
+                        <div class="grid-container">
+                              <div class="item" style="background: rgba(216, 145, 24, 0.3)">IMG</div>
+                               <div class="item score">
+                                  <div class="bar" style="width: {{ IMG.score }}%">
+                                      <div class="percentage">{{ IMG.score }}%</div>
+                                  </div>
+                              </div>
+                              <div class="item {{ IMG.result }}">{{ IMG.result }}</div>
+                              <div class="item-d bold">Imagen Social</div>
+                              <div class="item-d">{{ IMG.description }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space"></div>
+</body>
+{% endif %}
+</html>
+
+<script type="text/javascript">
+
+var ctx = document.getElementById('myChart').getContext('2d');
+
+var myChart = new Chart(ctx, {
+    plugins: [{
+        beforeInit: function(myChart, options) {
+          myChart.legend.afterFit = function() {
+            this.height = this.height + 50;
+          };
+        }
+      }],
+    type: 'polarArea',
+    data: {
+        labels: ['EST', 'ANS', 'AUC', 'EFI', 'SEG', 'IND', 'DOM', 'COG', 'SOC', 'AJS', 'AGR', 'TOL', 'HAB', 'DISC',
+                    'LID', 'VER', 'IMG'],
+        datasets: [{
+            label: '# of Votes',
+            data: [{{ EST.score }}, {{ ANS.score }}, {{ AUC.score }}, {{ EFI.score }}, {{ SEG.score }}, {{ IND.score}},
+                    {{ DOM.score }}, {{ COG.score }}, {{ SOC.score }}, {{ AJS.score }},{{ AGR.score }}, {{ TOL.score }},
+                    {{ HAB.score }}, {{ DISC.score }}, {{ LID.score }}, {{ VER.score }}, {{ IMG.score }}],
+            backgroundColor: [
+                'rgba(18, 118, 161, 0.7)',
+                'rgba(205, 92, 92, 0.7)',
+                'rgba(205, 92, 62, 0.7)',
+                'rgba(45, 145, 62, 0.7)',
+                'rgba(36, 23, 62, 0.7)',
+                'rgba(124, 36, 62, 0.7)',
+                'rgba(45, 86, 23, 0.7)',
+                'rgba(15, 144, 23, 0.7)',
+                'rgba(123, 145, 43, 0.7)',
+                'rgba(53, 234, 12, 0.7)',
+                'rgba(76, 16, 233, 0.7)',
+                'rgba(63, 136, 73, 0.7)',
+                'rgba(34, 87, 176, 0.7)',
+                'rgba(45, 163, 12, 0.7)',
+                'rgba(73, 13, 62, 0.7)',
+                'rgba(36, 142, 123, 0.7)',
+                'rgba(216, 145, 24, 0.7)',
+                'rgba(123, 145, 122, 0.7)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+
+</script>

@@ -1096,12 +1096,12 @@ def test_result(request, test_type, test_id):
 
     if 'export_button' in request.POST:
 
-        html_template = get_template('test_result.html')
+        html_template = get_template('CIE/test_result.html')
         context['pdf'] = True
         html = html_template.render(context)
         pdf_file = HTML(string=html, base_url=request.build_absolute_uri()).write_pdf()
         response = HttpResponse(pdf_file, content_type='application/pdf')
-        response['Content-Disposition'] = 'filename="TEST"'
+        response['Content-Disposition'] = 'filename="cie.pdf"'
 
         # Return the response to preview the PDF in a new tab
         return response
